@@ -7,7 +7,7 @@ function SmsKaufen() {
 }
 
 // class methods
-SmsKaufen.prototype.sendMail = function(filepath, callback) {
+SmsKaufen.prototype.sendMail = function(filepath, recipient, callback) {
 	console.log("Sending Mail");
 	
 	var FormData = require('form-data');
@@ -17,7 +17,7 @@ SmsKaufen.prototype.sendMail = function(filepath, callback) {
 	form.append('art', 'b');
 	form.append('id', 'arein');
 	form.append('apikey', '5b384ce32d8cdef02bc3a139d4cac0a22bb029e8');
-	form.append('mode', '1');
+	form.append('mode', '1'); // 1 == test, 0 == live
 	form.append('pw', 'Derek12345');
 	form.append('document', fs.createReadStream(filepath));
 	
@@ -26,10 +26,7 @@ SmsKaufen.prototype.sendMail = function(filepath, callback) {
 		  if (res != undefined && err == undefined) {
 			  res.resume(); // for node-0.10.x
 			  res.on('data', function(chunk) {
-				  console.log("Mail Sent");
-			      console.log("Received body data:");
-			      console.log(chunk.toString());
-				  callback(err, "smskaufen", chunk.toString());
+				  callback(undefined, "smskaufen", chunk);
 			    });
 		  } else {
 			  callback(err, "smskaufen", res);
@@ -37,8 +34,10 @@ SmsKaufen.prototype.sendMail = function(filepath, callback) {
 		});
 };
 
-SmsKaufen.prototype.calculatePrice = function(pages, destination) {
+SmsKaufen.prototype.calculatePrice = function(pages, destination, callback) {
 	var price = 0.28;
+	
+	pages = pages + 1; // we have to print a coverpage
 	
 	// Print
 	if (pages > 2) {
@@ -66,7 +65,7 @@ SmsKaufen.prototype.calculatePrice = function(pages, destination) {
 		}
 	}
 	
-	return price;
+	callback('', price, "Herford", "Germany");
 };
 
 // export the class

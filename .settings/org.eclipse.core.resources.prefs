@@ -1,7 +1,9 @@
 eclipse.preferences.version=1
+encoding//mail/strategies/docsaway.js=UTF-8
 encoding//mail/strategies/sms_kaufen.js=UTF-8
 encoding//pdf/invoice_test.js=UTF-8
 encoding//pdf/pdf_invoice.js=UTF-8
 encoding//routes/letter.js=UTF-8
 encoding//views/email.html=UTF-8
 encoding//views/email.jade=UTF-8
+encoding//views/layout.jade=UTF-8

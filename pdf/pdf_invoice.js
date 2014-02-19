@@ -6,7 +6,7 @@
 function PdfInvoice() {
 }
 // class methods
-PdfInvoice.prototype.createInvoice = function(user, date, invoiceNumber, description, amount, vat, callback) {
+PdfInvoice.prototype.createInvoice = function(user, date, invoiceNumber, description, amount, vat, finalPrice, callback) {
 
 	var PDFDocument = require('pdfkit');
 	var doc = new PDFDocument({size: 'A4'});
@@ -65,14 +65,16 @@ PdfInvoice.prototype.createInvoice = function(user, date, invoiceNumber, descrip
 	doc.font('OpenSans-Regular')
 	   .fontSize(12)
 	   .fillColor("#000000")
-	   .text(description, 71, 531)
-	   .text(amount + '€', 479, 531);
+	   .text(description, 71, 511)
+	   .text(amount + '€', 479, 511)
+	   .text("VAT", 71, 530)
+	   .text(vat + '€', 479, 530);
 	
 	// Final Amount
 	doc.fontSize(18)
 	   .fillColor("#3470B8")
 	   .text('Final Amount', 49.235, 626.458)
-	   .text(amount + '€', 432.095, 626.458, {width: 100, align: 'right'})
+	   .text(finalPrice + '€', 432.095, 626.458, {width: 100, align: 'right'})
 	   .fillColor("#000000")
 	   .fontSize(14)
 	   .text("Your credit card was charged with the amount due.", 49.235, 650.464);

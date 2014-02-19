@@ -13,13 +13,13 @@ function BraintreeHelper() {
 		});
 }
 // class methods
-BraintreeHelper.prototype.pay = function(paymentObject, success, failure) {	
+BraintreeHelper.prototype.pay = function(amount, creditCard, success, failure) {	
 	var saleRequest = {
-	    amount: paymentObject.amount,
+	    amount: amount,
 	    creditCard: {
-	      number: paymentObject.user.creditCard.number,
-	      cvv: paymentObject.user.creditCard.cvv,
-	      expirationDate: paymentObject.user.creditCard.date
+	      number: creditCard.number,
+	      cvv: creditCard.cvv,
+	      expirationDate: creditCard.date
 	    },
 	    options: {
 	      submitForSettlement: true
@@ -27,16 +27,19 @@ BraintreeHelper.prototype.pay = function(paymentObject, success, failure) {
 	  };
 	
 	// development only
+	/*
 	if ('development' == app.get('env')) {
 		success("development");
 	    return;
 	}
+	*/
 
 	  this.gateway.transaction.sale(saleRequest, function (err, result) {
 	    if (result != undefined && result.success) {
 	    	success(result);
 	    } else {
-	    	failure(err);
+	    	if (err != undefined) failure(err);
+	    	failure(result.message);
 	    }
 	  });
 };

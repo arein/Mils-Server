@@ -27,6 +27,7 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.bodyParser());
 
 mailer.extend(app, {
   from: 'test@dev.ceseros.de',
@@ -43,9 +44,9 @@ if ('development' == app.get('env')) {
 
 app.configure(function () {
     app.use(express.logger('dev')); /* 'default', 'short', 'tiny', 'dev' */
-    app.use(express.bodyParser());
 });
 
+app.get('/', letter.index);
 //app.get('/letters', letter.findAll);
 app.get('/letters/calculate-price', letter.calculatePrice);
 //app.get('/letters/:id', letter.findById);

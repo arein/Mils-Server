@@ -11,23 +11,28 @@ function MailClient() {
 }
 
 // class methods
-MailClient.prototype.sendMail = function(filepath, pages, destinationCountry, callback) {
-	this.policy.configure(pages, destinationCountry);
-	this.context.sendMail(filepath, callback);
+MailClient.prototype.sendMail = function(filepath, recipient, callback) {
+	this.policy.configure(recipient.country);
+	this.context.sendMail(filepath, recipient, callback);
 };
 
-MailClient.prototype.calculatePrice = function(pages, destinationCountry, preferredCurrency) {
-	this.policy.configure(pages, destinationCountry);
+MailClient.prototype.calculatePrice = function(pages, destinationCountry, preferredCurrency, callback) {
+	this.policy.configure(destinationCountry);
 	
-	var priceInEur = this.context.calculatePrice(pages, destinationCountry);
-	if (preferredCurrency.toLowerCase() == 'eur') {
-		return {
-			priceInEur: priceInEur,
-			priceInPreferredCurrency: priceInEur
-		};
-	} else {
-		// TODO: Convert Currency
-	}
+	this.context.calculatePrice(pages, destinationCountry, function (error, price, printingCity, printingCountry) {
+		// add service charge
+		if (error) {
+			callback(error);
+			return;
+		}
+		var finalPrice = (price + 0.15 + 0.35) * 1.19;
+		finalPrice = parseFloat(finalPrice).toFixed(2);
+		if (preferredCurrency.toLowerCase() == 'eur') {
+			callback(error, finalPrice, finalPrice, printingCity, printingCountry);
+		} else {
+			// TODO: Convert Currency
+		}
+	});
 };
 
 // export the class

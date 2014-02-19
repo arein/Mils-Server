@@ -12,16 +12,12 @@ Context.prototype.setMailStrategy = function(mailStrategy) {
 	this.mailStrategy = mailStrategy;
 };
 
-Context.prototype.sendMail = function(filepath, callback) {
-    var sk = require('./strategies/sms_kaufen');
-	var sms = new sk.SmsKaufen();
-	sms.sendMail(filepath, callback);
+Context.prototype.sendMail = function(filepath, recipient, callback) {
+	this.mailStrategy.sendMail(filepath, recipient, callback);
 };
 
-Context.prototype.calculatePrice = function(pages, destination) {
-    var sk = require('./strategies/sms_kaufen');
-	var sms = new sk.SmsKaufen();
-	return sms.calculatePrice(pages, destination);
+Context.prototype.calculatePrice = function(pages, destination, callback) {
+	this.mailStrategy.calculatePrice(pages, destination, callback);
 };
 
 // export the class
