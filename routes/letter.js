@@ -220,15 +220,18 @@ function sendBill(recipient, letter, fileName, callback) {
 			if (err) throw err;
 			console.log("File Written");
             var email = '"' + recipient.name + '" <' + letter.email +'>';
+            var serverPath = "http://prod.ceseros.de:3000";
 
             if ('development' == app.get('env')) {
                 email = '"Ceseros" <test@dev.ceseros.de>';
+                serverPath = "http://localhost:3000";
             }
 
 			app.mailer.send('email', {
 		        to: email, // REQUIRED. This can be a comma delimited string just like a normal email to field.
 		        subject: 'Purchase', // REQUIRED.
 		        invoiceNumber: letter.invoiceNumber, // All additional properties are also passed to the template as local variables.
+                serverPath: ''
 		      },
 		      {
 		    	  attachments : [{fileName: 'Invoice.pdf', filePath: path}]
