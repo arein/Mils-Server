@@ -1,3 +1,4 @@
 public/pdf/*
 node_modules
 .idea
+docsaway-nodejs/tmp/
