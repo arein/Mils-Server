@@ -9,7 +9,7 @@ $client->setInk('CL');
 $client->setZone($json->station->zone);
 $client->setPageCount($json->pages);
 $client->setCurrency('AUD');
-$arr = [];
+$arr = array();
 $arr['result']['price'] = $client->getPrice();
 //$arr['debug']['report'] = $client->APIReport();
 $arr['debug']['errno'] = $client->APIErrorNumber();

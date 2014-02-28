@@ -16,7 +16,7 @@ $client->setPDFFile(base64_decode(file_get_contents($json->file)));
 $client->setPrintingStation('AUTO', false, 'BW', 80);
 $client->execute();
 
-$arr = [];
+$arr = array();
 // GET METHODS: Transaction //
 $arr['transaction']['approved'] = $client->getTransaction('APPROVED');
 $arr['transaction']['price'] = $client->getTransaction('PRICE');
