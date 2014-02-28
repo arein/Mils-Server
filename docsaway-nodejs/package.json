@@ -23,7 +23,12 @@
   "devDependencies": {
       "qunit": "*",
       "nock": "*",
-      "jshint": "~2.4.2"
+      "jshint": "~2.4.2",
+      "promise": "*",
+      "q": "*",
+      "tmp": "*",
+      "validator": "*",
+      "xml2js": "*"
   },
   "scripts": {
       "test": "node tests/test_runner.js"
