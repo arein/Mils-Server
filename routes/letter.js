@@ -330,14 +330,17 @@ function insertLetter(letter, res, shouldDownload) {
 	var fileSizeInBytes = stats["size"];
 	//Convert the file size to megabytes (optional)
 	var fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
-	console.log("Filesize: " + fileSizeInMegabytes);
+    // Todo: Check Filesize
 
 	var mailClient = new (require('./../mail/client')).MailClient();
-    mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, "EUR", function (error, priceInEur, price, city, country) {
+    mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, "EUR", function (error, priceInEur, price, city, country, courier) {
 		if (error) {
 			res.send(500, error);
 			return;
 		}
+        letter.courier = courier;
+        letter.printingCity = city;
+        letter.printingCountry = country;
     	letter.price = priceInEur;
 		db.collection('letter', function(err, collection) {
 		    collection.insert(letter, {safe:true}, function(err, result) {
@@ -370,11 +373,11 @@ exports.calculatePrice = function(req, res) {
     check(preferredCurrency).notNull().len(1,6);
     
 	var mailClient = new (require('./../mail/client')).MailClient();
-    mailClient.calculatePrice(pages, destination, preferredCurrency, function (error, price, price, city, country) {
+    mailClient.calculatePrice(pages, destination, preferredCurrency, function (error, price, price, city, country, courier) {
     	if (error) {
     		res.send(500, error.message);
     	} else {
-    		res.send({'preferredCurrency': preferredCurrency, 'priceInEur': price, 'priceInPreferredCurrency': price, 'printingCity': city, 'printingCountry': country});
+    		res.send({'preferredCurrency': preferredCurrency, 'priceInEur': price, 'priceInPreferredCurrency': price, 'printingCity': city, 'printingCountry': country, 'courier': courier});
     	}
 	});
 };

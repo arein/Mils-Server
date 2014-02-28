@@ -19,7 +19,7 @@ MailClient.prototype.sendMail = function(filepath, recipient, callback) {
 MailClient.prototype.calculatePrice = function(pages, destinationCountry, preferredCurrency, callback) {
 	this.policy.configure(destinationCountry);
 	
-	this.context.calculatePrice(pages, destinationCountry, function (error, price, printingCity, printingCountry) {
+	this.context.calculatePrice(pages, destinationCountry, function (error, price, printingCity, printingCountry, courier) {
 		// add service charge
 		if (error) {
 			callback(error);
@@ -28,7 +28,7 @@ MailClient.prototype.calculatePrice = function(pages, destinationCountry, prefer
 		var finalPrice = (price + 0.15 + 0.35) * 1.19;
 		finalPrice = parseFloat(finalPrice).toFixed(2);
 		if (preferredCurrency.toLowerCase() == 'eur') {
-			callback(error, finalPrice, finalPrice, printingCity, printingCountry);
+			callback(error, finalPrice, finalPrice, printingCity, printingCountry, courier);
 		} else {
 			// TODO: Convert Currency
 		}

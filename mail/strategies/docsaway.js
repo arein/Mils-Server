@@ -11,7 +11,7 @@ Docsaway.prototype.sendMail = function(filepath, recipient, callback) {
 	var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
 	var email = 'test-docsaway-api@ceseros.de';
 	// /Users/arein/node/letterapp 
-	var docsaway = require('../../../docsaway-nodejs/lib/main');
+	var docsaway = require('../../docsaway-nodejs/lib/main');
 	
 	var data = {
 		recipient: recipient
@@ -32,7 +32,7 @@ Docsaway.prototype.calculatePrice = function(pages, destinationCountryIso, callb
 	var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
 	var email = 'test-docsaway-api@ceseros.de';
 	// /Users/arein/node/letterapp 
-	var docsaway = require('../../../docsaway-nodejs/lib/main');
+	var docsaway = require('../../docsaway-nodejs/lib/main');
 	
 	// Request Price
 	var client = new docsaway.Client(email, installationKey, "TEST");
@@ -42,7 +42,7 @@ Docsaway.prototype.calculatePrice = function(pages, destinationCountryIso, callb
 			return;
 		}
 		var priceInEur = result.price * 0.65 * 0.75; // Conversion and reduced price
-		callback(undefined, priceInEur, result.city, result.country);
+		callback(undefined, priceInEur, result.city, result.country, result.courier);
 	});
 };
 
