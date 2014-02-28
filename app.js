@@ -9,7 +9,14 @@ var express = require('express'),
     mailer = require('express-mailer');
 
 app = express(); // Global
-app.basePath = "/Users/arein/node/letterapp";
+
+// development only
+if ('development' == app.get('env')) {
+    app.basePath = "/Users/arein/node/letterapp";
+} else {
+    app.basePath = "/var/www/letterapp";
+    console.log("Running production");
+}
 
 // all environments
 app.use(express.limit('70mb'));
