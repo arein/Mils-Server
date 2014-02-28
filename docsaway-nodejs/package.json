@@ -1,0 +1,31 @@
+{
+  "author": "Alexander-Derek Rein <adr@ceseros> (http://www.ceseros.de/)",
+  "name": "docsaway-node",
+  "maintainers":[
+    {
+        "name":"Alexander-Derek Rein",
+        "email":"adr@ceseros.de"
+    }
+  ],
+  "description": "Docsaway API wrapper",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">= v0.10.0"
+  },
+  "directories" : {
+	  "lib" : "./lib"
+  },
+  "main": "lib/main",
+  "keywords": ["docsaway", "printing", "pdf"],
+  "dependencies": {
+	  "soap": "0.3.2"
+  },
+  "devDependencies": {
+      "qunit": "*",
+      "nock": "*",
+      "jshint": "~2.4.2"
+  },
+  "scripts": {
+      "test": "node tests/test_runner.js"
+  }
+}
