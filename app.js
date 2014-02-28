@@ -36,13 +36,24 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.bodyParser());
 
-mailer.extend(app, {
-  from: 'test@dev.ceseros.de',
-  host: 'dev.ceseros.de', // hostname
-  secureConnection: false, // use SSL
-  port: 25, // port for secure SMTP
-  transportMethod: 'SMTP' // default is SMTP. Accepts anything that nodemailer accepts
-});
+if ('development' == app.get('env')) {
+    mailer.extend(app, {
+      from: 'test@dev.ceseros.de',
+      host: 'dev.ceseros.de', // hostname
+      secureConnection: false, // use SSL
+      port: 25, // port for secure SMTP
+      transportMethod: 'SMTP' // default is SMTP. Accepts anything that nodemailer accepts
+    });
+} else {
+    mailer.extend(app, {
+        from: 'mils@ceseros.de',
+        host: 'intern.ceseros.de', // hostname
+        secureConnection: true, // use SSL
+        password: 'NjeaZ8FLkPBbPvR',
+        port: 25, // port for secure SMTP
+        transportMethod: 'SMTP' // default is SMTP. Accepts anything that nodemailer accepts
+    });
+}
 
 // development only
 if ('development' == app.get('env')) {
