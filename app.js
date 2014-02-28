@@ -49,9 +49,12 @@ if ('development' == app.get('env')) {
         from: 'mils@ceseros.de',
         host: 'intern.ceseros.de', // hostname
         secureConnection: true, // use SSL
-        password: 'NjeaZ8FLkPBbPvR',
-        port: 25, // port for secure SMTP
-        transportMethod: 'SMTP' // default is SMTP. Accepts anything that nodemailer accepts
+        port: 465, // port for secure SMTP
+        transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
+        auth: {
+            user: 'mils@ceseros.de',
+            pass: 'NjeaZ8FLkPBbPvR'
+        }
     });
 }
 
