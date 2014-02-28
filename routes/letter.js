@@ -81,6 +81,7 @@ exports.purchaseLetter = function(req, res) {
 			item.payed = true;
 	    	getNextSequence("invoicenumber", function (invoiceNumber) {
 	    		item.invoiceNumber = invoiceNumber;
+                item.email = req.body.emailAddress;
 				
 				// Generate Recipient Object
 				var recipient = {
@@ -91,7 +92,8 @@ exports.purchaseLetter = function(req, res) {
 					city: item.recipientCity,
 					state: item.recipientState,
 					zip: item.recipientPostalCode,
-					country: item.recipientCountryIso
+					country: item.recipientCountryIso,
+                    email: item.email
 				};
 				
 				processTaxation(item);
@@ -217,8 +219,14 @@ function sendBill(recipient, letter, fileName, callback) {
 		fs.writeFile(path, data, function(err) {
 			if (err) throw err;
 			console.log("File Written");
+            var email = '"' + recipient.name + '" <' + letter.email +'>';
+
+            if ('development' == app.get('env')) {
+                email = '"Ceseros" <test@dev.ceseros.de>';
+            }
+
 			app.mailer.send('email', {
-		        to: '"Ceseros" <test@dev.ceseros.de>', // REQUIRED. This can be a comma delimited string just like a normal email to field. 
+		        to: email, // REQUIRED. This can be a comma delimited string just like a normal email to field.
 		        subject: 'Purchase', // REQUIRED.
 		        invoiceNumber: letter.invoiceNumber, // All additional properties are also passed to the template as local variables.
 		      },
