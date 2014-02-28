@@ -231,7 +231,7 @@ function sendBill(recipient, letter, fileName, callback) {
 		        to: email, // REQUIRED. This can be a comma delimited string just like a normal email to field.
 		        subject: 'Purchase', // REQUIRED.
 		        invoiceNumber: letter.invoiceNumber, // All additional properties are also passed to the template as local variables.
-                serverPath: ''
+                serverPath: serverPath
 		      },
 		      {
 		    	  attachments : [{fileName: 'Invoice.pdf', filePath: path}]
