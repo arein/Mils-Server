@@ -48,7 +48,7 @@ if ('development' == app.get('env')) {
     mailer.extend(app, {
         from: 'mils@ceseros.de',
         host: 'intern.ceseros.de', // hostname
-        secureConnection: true, // use SSL
+        secureConnection: false, // use SSL
         port: 25, // port for secure SMTP
         transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
         auth: {
