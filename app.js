@@ -49,7 +49,7 @@ if ('development' == app.get('env')) {
         from: 'mils@ceseros.de',
         host: 'intern.ceseros.de', // hostname
         secureConnection: true, // use SSL
-        port: 465, // port for secure SMTP
+        port: 25, // port for secure SMTP
         transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
         auth: {
             user: 'mils@ceseros.de',
