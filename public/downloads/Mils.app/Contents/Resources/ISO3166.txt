@@ -1,0 +1,249 @@
+﻿AF;Afghanistan;Afghanistan
+AX;Åland Islands;Åland Inseln
+AL;Albania;Albanien
+DZ;Algeria;Algerien
+AS;American Samoa;Amerikanisch Samoa
+AD;Andorra;Andorra
+AO;Angola;Angola
+AI;Anguilla;Anguilla
+AQ;Antactica;Antarktis
+AG;Antigua and Barbuda;Antigua and Barbuda
+AR;Argentina;Argentinien
+AM;Armenia;Armenien
+AW;Aruba;Aruba
+AU;Australia;Australien
+AT;Austria;Österreich
+AZ;Azerbaijan;Aserbaidschan
+BS;Bahamas;Bahamas
+BH;Bahrain;Bahrain
+BD;Bangladesh;Bangladesch
+BB;Barbados;Barbados
+BY;Belarus;Belarus
+BE;Belgium;Belgium
+BZ;Belize;Belize
+BJ;Benin;Benin
+BM;Bermuda;Bermuda
+BT;Bhutan;Bhutan
+BO;Bolivia;Bolivien
+BQ;Bonair;Bonair
+BA;Bosnia and Herzegovina;Bosnien und Herzegowin
+BW;Botswana;Botswana
+BV;Bouvet Island;Bouvetinsel
+BR;Brazil;Brasilien
+IO;British Indian Ocean Territory;Britische Territorien im Indischen Ozean
+BN;Brunei Darussalam;Brunei Darussalam
+BG;Bulgaria;Bulgarien
+BF;Burkina Faso;Burkina Faso
+BI;Burundi;Burundi
+KH;Cambodia;Kambodscha
+CM;Cameroon;Cameroon
+CA;Canada;Kanada
+CV;Cape Verde;Kap Verde
+KY;Cayman Islands;Kaimaninseln
+CF;Central African Republic;Zentralafrikanische Republik
+TD;Chad;Tschad
+CL;Chile;Chile
+CN;China;China
+CX;Christmas Island;Weihnachtsinsel
+CC;Cocos (Keeling) Islands;Kokosinseln
+CO;Colombia;Kolumbien
+KM;Comoros;Komoren
+CG;Congo;Kongo
+CD;Congo, The Democratic Republic of the;Kongo, Dem. Rep.
+CK;Cook Islands;Cookinseln
+CR;Costa Rica;Costa Rica
+CI;Côte d'Ivoire;Elfenbeinküste
+HR;Croatia;Kroatien
+CU;Cuba;Kuba
+CW;Curacao;Curacao
+CY;Cyprus;Zypern
+CZ;Czech Republic;Tschechische Republik
+DK;Denmark;Dänemark
+DJ;Djibouti;Republik Dschibuti
+DM;Dominica;Dominica
+DO;Dominican Republic;Dominikanische Republik
+EC;Ecuador;Ecuador
+EG;Egypt;Ägypten
+SV;El Salvador;El Salvador
+GQ;Equatorial Guinea;Äquatorialguinea
+ER;Eritrea;Eritrea
+EE;Estonia;Estland
+ET;Ethopia;Äthopien
+FK;Falkland Islands (Malvinas);Falklandinseln
+FO;Faroe Islands;Färoer
+FJ;Fiji;Fiji
+FI;Finland;Finland
+FR;France;France
+GF;French Guiana;Französisch Guiana
+PF;French Polynesia;Französisch Polynesien
+TF;French Southern Territories;Französische Südgebiete
+GA;Gabon;Gabun
+GM;Gambia;Gambia
+GE;Georgia;Georgien
+DE;Germany;Deutschland
+GH;Ghana;Ghana
+GI;Gibraltar;Gibraltar
+GR;Greece;Griechenland
+GL;Greenland;Grönland
+GD;Grenada;Grenada
+GP;Guadeloupe;Guadeloupe
+GU;Guam;Guam
+GT;Guatemala;Guatemala
+GG;Guernsey;Guernsey
+GN;Guinea;Guinea
+GW;Guinea-Bissau;Guinea-Bissau
+GY;Guyana;Guyana
+HT;Haiti;Haiti
+HM;Heard Island and McDonald Islands;Heard Insel und McDonald Inseln
+VA;Holy See (Vatican City State);Heiliger Stuhl
+HN;Honduras;Honduras
+HK;Hong Kong;Hong Kong
+HU;Hungary;Ungarn
+IS;Iceland;Island
+IN;India;Indien
+ID;Indonesia;Indonesien
+IR;Iran, Islamic Republic of;Iran, Islam. Rep.
+IQ;Iraq;Irak
+IE;Ireland;Irland
+IM;Isle of Man;Isle of Man
+IL;Israel;Israel
+IT;Italy;Italien
+JM;Jamaica;Jamaica
+JP;Japan;Japan
+JE;Jersey;Jersey
+JO;Jordan;Jordanien
+KZ;Kazakhstan;Kazakhstan
+KE;Kenya;Kenya
+KI;Kiribati;Kiribati
+KP;Korea, Democratic People's Republic of;Korea, Dem. Volksrep.
+KR;Korea, Republic of;Korea, Rep.
+KW;Kuwait;Kuwait
+KG;Kyrgyzstan;Kirgisistan
+LA;Lao People's Democratic Republic;Laos, Dem. Volksrep.
+LA;Latvia;Lettland
+LB;Lebanon;Libanon
+LS;Lesotho;Lesotho
+LR;Liberia;Liberia
+LY;Libya;Libysch-Arabische Dschamahirija
+LI;Liechtenstein;Liechtenstein
+LT;Lithuania;Litauen;
+LU;Luxembourg;Luxemburg
+MO;Macao;Macao
+MK;Macedonia, The former Yugoslav Republic of;Mazedonien, ehemalige jugoslawische Republik
+MG;Madagascar;Madagaskar
+MW;Malawi;Malawi
+MY;Malaysia;Malaysia
+MV;Maldives;Malediven
+ML;Mali;Mali
+MT;Malta;Malta
+MH;Marshall Islands;Marshallinseln
+MQ;Martinique;Martinique
+MR;Mauritania;Mauretanien
+MU;Mauritius;Mauritius
+YT;Mayotte;Mayotte
+MX;Mexico;Mexiko
+FM;Micronesia, Federated States of;Mikronesien, Föderierte Staaten von
+MD;Moldova, Republic of;Moldawien
+MC;Monaco;Monaco
+MN;Mongolia;Mongolei
+ME;Montenegro;Montenegro
+MS;Montserrat;Montserrat
+MA;Morocco;Marokko
+MZ;Mozambique;Mosambik
+MM;Myanmar;Myanmar
+NA;Namibia;Namibia
+NR;Nauru;Nauru
+NP;Nepal;Nepal
+NL;Netherlands;Niederlande
+NC;New Caledonia;Neukaledonien
+NZ;New Zealand;Neuseeland
+NI;Nicaragua;Nicaragua
+NE;Niger;Niger
+NG;Nigeria;Nigeria
+NU;Niue;Niue
+NF;Norfolk Island;Norfolk Insel
+MP;Northern Mariana Islands;Nördliche Marianen
+NO;Norway;Norwegen
+OM;Oman;Oman
+PK;Pakistan;Pakistan
+PW;Palau;Palau
+PS;Palestine, State of;Palästinische Gebiete
+PA;Panama;Panama
+PG;Papua new Guinea;Papua-Neuguinea
+PY;Paraguay;Paraguay
+PE;Peru;Peru
+PH;Philippines;Philippines
+PN;Pitcairn;Pitcairn
+PL;Poland;Polen
+PT;Portugal;Portugal
+PR;Puerto Rico;Puerto Rico
+QA;Qatar;Qatar
+RE;Réunion;Réunion
+RO;Romania;Rumänien
+RU;Russian Federation;Russische Föderation
+RW;Rwanda;Ruanda
+BL;Saint Barthélemy;St. Barthélemy
+SH;Saint Helena, Ascension and Tristan da Cunha;Saint Helena
+KN;Saint Kitts and Nevis;St. Kitts und Nevis
+LC;Saint Lucia;St. Lucia
+MF;Saint Martin (French Part);St. Martin
+PM;Saint Pierre and Miquelon;Saint Pierre und Miquelon
+VC;Saint Vincent and the Grenadines;St. Vincent und die Grenadinen
+WS;Samoa;Samoa
+SM;San Marino;San Marino
+ST;Sao Tome and Principe;São Tomé und Príncipe
+SA;Sauri Arabia;Saudi Arabien
+SN;Senegal;Senegal
+RS;Serbia;Serbien
+SC;Seychelles;Seyschellen
+SL;Sierra Leone;Sierra Leone
+SG;Singapore;Singapur
+SX;Sint Maarten (Dutch Part);Sint Maarten
+SK;Slovakia;Slowakei
+SI;Slovenia;Slowenien
+SB;Solomon Islands;Salomonen
+SO;Somalia;Somalia
+ZA;South Africa;Südafrika
+GS;South Georgia and the South Sandwich Islands;Südgeorgien und die Südlichen Sandwichinseln
+SS;South Sudan;Südsudan
+ES;Spain;Spanien
+LK;Sri Lanka;Sri Lanka
+SD;Sudan;Sudan
+SR;Suriname;Suriname
+SJ;Svalbard and Jan Mayen;Svalbard und Jan Mayen
+SZ;Swaziland;Swasiland
+SE;Sweden;Schweden
+CH;Switzerland;Schweiz
+SY;Syrian Arab Republic;Syrien, Arab. Rep.
+TW;Taiwan, Province of China;Taiwan
+TJ;Tajikistan;Tadschikistan
+TZ;Tanzania, United Republic of;Tansania, Vereinigte Rep.
+TH;Thailand;Thailand
+TL;Timor-Leste;Timor-Leste
+TG;Togo;Togo
+TK;Tokelau;Tokelau
+TO;Tonga;Tonga
+TT;Trinidad and Tobago;Trinidad und Tobago
+TN;Tunisia;Tunesien
+TR;Turkey;Türkei
+TM;Turkmenistan;Turkmenistan
+TC;Turks and Caicos Islands;Turks- und Caicosinseln
+TV;Tuvalu;Tuvalu
+UG;Uganda;Uganda
+UA;Ukraine;Ukraine
+AE;United Arab Emirates;Vereinigte Arabische Emirate
+GB;United Kingdom;Vereinigtes Königreich
+US;United States;Vereinigte Staaten von Amerika
+UM;United States Minor Outlying Islands;United States Minor Outlying Islands
+UY;Uruguay;Uruguay
+UZ;Uzbekistan;Usbekistan
+VU;Vanuatu;Vanuatu
+VE;Venezuela, Bolivarian Republic of;Venezuela
+VN;Viet Nam;Vietnam
+VG;Virgin Islands, British;Britische Jungferninseln
+VI;Virgin Islands, U.S.;Amerikanische Jungferninseln
+WF;Wallis and Futuna;Wallis und Futuna
+EH;Western Sahara;Westsahara
+YE;Yemen;Jemen
+ZM;Zambia;Sambia
+ZW;Zimbabwe;Zimbabwe
