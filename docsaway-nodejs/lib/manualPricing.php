@@ -1,6 +1,4 @@
 <?php
-ini_set('soap.wsdl_cache_enabled',0);
-ini_set('soap.wsdl_cache_ttl',0);
 $arr = array();
 try
 {
@@ -21,7 +19,7 @@ try
 }
 catch (Exception $e)
 {
-    $arr['error'] = $e->getMessage();
+    $arr['error'] = $e->getMessage() . ", " . $e->getTraceAsString();
     echo json_encode($arr);
 }
 

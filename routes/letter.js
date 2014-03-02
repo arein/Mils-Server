@@ -342,7 +342,11 @@ function insertLetter(letter, res, shouldDownload) {
 	var fileSizeInBytes = stats["size"];
 	//Convert the file size to megabytes (optional)
 	var fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
-    // Todo: Check Filesize
+
+    if (fileSizeInMegabytes > 2) {
+        res.send(400, {'error': 'The File may not be larger than 2mb.'});
+        return;
+    }
 
 	var mailClient = new (require('./../mail/client')).MailClient();
     mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, "EUR", function (error, priceInEur, price, city, country, courier) {
