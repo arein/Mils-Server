@@ -461,7 +461,7 @@ exports.osxDownload = function(req, res) {
 
     var filestream = fs.createReadStream(file);
     filestream.pipe(res);
-});
+};
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
