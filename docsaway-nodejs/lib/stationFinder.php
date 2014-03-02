@@ -4,7 +4,7 @@ $arr = array();
 try
 {
     $json = json_decode($argv[1]);
-    $client = new SoapClient('https://www.docsaway.com/app/api/soap/api_station_finder.wsdl');
+    $client = new SoapClient('https://www.docsaway.com/app/api/soap/api_station_finder.wsdl', array('trace' => true));
     $client->setAPIConnection($json->credentials->email, $json->credentials->installationKey);
     $client->setColumnSeparator('$$$$$');
     $client->setRowSeparator('\n');
@@ -23,7 +23,7 @@ try
 }
 catch (Exception $e)
 {
-    $arr['error'] = $e->getMessage();
+    $arr['error'] = $e->getMessage() . ", " . $e->getTraceAsString();
     echo json_encode($arr);
 }
 
