@@ -347,7 +347,7 @@ function insertLetter(letter, res, shouldDownload) {
 	var mailClient = new (require('./../mail/client')).MailClient();
     mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, "EUR", function (error, priceInEur, price, city, country, courier) {
 		if (error) {
-			res.send(502, error);
+			res.send(502, {'error': error.message});
 			return;
 		}
         letter.courier = courier;
@@ -387,7 +387,7 @@ exports.calculatePrice = function(req, res) {
 	var mailClient = new (require('./../mail/client')).MailClient();
     mailClient.calculatePrice(pages, destination, preferredCurrency, function (error, price, price, city, country, courier) {
     	if (error) {
-    		res.send(500, error.message);
+    		res.send(502, {'error': error.message});
     	} else {
     		res.send({'preferredCurrency': preferredCurrency, 'priceInEur': price, 'priceInPreferredCurrency': price, 'printingCity': city, 'printingCountry': country, 'courier': courier});
     	}
@@ -402,10 +402,8 @@ exports.updateLetter = function(req, res) {
     db.collection('letter', function(err, collection) {
         collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result) {
             if (err) {
-                console.log('Error updating wine: ' + err);
                 res.send({'error':'An error has occurred'});
             } else {
-                console.log('' + result + ' document(s) updated');
                 res.send(wine);
             }
         });
