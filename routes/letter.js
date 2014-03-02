@@ -347,7 +347,7 @@ function insertLetter(letter, res, shouldDownload) {
 	var mailClient = new (require('./../mail/client')).MailClient();
     mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, "EUR", function (error, priceInEur, price, city, country, courier) {
 		if (error) {
-			res.send(500, error);
+			res.send(502, error);
 			return;
 		}
         letter.courier = courier;
