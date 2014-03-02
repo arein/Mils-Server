@@ -5,7 +5,7 @@ $arr = array();
 try
 {
     $json = json_decode($argv[1]);
-    $client = new InsistentSoapClient('https://www.docsaway.com/app/api/soap/api_station_finder.wsdl', array('trace' => true));
+    $client = new SoapClient('https://www.docsaway.com/app/api/soap/api_station_finder.wsdl', array('trace' => true));
     $client->setAPIConnection($json->credentials->email, $json->credentials->installationKey);
     $client->setColumnSeparator('$$$$$');
     $client->setRowSeparator('\n');
