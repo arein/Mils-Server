@@ -450,17 +450,8 @@ var path = require('path');
 var mime = require('mime');
 
 exports.osxDownload = function(req, res) {
-
-    var file = app.basePath + '/public/downloads/Mils.app';
-
-    var filename = path.basename(file);
-    var mimetype = mime.lookup(file);
-
-    res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-    res.setHeader('Content-type', mimetype);
-
-    var filestream = fs.createReadStream(file);
-    filestream.pipe(res);
+    var file = app.basePath + '/public/downloads/Mils.app.zip';
+    res.download(file)
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/
