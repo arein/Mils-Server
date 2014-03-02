@@ -446,6 +446,23 @@ function getCountries(callback) {
 	});
 }
 
+var path = require('path');
+var mime = require('mime');
+
+app.get('/downloads/osx', function(req, res){
+
+    var file = app.basePath + '/public/downloads/Mils.app';
+
+    var filename = path.basename(file);
+    var mimetype = mime.lookup(file);
+
+    res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+    res.setHeader('Content-type', mimetype);
+
+    var filestream = fs.createReadStream(file);
+    filestream.pipe(res);
+});
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
