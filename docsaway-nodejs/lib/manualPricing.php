@@ -4,7 +4,7 @@ $arr = array();
 try
 {
     $json = json_decode($argv[1]);
-    $client = new InsistentSoapClient('https://www.docsaway.com/app/api/soap/api_pricing.wsdl', array('trace' => true, "connection_timeout" => 180));
+    $client = new SoapClient('https://www.docsaway.com/app/api/soap/api_pricing.wsdl', array('trace' => true, "connection_timeout" => 180));
     $client->setAPIConnection($json->credentials->email, $json->credentials->installationKey);
     $client->setStation($json->station->station);
     $client->setCourier($json->station->courier);
@@ -15,7 +15,7 @@ try
     $client->setCurrency('AUD');
     $arr['result']['price'] = $client->getPrice();
     //$arr['debug']['report'] = $client->APIReport();
-    $arr['debug']['errno'] = $client->APIErrorNumber();
+    //$arr['debug']['errno'] = $client->APIErrorNumber();
     echo json_encode($arr);
 }
 catch (Exception $e)

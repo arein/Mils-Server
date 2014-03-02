@@ -5,7 +5,7 @@ $arr = array();
 try
 {
     $json = json_decode($argv[1]);
-    $client = new InsistentSoapClient('https://www.docsaway.com/app/api/soap/api_mail.wsdl', array('trace' => true, "connection_timeout" => 180));
+    $client = new SoapClient('https://www.docsaway.com/app/api/soap/api_mail.wsdl', array('trace' => true, "connection_timeout" => 180));
     $client->setAPIConnection($json->credentials->email, $json->credentials->installationKey);
     $client->setAPICharset('UTF-8');
     $client->setAPIMode($json->credentials->mode);
@@ -42,7 +42,7 @@ try
     $arr['document']['size'] = $client->getTransaction('SIZE');
 
     //$arr['debug']['report'] = $client->APIReport();
-    $arr['debug']['errno'] = $client->APIErrorNumber();
+    //$arr['debug']['errno'] = $client->APIErrorNumber();
     echo json_encode($arr);
 }
 catch (Exception $e)
