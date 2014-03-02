@@ -1,9 +1,10 @@
 <?php
+
 $arr = array();
 try
 {
     $json = json_decode($argv[1]);
-    $client = new SoapClient('https://www.docsaway.com/app/api/soap/api_pricing.wsdl', array('trace' => true));
+    $client = new InsistentSoapClient('https://www.docsaway.com/app/api/soap/api_pricing.wsdl', array('trace' => true));
     $client->setAPIConnection($json->credentials->email, $json->credentials->installationKey);
     $client->setStation($json->station->station);
     $client->setCourier($json->station->courier);
