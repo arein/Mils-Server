@@ -388,7 +388,7 @@ Client.prototype.sendMail = function(recipient, file, callback) {
 					callback(new Error(error.message), undefined);
 					return;
 				}
-				if (response.debug.errno != undefined && response.debug.errno != '') {
+				if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
 					callback(new Error(errorKeyToSendMailErrorMessage(response.debug.errno)), undefined);
 					return;
 				}
@@ -434,7 +434,7 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 			callback(new Error(error.message), undefined);
 			return;
 		}
-		if (response.debug.errno != undefined && response.debug.errno != '') {
+		if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
 			callback(new Error(errorKeyToFindStationErrorMessage(response.debug.errno)), undefined);
 			return;
 		}
@@ -457,7 +457,7 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 				callback(new Error(error.message), undefined);
 				return;
 			}
-			if (response.debug.errno != undefined && response.debug.errno != '') {
+			if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
 				callback(new Error(errorKeyToPricingErrorMessage(response.debug.errno)), undefined);
 				return;
 			}
