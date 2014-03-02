@@ -5,6 +5,9 @@ class InsistentSoapClient extends SoapClient
     {
         $result = false;
         $max_retries = 10;
+
+        if ($function_name == 'APIErrorNumber') $max_retries = 30;
+
         $retry_count = 0;
 
         while(! $result && $retry_count < $max_retries)
@@ -21,11 +24,11 @@ class InsistentSoapClient extends SoapClient
                 }
             }
             sleep(1);
-            $retry_count ++;
+            $retry_count++;
         }
         if($retry_count == $max_retries)
         {
-            throw new SoapFault('100009', 'Could not connect to host after 5 attempts');
+            throw new SoapFault('100009', "Could not connect to host after $max_retries attempts");
         }
         return $result;
     }
