@@ -21,7 +21,7 @@ try
 }
 catch (Exception $e)
 {
-    $arr['error'] = $e->getMessage() . ", " . $e->getTraceAsString();
+    $arr['error'] = $e->getMessage();
     echo json_encode($arr);
 }
 
