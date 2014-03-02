@@ -3,7 +3,6 @@ class InsistentSoapClient extends SoapClient
 {
     public function __call($function_name, $arguments)
     {
-        return __soapCall($function_name, $arguments);
         $result = false;
         $max_retries = 10;
 
