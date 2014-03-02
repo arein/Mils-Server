@@ -4,7 +4,7 @@ class InsistentSoapClient extends SoapClient
     public function __call($function_name, $arguments)
     {
         $result = false;
-        $max_retries = 5;
+        $max_retries = 10;
         $retry_count = 0;
 
         while(! $result && $retry_count < $max_retries)
