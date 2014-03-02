@@ -449,7 +449,7 @@ function getCountries(callback) {
 var path = require('path');
 var mime = require('mime');
 
-app.get('/downloads/osx', function(req, res){
+exports.osxDownload = function(req, res) {
 
     var file = app.basePath + '/public/downloads/Mils.app';
 

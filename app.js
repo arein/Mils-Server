@@ -73,6 +73,7 @@ app.get('/letters/calculate-price', letter.calculatePrice);
 //app.get('/letters/:id', letter.findById);
 app.post('/letters/:id', letter.purchaseLetter);
 app.post('/letters', letter.uploadLetter);
+app.post('/downloads/osx', letter.osxDownload);
 //app.put('/letters/:id', letter.updateLetter);
 //app.delete('/letters/:id', letter.deleteLetter);
 
