@@ -1,4 +1,5 @@
 <?php
+include_once("InsistentSoapClient.php");
 $arr = array();
 
 try
