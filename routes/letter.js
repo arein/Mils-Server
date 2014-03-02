@@ -60,6 +60,7 @@ exports.purchaseLetter = function(req, res) {
 	check(req.body.address).notNull();
 	check(req.body.creditCard).notNull();
 	check(req.body.creditCard.number).notNull();
+    req.body.creditCard.type = undefined; // we do not need this input
 	check(req.body.creditCard.cvv).notNull();
 	check(req.body.creditCard.date).notNull();
 	check(req.body.address.name).notNull();

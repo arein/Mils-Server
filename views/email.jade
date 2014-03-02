@@ -19,9 +19,7 @@ head
       img { visibility:hidden; }
       *[class=more] { visibility:visible; }
       *[class=aapl-link] img { visibility:visible; }
-      *[class=logo] { background:url('#{serverPath}/email/Logo.png') no-repeat 10% 0; -webkit-background-size: 131px 27px; }
       *[class=top] { background:url('http://devimages.apple.com/click/images/elements/top_2x.gif') no-repeat 0 0; -webkit-background-size: 700px 4px; }
-      *[class=hero] { background:url('#{serverPath}/email/Invoice.jpg') no-repeat 100% 10px; -webkit-background-size: 698px 320px; }
       *[class=headershadow] { background:url('http://devimages.apple.com/click/images/elements/header_shadow_2x.jpg') no-repeat 0 0; -webkit-background-size: 698px 34px; }
       *[class=button] { background:url('http://devimages.apple.com/click/images/button/button-learn-more_2x.png') no-repeat 240px 10px; -webkit-background-size: 128px 28px; }
       *[class=bottom] { background:url('http://devimages.apple.com/click/images/elements/bottom_2x.gif') no-repeat 0 0; -webkit-background-size: 700px 7px; }
@@ -38,7 +36,7 @@ head
         td(width='100%', style='padding: 20px 20px 40px 20px; background-color: #f2f2f2;', bgcolor='#f2f2f2')
           table#aapl-eyebrow(width='700', border='0', cellspacing='0', cellpadding='0', align='center', style='margin: 0 auto;')
             tr
-              td.logo
+              td
                 div(style='margin: 0px 0px 3px 0px;')
                   img(src='#{serverPath}/email/Logo.png', alt='Mils', width='30', height='30', border='0')
               td(align='right', style='padding: 7px 19px;')
@@ -57,7 +55,7 @@ head
                     td(width='698', align='left')
                       table(border='0', cellspacing='0', cellpadding='0')
                         tr
-                          td.hero
+                          td
                             div(style='margin: 0px 0px 0px 0px;')
                               img(src='#{serverPath}/email/Invoice.jpg', alt='Build your apps for iOS 7.', width='698', height='437', border='0', style='display: block; margin: 0;')
                     td(width='1', bgcolor='#dadada', style='background-color: #dadada;')

@@ -392,6 +392,10 @@ Client.prototype.sendMail = function(recipient, file, callback) {
 					callback(new Error(errorKeyToSendMailErrorMessage(response.debug.errno)), undefined);
 					return;
 				}
+                if (response.error != undefined && response.error != '') {
+                    callback(new Error(response.error), undefined);
+                    return;
+                }
 				callback(undefined, response);
 			});
 		});
@@ -434,6 +438,10 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 			callback(new Error(errorKeyToFindStationErrorMessage(response.debug.errno)), undefined);
 			return;
 		}
+        if (response.error != undefined && response.error != '') {
+            callback(new Error(response.error), undefined);
+            return;
+        }
 		
 		that.docsaway.station = response.result.station; // Set Station
 		json = JSON.stringify(that.docsaway);
@@ -453,6 +461,10 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 				callback(new Error(errorKeyToPricingErrorMessage(response.debug.errno)), undefined);
 				return;
 			}
+            if (response.error != undefined && response.error != '') {
+                callback(new Error(response.error), undefined);
+                return;
+            }
 			
 			var stationInfo = stationInfoForStation(that.docsaway.station.station);
             var courier = coutierNameForCourierId(that.docsaway.station.courier);
