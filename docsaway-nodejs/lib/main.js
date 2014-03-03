@@ -385,7 +385,7 @@ Client.prototype.sendMail = function(recipient, file, callback) {
 				}
 				var response = JSON.parse(stdout);
 				if (stderr != undefined && stderr != '') {
-					callback(new Error(error.message), undefined);
+					callback(new Error(stderr), undefined);
 					return;
 				}
 				if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
@@ -431,7 +431,7 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 		}
 		var response = JSON.parse(stdout);
 		if (stderr != undefined && stderr != '') {
-			callback(new Error(error.message), undefined);
+			callback(new Error(stderr), undefined);
 			return;
 		}
 		if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
@@ -454,7 +454,7 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 			}
 			var response = JSON.parse(stdout);
 			if (stderr != undefined && stderr != '') {
-				callback(new Error(error.message), undefined);
+				callback(new Error(stderr), undefined);
 				return;
 			}
 			if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
