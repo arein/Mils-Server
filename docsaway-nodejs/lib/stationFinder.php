@@ -23,12 +23,12 @@ try
     }
 
     //$arr['debug']['report'] = $client->APIReport();
-    //$arr['debug']['errno'] = $client->APIErrorNumber();
+    $arr['debug']['errno'] = $client->APIErrorNumber();
     echo json_encode($arr);
 }
 catch (Exception $e)
 {
-    $arr['error'] = $e->getMessage() . ", " . $e->getTraceAsString();
+    $arr['error'] = $e->getMessage(); // . ", " . $e->getTraceAsString();
     echo json_encode($arr);
 }
 
