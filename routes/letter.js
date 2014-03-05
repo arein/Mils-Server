@@ -383,6 +383,9 @@ exports.calculatePrice = function(req, res) {
     var pages = req.query.pages,
         destination = req.query.destination,
         preferredCurrency = req.query.preferred_currency;
+
+
+    console.log(req.query);
    
     check(pages).notNull().isInt();
     check(destination).notNull();
