@@ -46,14 +46,14 @@ if ('development' == app.get('env')) {
     });
 } else {
     mailer.extend(app, {
-        from: 'mils@ceseros.de',
+        from: 'hello@milsapp.com',
         host: 'intern.ceseros.de', // hostname
         secureConnection: false, // use SSL
         port: 25, // port for secure SMTP
         transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
         auth: {
-            user: 'mils@ceseros.de',
-            pass: 'NjeaZ8FLkPBbPvR'
+            user: 'hello@milsapp.com',
+            pass: 'Mk72TBbL'
         }
     });
 }

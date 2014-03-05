@@ -30,9 +30,9 @@ PdfInvoice.prototype.createInvoice = function(user, date, invoiceNumber, descrip
 	
 	// Sender
 	doc.font('OpenSans-Light')
-	   .fontSize(12)
+	   .fontSize(9)
 	   .fillColor("#3470B8")
-	   .text('Mils | Alexander-Derek Rein | Irmgardstr. 15 | 8179 Munich | Germany', 49.235, 184.6);
+	   .text('Mils | Alexander-Derek Rein | Irmgardstr. 15 | 8179 Munich | Germany | VAT-ID DE298651109', 49.235, 184.6);
 	
 	// Recipient
 	var paragraphGap = 0.002;
@@ -90,8 +90,8 @@ PdfInvoice.prototype.createInvoice = function(user, date, invoiceNumber, descrip
 	   .fillColor("#000000")
 	   .text('Inquiries? Errors? Problems? Please get in touch via ', 49.235, 721.458)
 	   .fillColor("#3470B8")
-	   .text("billing@mi.ls", 385.235, 721.458)
-	   .link(385.235, 721.458, 85, 20, "mailto:billing@mi.ls");
+	   .text("billing@milsapp.com", 385.235, 721.458)
+	   .link(385.235, 721.458, 85, 20, "mailto:billing@milsapp.com");
 	
 	doc.output(function(string) {
 		callback(string);
