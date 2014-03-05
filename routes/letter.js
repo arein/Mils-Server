@@ -220,8 +220,8 @@ function sendBill(recipient, letter, fileName, callback) {
 		fs.writeFile(path, data, function(err) {
 			if (err) throw err;
 			console.log("File Written");
-            var email = '"' + recipient.name + '" <' + letter.email +'>';
-            var serverPath = "http://prod.ceseros.de:3000";
+            var email = '"' + recipient.recipientName + '" <' + letter.email +'>';
+            var serverPath = "http://milsapp.com";
 
             if ('development' == app.get('env')) {
                 email = '"Ceseros" <test@dev.ceseros.de>';
