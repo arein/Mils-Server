@@ -59,7 +59,7 @@ PdfInvoice.prototype.createInvoice = function(user, date, invoiceNumber, descrip
 	doc.font('OpenSans-Regular')
 	   .fontSize(21)
 	   .fillColor("#000000")
-	   .text(date.getDate() + "." + date.getMonth() + 1 + "." + date.getFullYear(), 346.095, 404.033, {width: 200, align: 'right'})
+	   .text(date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear(), 346.095, 404.033, {width: 200, align: 'right'})
 	
 	// Bill Content
 	doc.font('OpenSans-Regular')

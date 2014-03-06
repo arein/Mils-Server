@@ -82,7 +82,14 @@ exports.purchaseLetter = function(req, res) {
 			item.payed = true;
 	    	getNextSequence("invoicenumber", function (invoiceNumber) {
 	    		item.invoiceNumber = invoiceNumber;
-                item.email = req.body.emailAddress;
+                item.billingName = req.body.name;
+                item.billingLine1 = req.body.line1;
+                item.billingLine2 = req.body.line2;
+                item.billingPostalCode = req.body.postalCode;
+                item.billingCity = req.body.city;
+                item.billingCountry = req.body.country;
+                item.billingEmail = req.body.emailAddress;
+
 				
 				// Generate Recipient Object
 				var recipient = {
@@ -94,7 +101,7 @@ exports.purchaseLetter = function(req, res) {
 					state: item.recipientState,
 					zip: item.recipientPostalCode,
 					country: item.recipientCountryIso,
-                    email: item.email
+                    email: item.billingEmail
 				};
 				
 				processTaxation(item);
@@ -220,7 +227,7 @@ function sendBill(recipient, letter, fileName, callback) {
 		fs.writeFile(path, data, function(err) {
 			if (err) throw err;
 			console.log("File Written");
-            var email = '"' + letter.recipientName + '" <' + letter.email +'>';
+            var email = letter.billingName + ' <' + letter.billingEmail +'>';
             var serverPath = "http://milsapp.com";
 
             if ('development' == app.get('env')) {
