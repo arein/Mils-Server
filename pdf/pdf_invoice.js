@@ -30,7 +30,7 @@ PdfInvoice.prototype.createInvoice = function(user, date, invoiceNumber, descrip
 	
 	// Sender
 	doc.font('OpenSans-Light')
-	   .fontSize(9)
+	   .fontSize(10)
 	   .fillColor("#3470B8")
 	   .text('Mils | Alexander-Derek Rein | Irmgardstr. 15 | 8179 Munich | Germany | VAT-ID DE298651109', 49.235, 184.6);
 	
