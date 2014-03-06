@@ -10,33 +10,33 @@
 		</data>
 		<key>Resources/AddIcon.png</key>
 		<data>
-		bE5x7AIY7zzuX5WOZxAYwI3+58o=
+		lJAAQj59SxLDzx1vbj14y3Y3glY=
 		</data>
 		<key>Resources/AddIcon@2x.png</key>
 		<data>
-		bE5x7AIY7zzuX5WOZxAYwI3+58o=
+		e3YdgJixVKLnNcdjMV/f76tDFJQ=
 		</data>
 		<key>Resources/AddIconGray.png</key>
 		<data>
-		bE5x7AIY7zzuX5WOZxAYwI3+58o=
+		lJAAQj59SxLDzx1vbj14y3Y3glY=
 		</data>
 		<key>Resources/AddIconGray@2x.png</key>
 		<data>
-		bE5x7AIY7zzuX5WOZxAYwI3+58o=
+		wJ0LXhd/pRNNlUZweGyXz7OAS1M=
 		</data>
 		<key>Resources/AppIcon.icns</key>
 		<data>
-		ZUr1NNg6j24w5UyMSioQx/LatPQ=
+		vcVa7XebNY9pu7RU2fk5ECViMkI=
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		Cjsc9B0B0NZhnwBk4A92dqL3lVQ=
+		b/hlfVYfzH3I0mk2l74AtqgFYjo=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gzsr81XaehFkMQI3MQHd7d5QLlY=
+			1XEXtQPLRmn4Lqz5/Jqw1uEC1wc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -47,7 +47,7 @@
 		</data>
 		<key>Resources/CSAboutViewController.nib</key>
 		<data>
-		GDPTmGbYqnGYhjefsuNCMVavtE0=
+		0RpBenA/8XWTNdiNqNoF7PXiRNw=
 		</data>
 		<key>Resources/CSAddressWindowController.nib</key>
 		<data>
@@ -67,7 +67,7 @@
 		</data>
 		<key>Resources/CSOverviewViewController.nib</key>
 		<data>
-		JV9IcAFj0Jv5FSAP2k/BGnMXElE=
+		wsQQ4LpnV0Jr2Ln7MWTTCufuLH4=
 		</data>
 		<key>Resources/CSPayWindowController.nib</key>
 		<data>
@@ -93,13 +93,29 @@
 		<data>
 		eQRTgvDJ6brsYc2kzB4lJyv3Tfk=
 		</data>
+		<key>Resources/DotSelected.png</key>
+		<data>
+		OXO63jg2U3Tkfk0dQ3QB3Y/qvw8=
+		</data>
+		<key>Resources/DotSelected@2x.png</key>
+		<data>
+		2h+dmlU0vmRm5XUqJ35DaN6Xy2U=
+		</data>
+		<key>Resources/DotUnselected.png</key>
+		<data>
+		aBaZd3koZr+qXMSbaET7yfmzyPo=
+		</data>
+		<key>Resources/DotUnselected@2x.png</key>
+		<data>
+		Dmxn/geZJewk6o+Ezb4joj+7OH4=
+		</data>
 		<key>Resources/DropPdfBackground.png</key>
 		<data>
 		mdL5qB3Fs1UVUycw3i0zLObVOgw=
 		</data>
 		<key>Resources/DropPdfBackground@2x.png</key>
 		<data>
-		mdL5qB3Fs1UVUycw3i0zLObVOgw=
+		Jcd3oyX4pwwyxnYGzlaimH3oAyQ=
 		</data>
 		<key>Resources/ISO3166.txt</key>
 		<data>
@@ -187,19 +203,19 @@
 		</data>
 		<key>Resources/OverviewIcon.png</key>
 		<data>
-		hCyV/sK6MHd6TJxncbZim8pYN8s=
+		X0rqlg3lQD8Y3BIAq89i1OnhnTs=
 		</data>
 		<key>Resources/OverviewIcon@2x.png</key>
 		<data>
-		hCyV/sK6MHd6TJxncbZim8pYN8s=
+		fHIK39pZ8rhMzhKm1bRgtrAcNcs=
 		</data>
 		<key>Resources/OverviewIconGray.png</key>
 		<data>
-		hCyV/sK6MHd6TJxncbZim8pYN8s=
+		X0rqlg3lQD8Y3BIAq89i1OnhnTs=
 		</data>
 		<key>Resources/OverviewIconGray@2x.png</key>
 		<data>
-		hCyV/sK6MHd6TJxncbZim8pYN8s=
+		fHIK39pZ8rhMzhKm1bRgtrAcNcs=
 		</data>
 		<key>Resources/PaginationArrowLeft.png</key>
 		<data>
@@ -227,7 +243,7 @@
 		</data>
 		<key>Resources/PopoverBackground@2x.png</key>
 		<data>
-		UXy7Z5M5aB0wIhf7qSziKr709eQ=
+		u/ultuzygZHH4XV+ZeYQ7E+s1lc=
 		</data>
 		<key>Resources/PopoverBackgroundSmall.png</key>
 		<data>
@@ -235,7 +251,7 @@
 		</data>
 		<key>Resources/PopoverBackgroundSmall@2x.png</key>
 		<data>
-		M9apaTTUKaW8vcQGDwyJ3wDk3wE=
+		hkThdDrEUVyTq60rfJSBXtRgqQg=
 		</data>
 		<key>Resources/QRAndroid.png</key>
 		<data>
@@ -265,14 +281,6 @@
 		<data>
 		8UI49jES7/pd67dsxtWLkdfGZ5k=
 		</data>
-		<key>Resources/SampleSignature.png</key>
-		<data>
-		eEWCk0x6FhyWXeGdlEY6aBGdTb8=
-		</data>
-		<key>Resources/SampleSignature@2x.png</key>
-		<data>
-		eEWCk0x6FhyWXeGdlEY6aBGdTb8=
-		</data>
 		<key>Resources/SampleUsage.png</key>
 		<data>
 		ZMt8GsAI+YGRI4PyuumhxMEszNA=
@@ -283,7 +291,7 @@
 		</data>
 		<key>Resources/SideBarLogo@2x.png</key>
 		<data>
-		TsOmw4wKoz+MnjCDsXg/2tXTDrs=
+		pHLYljGUMhx8OCWfeSQFN11Dc4U=
 		</data>
 		<key>Resources/Star.png</key>
 		<data>
@@ -345,6 +353,10 @@
 		<data>
 		4ipMGXvlgyg4TvFavIDOmFoljF8=
 		</data>
+		<key>Resources/de.integration.tiff</key>
+		<data>
+		PbBnGgohraqrh9Wv2O1X4R7nnWs=
+		</data>
 		<key>Resources/de.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash</key>
@@ -354,6 +366,22 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/de.signature.tiff</key>
+		<data>
+		wk/zyPqwTivJRKsxLTDiUHNYobA=
+		</data>
+		<key>Resources/de.stations.tiff</key>
+		<data>
+		1BpxSLlSAAINcyW1LeOlQ7cOaqg=
+		</data>
+		<key>Resources/de.welcome.tiff</key>
+		<data>
+		8RrAjELAAgB7CKT6OQkXNa9BTaU=
+		</data>
+		<key>Resources/en.integration.tiff</key>
+		<data>
+		TsB6GIVfoBJSf5QFIu0AVnnIuZ8=
+		</data>
 		<key>Resources/en.lproj/Credits.rtf</key>
 		<dict>
 			<key>hash</key>
@@ -381,21 +409,17 @@
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Resources/integration.png</key>
+		<key>Resources/en.signature@2x.png</key>
 		<data>
-		bsXeCkpGZ8aPuPgDeY6Zt9vvYBU=
+		0DEQRw2PyFCn4Wn8vZ7hFfwrb48=
 		</data>
-		<key>Resources/signature.png</key>
+		<key>Resources/en.stations.tiff</key>
 		<data>
-		wuf8bMUeXa2mO1JBBGT0tBNAi2k=
+		SJTK0C7aZoamPx+Ld8sq1PPqAQY=
 		</data>
-		<key>Resources/stations.png</key>
+		<key>Resources/en.welcome.tiff</key>
 		<data>
-		SLPHBf6BU/D41/+kaaPiLuUiMzw=
-		</data>
-		<key>Resources/welcome.png</key>
-		<data>
-		xVnSSSCIU0EaI90xwGGZECaSe2k=
+		/feO/2mYE4Qx32fyQ5EuKAAsxV4=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -404,7 +428,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			pAmO/wAHxuPp6E650VCLsJoL1o0=
+			nMd3ZPD3su83G38/sh8fmhmsT/U=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.restkit.RestKit" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MRZBB58H5U)</string>
@@ -415,33 +439,33 @@
 		</data>
 		<key>Resources/AddIcon.png</key>
 		<data>
-		bE5x7AIY7zzuX5WOZxAYwI3+58o=
+		lJAAQj59SxLDzx1vbj14y3Y3glY=
 		</data>
 		<key>Resources/AddIcon@2x.png</key>
 		<data>
-		bE5x7AIY7zzuX5WOZxAYwI3+58o=
+		e3YdgJixVKLnNcdjMV/f76tDFJQ=
 		</data>
 		<key>Resources/AddIconGray.png</key>
 		<data>
-		bE5x7AIY7zzuX5WOZxAYwI3+58o=
+		lJAAQj59SxLDzx1vbj14y3Y3glY=
 		</data>
 		<key>Resources/AddIconGray@2x.png</key>
 		<data>
-		bE5x7AIY7zzuX5WOZxAYwI3+58o=
+		wJ0LXhd/pRNNlUZweGyXz7OAS1M=
 		</data>
 		<key>Resources/AppIcon.icns</key>
 		<data>
-		ZUr1NNg6j24w5UyMSioQx/LatPQ=
+		vcVa7XebNY9pu7RU2fk5ECViMkI=
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		Cjsc9B0B0NZhnwBk4A92dqL3lVQ=
+		b/hlfVYfzH3I0mk2l74AtqgFYjo=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gzsr81XaehFkMQI3MQHd7d5QLlY=
+			1XEXtQPLRmn4Lqz5/Jqw1uEC1wc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -452,7 +476,7 @@
 		</data>
 		<key>Resources/CSAboutViewController.nib</key>
 		<data>
-		GDPTmGbYqnGYhjefsuNCMVavtE0=
+		0RpBenA/8XWTNdiNqNoF7PXiRNw=
 		</data>
 		<key>Resources/CSAddressWindowController.nib</key>
 		<data>
@@ -472,7 +496,7 @@
 		</data>
 		<key>Resources/CSOverviewViewController.nib</key>
 		<data>
-		JV9IcAFj0Jv5FSAP2k/BGnMXElE=
+		wsQQ4LpnV0Jr2Ln7MWTTCufuLH4=
 		</data>
 		<key>Resources/CSPayWindowController.nib</key>
 		<data>
@@ -498,13 +522,29 @@
 		<data>
 		eQRTgvDJ6brsYc2kzB4lJyv3Tfk=
 		</data>
+		<key>Resources/DotSelected.png</key>
+		<data>
+		OXO63jg2U3Tkfk0dQ3QB3Y/qvw8=
+		</data>
+		<key>Resources/DotSelected@2x.png</key>
+		<data>
+		2h+dmlU0vmRm5XUqJ35DaN6Xy2U=
+		</data>
+		<key>Resources/DotUnselected.png</key>
+		<data>
+		aBaZd3koZr+qXMSbaET7yfmzyPo=
+		</data>
+		<key>Resources/DotUnselected@2x.png</key>
+		<data>
+		Dmxn/geZJewk6o+Ezb4joj+7OH4=
+		</data>
 		<key>Resources/DropPdfBackground.png</key>
 		<data>
 		mdL5qB3Fs1UVUycw3i0zLObVOgw=
 		</data>
 		<key>Resources/DropPdfBackground@2x.png</key>
 		<data>
-		mdL5qB3Fs1UVUycw3i0zLObVOgw=
+		Jcd3oyX4pwwyxnYGzlaimH3oAyQ=
 		</data>
 		<key>Resources/ISO3166.txt</key>
 		<data>
@@ -592,19 +632,19 @@
 		</data>
 		<key>Resources/OverviewIcon.png</key>
 		<data>
-		hCyV/sK6MHd6TJxncbZim8pYN8s=
+		X0rqlg3lQD8Y3BIAq89i1OnhnTs=
 		</data>
 		<key>Resources/OverviewIcon@2x.png</key>
 		<data>
-		hCyV/sK6MHd6TJxncbZim8pYN8s=
+		fHIK39pZ8rhMzhKm1bRgtrAcNcs=
 		</data>
 		<key>Resources/OverviewIconGray.png</key>
 		<data>
-		hCyV/sK6MHd6TJxncbZim8pYN8s=
+		X0rqlg3lQD8Y3BIAq89i1OnhnTs=
 		</data>
 		<key>Resources/OverviewIconGray@2x.png</key>
 		<data>
-		hCyV/sK6MHd6TJxncbZim8pYN8s=
+		fHIK39pZ8rhMzhKm1bRgtrAcNcs=
 		</data>
 		<key>Resources/PaginationArrowLeft.png</key>
 		<data>
@@ -632,7 +672,7 @@
 		</data>
 		<key>Resources/PopoverBackground@2x.png</key>
 		<data>
-		UXy7Z5M5aB0wIhf7qSziKr709eQ=
+		u/ultuzygZHH4XV+ZeYQ7E+s1lc=
 		</data>
 		<key>Resources/PopoverBackgroundSmall.png</key>
 		<data>
@@ -640,7 +680,7 @@
 		</data>
 		<key>Resources/PopoverBackgroundSmall@2x.png</key>
 		<data>
-		M9apaTTUKaW8vcQGDwyJ3wDk3wE=
+		hkThdDrEUVyTq60rfJSBXtRgqQg=
 		</data>
 		<key>Resources/QRAndroid.png</key>
 		<data>
@@ -670,14 +710,6 @@
 		<data>
 		8UI49jES7/pd67dsxtWLkdfGZ5k=
 		</data>
-		<key>Resources/SampleSignature.png</key>
-		<data>
-		eEWCk0x6FhyWXeGdlEY6aBGdTb8=
-		</data>
-		<key>Resources/SampleSignature@2x.png</key>
-		<data>
-		eEWCk0x6FhyWXeGdlEY6aBGdTb8=
-		</data>
 		<key>Resources/SampleUsage.png</key>
 		<data>
 		ZMt8GsAI+YGRI4PyuumhxMEszNA=
@@ -688,7 +720,7 @@
 		</data>
 		<key>Resources/SideBarLogo@2x.png</key>
 		<data>
-		TsOmw4wKoz+MnjCDsXg/2tXTDrs=
+		pHLYljGUMhx8OCWfeSQFN11Dc4U=
 		</data>
 		<key>Resources/Star.png</key>
 		<data>
@@ -750,6 +782,10 @@
 		<data>
 		4ipMGXvlgyg4TvFavIDOmFoljF8=
 		</data>
+		<key>Resources/de.integration.tiff</key>
+		<data>
+		PbBnGgohraqrh9Wv2O1X4R7nnWs=
+		</data>
 		<key>Resources/de.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash</key>
@@ -759,6 +795,22 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/de.signature.tiff</key>
+		<data>
+		wk/zyPqwTivJRKsxLTDiUHNYobA=
+		</data>
+		<key>Resources/de.stations.tiff</key>
+		<data>
+		1BpxSLlSAAINcyW1LeOlQ7cOaqg=
+		</data>
+		<key>Resources/de.welcome.tiff</key>
+		<data>
+		8RrAjELAAgB7CKT6OQkXNa9BTaU=
+		</data>
+		<key>Resources/en.integration.tiff</key>
+		<data>
+		TsB6GIVfoBJSf5QFIu0AVnnIuZ8=
+		</data>
 		<key>Resources/en.lproj/Credits.rtf</key>
 		<dict>
 			<key>hash</key>
@@ -786,21 +838,17 @@
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Resources/integration.png</key>
+		<key>Resources/en.signature@2x.png</key>
 		<data>
-		bsXeCkpGZ8aPuPgDeY6Zt9vvYBU=
+		0DEQRw2PyFCn4Wn8vZ7hFfwrb48=
 		</data>
-		<key>Resources/signature.png</key>
+		<key>Resources/en.stations.tiff</key>
 		<data>
-		wuf8bMUeXa2mO1JBBGT0tBNAi2k=
+		SJTK0C7aZoamPx+Ld8sq1PPqAQY=
 		</data>
-		<key>Resources/stations.png</key>
+		<key>Resources/en.welcome.tiff</key>
 		<data>
-		SLPHBf6BU/D41/+kaaPiLuUiMzw=
-		</data>
-		<key>Resources/welcome.png</key>
-		<data>
-		xVnSSSCIU0EaI90xwGGZECaSe2k=
+		/feO/2mYE4Qx32fyQ5EuKAAsxV4=
 		</data>
 	</dict>
 	<key>rules</key>
