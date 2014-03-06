@@ -82,12 +82,12 @@ exports.purchaseLetter = function(req, res) {
 			item.payed = true;
 	    	getNextSequence("invoicenumber", function (invoiceNumber) {
 	    		item.invoiceNumber = invoiceNumber;
-                item.billingName = req.body.name;
-                item.billingLine1 = req.body.line1;
-                item.billingLine2 = req.body.line2;
-                item.billingPostalCode = req.body.postalCode;
-                item.billingCity = req.body.city;
-                item.billingCountry = req.body.country;
+                item.billingName = req.body.address.name;
+                item.billingLine1 = req.body.address.line1;
+                item.billingLine2 = req.body.address.line2;
+                item.billingPostalCode = req.body.address.postalCode;
+                item.billingCity = req.body.address.city;
+                item.billingCountry = req.body.address.country;
                 item.billingEmail = req.body.emailAddress;
 
 				
