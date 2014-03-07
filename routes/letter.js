@@ -146,7 +146,7 @@ exports.purchaseLetter = function(req, res) {
 };
 
 function processTaxation(letter) {
-	var isoCountry = letter.recipientCountryIso;
+	var isoCountry = letter.billingCountry;
 	if (isInEU(isoCountry)) {
 		letter.net = parseFloat(letter.price / 1.19).toFixed(2);
 		letter.vat = parseFloat(letter.price - letter.net).toFixed(2);
