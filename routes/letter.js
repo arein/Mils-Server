@@ -90,6 +90,8 @@ exports.purchaseLetter = function(req, res) {
                 item.billingCountry = req.body.address.country;
                 item.billingEmail = req.body.emailAddress;
 
+                console.log("Billing Country: " + item.billingCountry);
+
 				
 				// Generate Recipient Object
 				var recipient = {
@@ -218,15 +220,14 @@ function sendBill(recipient, letter, fileName, callback) {
 	var pdfInvoice = new pdf.PdfInvoice();
 	var prefix = app.basePath + '/public/pdf/';
 	var path = prefix + fileName;
-	var description = letter.pageCount + " pages to " + letter.country;
+	var description = letter.pageCount + " pages to " + letter.billingCountry;
 	if (letter.pageCount == 1) {
-		description = letter.pageCount + " page to " + letter.country;
+		description = letter.pageCount + " page to " + letter.billingCountry;
 	}
 	
 	pdfInvoice.createInvoice(recipient, new Date(), letter.invoiceNumber, description, letter.net, letter.vat, letter.price, function (data) {
 		fs.writeFile(path, data, function(err) {
 			if (err) throw err;
-			console.log("File Written");
             var email = letter.billingName + ' <' + letter.billingEmail +'>';
             var serverPath = "http://milsapp.com";
 
@@ -292,7 +293,6 @@ exports.uploadLetter = function(req, res) {
 			doc.image(new Buffer(letter.pages[0].image, 'base64'), 0, 0, {fit: [595.28, 841.89]});
 			var signature = new Buffer(letter.signature, 'base64');
 			addSignatures(signature, doc, letter.pages[0].signatures);
-			console.log("Added Image to Doc");
 			for (var i = 1; i < letter.pages.length; i++) {
 				doc.addPage();
 				doc.image(new Buffer(letter.pages[i].image, 'base64'), 0, 0, {fit: [595.28, 841.89]});
@@ -314,7 +314,6 @@ exports.uploadLetter = function(req, res) {
 			var buf = new Buffer(letter.pdf, 'base64');
 			fs.writeFile(path, buf, function (err) {
 				if (err) throw err;
-				console.log('It\'s saved!');
 				  
 				letter.pdf = path.replace(prefix, ''); // "Repair Path"
 				var PFParser = require("pdf2json");
@@ -336,7 +335,6 @@ function addSignatures(buffer, doc, signatures) {
 	var scaleFactor = 1.0101968821;
 	for (var i = 0; i < signatures.length; i++) {
 		doc.image(buffer, signatures[i].x, signatures[i].y * scaleFactor, {width: signatures[i].width, height: signatures[i].height * scaleFactor});
-		console.log("Added Image to Doc");
 	}
 }
 
@@ -408,8 +406,6 @@ exports.calculatePrice = function(req, res) {
 exports.updateLetter = function(req, res) {
     var id = req.params.id;
     var wine = req.body;
-    console.log('Updating wine: ' + id);
-    console.log(JSON.stringify(wine));
     db.collection('letter', function(err, collection) {
         collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result) {
             if (err) {
@@ -423,13 +419,11 @@ exports.updateLetter = function(req, res) {
 
 exports.deleteLetter = function(req, res) {
     var id = req.params.id;
-    console.log('Deleting wine: ' + id);
     db.collection('letter', function(err, collection) {
         collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred - ' + err});
             } else {
-                console.log('' + result + ' document(s) deleted');
                 res.send(req.body);
             }
         });
