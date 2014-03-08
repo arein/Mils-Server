@@ -30,7 +30,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		b/hlfVYfzH3I0mk2l74AtqgFYjo=
+		JTFKfKVBl+NKgKoER8R1BFkPIeI=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
@@ -47,11 +47,11 @@
 		</data>
 		<key>Resources/CSAboutViewController.nib</key>
 		<data>
-		0RpBenA/8XWTNdiNqNoF7PXiRNw=
+		RPkb42OdY+CB+PIWPHF8rmXHyTo=
 		</data>
 		<key>Resources/CSAddressWindowController.nib</key>
 		<data>
-		MT6Z6dfoVTX9GXZ1f8PJy/Ptx3w=
+		aq6EPSPSS6XmqlTsmgBnPnTlfCs=
 		</data>
 		<key>Resources/CSConfirmAddressWindowController.nib</key>
 		<data>
@@ -59,31 +59,31 @@
 		</data>
 		<key>Resources/CSMobilePhoneWindowController.nib</key>
 		<data>
-		XEZZWJtLwNol/ao/TiIPuW6zF6M=
+		jlPkwZb2rkbTrdNhZES17Eo59bs=
 		</data>
 		<key>Resources/CSNewLetterViewController.nib</key>
 		<data>
-		iK4ohxeE/SNHvtDCM9yO963Oheo=
+		GM+si0moK8HleYxJBkZrpKlAsQg=
 		</data>
 		<key>Resources/CSOverviewViewController.nib</key>
 		<data>
-		wsQQ4LpnV0Jr2Ln7MWTTCufuLH4=
+		/B2Djn5DfDYZ5+5jzri2DAY8KS8=
 		</data>
 		<key>Resources/CSPayWindowController.nib</key>
 		<data>
-		3BNvSLd/Ifchfy16AbmBns1sYpk=
+		/sULzUPoWuCRYkn1ahl0iIMcb6Y=
 		</data>
 		<key>Resources/CSPrintingMapViewController.nib</key>
 		<data>
-		dFrnsEY9BVPuJCbOSt8uykvhmzs=
+		JTFh7l/S7aKAv5bs+YXJL4HYSTQ=
 		</data>
 		<key>Resources/CSRatingWindowController.nib</key>
 		<data>
-		kUtowtgtbEMyPlEia+lAVhILgfg=
+		sLNKDf+3RijXMhSCFGn74KSuKao=
 		</data>
 		<key>Resources/CSSignWindowController.nib</key>
 		<data>
-		p8t/EaqdxIfUSyTbV6aFROluXFo=
+		iq5TNIEmCDZAuAQxdvjiCqaO7C4=
 		</data>
 		<key>Resources/CSTutorialWindowController.nib</key>
 		<data>
@@ -116,6 +116,46 @@
 		<key>Resources/DropPdfBackground@2x.png</key>
 		<data>
 		Jcd3oyX4pwwyxnYGzlaimH3oAyQ=
+		</data>
+		<key>Resources/Fonts/OpenSans-Bold.ttf</key>
+		<data>
+		wWkegWiyWWr4oAFiusYNvmBenjY=
+		</data>
+		<key>Resources/Fonts/OpenSans-BoldItalic.ttf</key>
+		<data>
+		zqeyXmJfj0LQnDA0qtiv2CbplBo=
+		</data>
+		<key>Resources/Fonts/OpenSans-ExtraBold.ttf</key>
+		<data>
+		l9C9RPFzGp2X/CnisiCINVdbYLk=
+		</data>
+		<key>Resources/Fonts/OpenSans-ExtraBoldItalic.ttf</key>
+		<data>
+		HYZdCj4F8TzpHjcn4MuX/cHEykI=
+		</data>
+		<key>Resources/Fonts/OpenSans-Italic.ttf</key>
+		<data>
+		8WkurFZOlQI+TaNBobibquemUVU=
+		</data>
+		<key>Resources/Fonts/OpenSans-Light.ttf</key>
+		<data>
+		QEQsGJVoGEtubCeiXWnxTZG2UDk=
+		</data>
+		<key>Resources/Fonts/OpenSans-LightItalic.ttf</key>
+		<data>
+		c8RzCJTGeQDgt716SRxxfUojazA=
+		</data>
+		<key>Resources/Fonts/OpenSans-Regular.ttf</key>
+		<data>
+		NWTtC1Nj31zyd8FuDGvtxaaCIX8=
+		</data>
+		<key>Resources/Fonts/OpenSans-Semibold.ttf</key>
+		<data>
+		8e56nG0T7i1kKoBsCec3J15hN5I=
+		</data>
+		<key>Resources/Fonts/OpenSans-SemiboldItalic.ttf</key>
+		<data>
+		9XfOQyLHYaENCT8R8HekhgLSwHY=
 		</data>
 		<key>Resources/ISO3166.txt</key>
 		<data>
@@ -361,7 +401,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XAjqNF1z1Ym7i5wvyJh9Qr5LC8Q=
+			q8uw/ktixZpfQW6nLS+zje/JhDQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -404,7 +444,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			xUUXUp2BAg2epXTaOWGYOd9/5gY=
+			h8CU8/HvCWzDsKo0rwlTUNCT1is=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -428,7 +468,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			nMd3ZPD3su83G38/sh8fmhmsT/U=
+			9w8+Qca+sX8Ikn9FVAV+5W7lw44=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.restkit.RestKit" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MRZBB58H5U)</string>
@@ -459,7 +499,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		b/hlfVYfzH3I0mk2l74AtqgFYjo=
+		JTFKfKVBl+NKgKoER8R1BFkPIeI=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
@@ -476,11 +516,11 @@
 		</data>
 		<key>Resources/CSAboutViewController.nib</key>
 		<data>
-		0RpBenA/8XWTNdiNqNoF7PXiRNw=
+		RPkb42OdY+CB+PIWPHF8rmXHyTo=
 		</data>
 		<key>Resources/CSAddressWindowController.nib</key>
 		<data>
-		MT6Z6dfoVTX9GXZ1f8PJy/Ptx3w=
+		aq6EPSPSS6XmqlTsmgBnPnTlfCs=
 		</data>
 		<key>Resources/CSConfirmAddressWindowController.nib</key>
 		<data>
@@ -488,31 +528,31 @@
 		</data>
 		<key>Resources/CSMobilePhoneWindowController.nib</key>
 		<data>
-		XEZZWJtLwNol/ao/TiIPuW6zF6M=
+		jlPkwZb2rkbTrdNhZES17Eo59bs=
 		</data>
 		<key>Resources/CSNewLetterViewController.nib</key>
 		<data>
-		iK4ohxeE/SNHvtDCM9yO963Oheo=
+		GM+si0moK8HleYxJBkZrpKlAsQg=
 		</data>
 		<key>Resources/CSOverviewViewController.nib</key>
 		<data>
-		wsQQ4LpnV0Jr2Ln7MWTTCufuLH4=
+		/B2Djn5DfDYZ5+5jzri2DAY8KS8=
 		</data>
 		<key>Resources/CSPayWindowController.nib</key>
 		<data>
-		3BNvSLd/Ifchfy16AbmBns1sYpk=
+		/sULzUPoWuCRYkn1ahl0iIMcb6Y=
 		</data>
 		<key>Resources/CSPrintingMapViewController.nib</key>
 		<data>
-		dFrnsEY9BVPuJCbOSt8uykvhmzs=
+		JTFh7l/S7aKAv5bs+YXJL4HYSTQ=
 		</data>
 		<key>Resources/CSRatingWindowController.nib</key>
 		<data>
-		kUtowtgtbEMyPlEia+lAVhILgfg=
+		sLNKDf+3RijXMhSCFGn74KSuKao=
 		</data>
 		<key>Resources/CSSignWindowController.nib</key>
 		<data>
-		p8t/EaqdxIfUSyTbV6aFROluXFo=
+		iq5TNIEmCDZAuAQxdvjiCqaO7C4=
 		</data>
 		<key>Resources/CSTutorialWindowController.nib</key>
 		<data>
@@ -545,6 +585,46 @@
 		<key>Resources/DropPdfBackground@2x.png</key>
 		<data>
 		Jcd3oyX4pwwyxnYGzlaimH3oAyQ=
+		</data>
+		<key>Resources/Fonts/OpenSans-Bold.ttf</key>
+		<data>
+		wWkegWiyWWr4oAFiusYNvmBenjY=
+		</data>
+		<key>Resources/Fonts/OpenSans-BoldItalic.ttf</key>
+		<data>
+		zqeyXmJfj0LQnDA0qtiv2CbplBo=
+		</data>
+		<key>Resources/Fonts/OpenSans-ExtraBold.ttf</key>
+		<data>
+		l9C9RPFzGp2X/CnisiCINVdbYLk=
+		</data>
+		<key>Resources/Fonts/OpenSans-ExtraBoldItalic.ttf</key>
+		<data>
+		HYZdCj4F8TzpHjcn4MuX/cHEykI=
+		</data>
+		<key>Resources/Fonts/OpenSans-Italic.ttf</key>
+		<data>
+		8WkurFZOlQI+TaNBobibquemUVU=
+		</data>
+		<key>Resources/Fonts/OpenSans-Light.ttf</key>
+		<data>
+		QEQsGJVoGEtubCeiXWnxTZG2UDk=
+		</data>
+		<key>Resources/Fonts/OpenSans-LightItalic.ttf</key>
+		<data>
+		c8RzCJTGeQDgt716SRxxfUojazA=
+		</data>
+		<key>Resources/Fonts/OpenSans-Regular.ttf</key>
+		<data>
+		NWTtC1Nj31zyd8FuDGvtxaaCIX8=
+		</data>
+		<key>Resources/Fonts/OpenSans-Semibold.ttf</key>
+		<data>
+		8e56nG0T7i1kKoBsCec3J15hN5I=
+		</data>
+		<key>Resources/Fonts/OpenSans-SemiboldItalic.ttf</key>
+		<data>
+		9XfOQyLHYaENCT8R8HekhgLSwHY=
 		</data>
 		<key>Resources/ISO3166.txt</key>
 		<data>
@@ -790,7 +870,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XAjqNF1z1Ym7i5wvyJh9Qr5LC8Q=
+			q8uw/ktixZpfQW6nLS+zje/JhDQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -833,7 +913,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			xUUXUp2BAg2epXTaOWGYOd9/5gY=
+			h8CU8/HvCWzDsKo0rwlTUNCT1is=
 			</data>
 			<key>optional</key>
 			<true/>
