@@ -77,9 +77,11 @@ exports.purchaseLetter = function(req, res) {
 	db.collection('letter', function(err, collection) {
         collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
           if (err) throw err;
-		  var braintreeHelper = new (require('./../util/braintree_helper')).BraintreeHelper();
+		  var braintreeHelper = new (require('./../util/braintree_helper')).BraintreeHelper(true);
 		  braintreeHelper.pay(item.price, req.body.creditCard, function (result) {
 			item.payed = true;
+            item.sandboxPurchase = braintreeHelper.isSandbox();
+            item.transactionId = result.transaction.id;
 	    	getNextSequence("invoicenumber", function (invoiceNumber) {
 	    		item.invoiceNumber = invoiceNumber;
                 item.billingName = req.body.address.name;
