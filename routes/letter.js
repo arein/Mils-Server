@@ -220,9 +220,9 @@ function sendBill(recipient, letter, fileName, callback) {
 	var pdfInvoice = new pdf.PdfInvoice();
 	var prefix = app.basePath + '/public/pdf/';
 	var path = prefix + fileName;
-	var description = letter.pageCount + " pages to " + letter.billingCountry;
+	var description = letter.pageCount + " pages to " + letter.recipientCountryIso;
 	if (letter.pageCount == 1) {
-		description = letter.pageCount + " page to " + letter.billingCountry;
+		description = letter.pageCount + " page to " + letter.recipientCountryIso;
 	}
 	
 	pdfInvoice.createInvoice(recipient, new Date(), letter.invoiceNumber, description, letter.net, letter.vat, letter.price, function (data) {
