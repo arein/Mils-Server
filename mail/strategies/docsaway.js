@@ -19,12 +19,15 @@ Docsaway.prototype.sendMail = function(filepath, recipient, callback) {
 	
 	var fs = require('fs');
 	fs.readFile(filepath, function (err, pdf) {
-	  if (err) throw err;
-		data.file = pdf.toString('base64');
-		var client = new docsaway.Client(email, installationKey, "TEST");
-		client.sendMail(data.recipient, data.file, function (error, result) {
-			callback(error, "docsaway", result.transaction.reference);
-		});
+	   if (err) {
+          callback(err);
+          return;
+       }
+	   data.file = pdf.toString('base64');
+	   var client = new docsaway.Client(email, installationKey, "TEST");
+	   client.sendMail(data.recipient, data.file, function (error, result) {
+	   	  callback(error, "docsaway", result.transaction.reference);
+	   });
 	});
 };
 

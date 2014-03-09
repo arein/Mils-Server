@@ -92,9 +92,6 @@ exports.purchaseLetter = function(req, res) {
                 item.billingCountry = req.body.address.country;
                 item.billingEmail = req.body.emailAddress;
 
-                console.log("Billing Country: " + item.billingCountry);
-
-				
 				// Generate Recipient Object
 				var recipient = {
 					name: item.recipientName,
@@ -249,7 +246,6 @@ function sendBill(recipient, letter, fileName, callback) {
 		      }, callback);
 		});
 	});
-	
 }
 
 exports.uploadLetter = function(req, res) {
