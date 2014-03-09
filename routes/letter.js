@@ -81,6 +81,7 @@ exports.purchaseLetter = function(req, res) {
 		  braintreeHelper.pay(item.price, req.body.creditCard, function (result) {
 			item.payed = true;
             item.sandboxPurchase = braintreeHelper.isSandbox();
+            item.purchased = new Date();
             item.transactionId = result.transaction.id;
 	    	getNextSequence("invoicenumber", function (invoiceNumber) {
 	    		item.invoiceNumber = invoiceNumber;
@@ -427,25 +428,6 @@ exports.deleteLetter = function(req, res) {
         });
     });
 };
-
-exports.index = function(req, res) {
-	var countries = getCountries(function (data) {
-		res.render('index', {countries: data});
-	});
-};
-
-function getCountries(callback) {
-	var csv = require('csv');
-	csv()
-	.from.path(__dirname+'/../private/ISO3166.txt', { delimiter: ';'})
-	.to.array(function(data){
-	   callback(data);
-	})
-	.transform( function(row){
-	  row.unshift(row.pop());
-	  return row;
-	});
-}
 
 var path = require('path');
 var mime = require('mime');

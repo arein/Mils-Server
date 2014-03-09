@@ -1,6 +1,72 @@
 extends layout
 
 block content
-  section#header
-  h1= title
-  p Welcome to #{title}
+    div#welcome
+        .container(style="padding:60px 0;text-align: center;")
+            .row
+                .col-lg-12(style="margin-bottom:49px;")
+                    img(src='/images/logo.png', alt='Logo')
+                    h1(style="color: #3974ba;margin: 40px 0;")
+                        | Send Snail Mail
+                        strong Fast and Easy
+                        br
+                        | From Your Computer
+            .row
+                .col-lg-6
+                    img(src='/images/mac-os.png', alt='Mac OS X')
+                    p
+                        a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X
+                .col-lg-6
+                    img(src='/images/windows-8.png', alt='Windows 8.1')
+                    p
+                        a.btn.btn-default(href='#', role='button', style='margin: 15px 0 49px 0;') Download Mils for Windows 8
+    .container(style="text-align: center;padding: 60px 0;")
+        .row
+            .col-lg-4(style="padding: 0 15px 20px 15px")
+                h2 Add your Handrwitten Signature
+                img(src='/images/icon-signature.png', alt='Generic placeholder image', style='margin:20px 0;')
+                p
+                    | Using the
+                    strong Android
+                    | ,
+                    strong iOS
+                    | , and
+                    strong Windows Phone
+                    | companion apps, you can easily create a signature on your
+                    strong smartphone screen.
+            .col-lg-4(style="padding: 0 15px 20px 15px")
+                h2 Choose from 23 Printing Locations
+                img(src='/images/icon-globe.png', alt='Generic placeholder image', style='margin:20px 0;')
+                p
+                    strong 23 printing partners
+                    | in 23 different countries guarantee lightning speed postal delivery.
+                p
+                    a.btn.btn-default.fancybox(href='https://www.zeemaps.com/pub?group=815303&nopdf=1&x=285.030314&y=70.588099&z=15', class='fancybox.iframe', role='button', style='margin-top: 35px;') View our printing sites
+            .col-lg-4(style="padding: 0 15px 20px 15px")
+                h2 Pay for the service as you go!
+                img(src='/images/icon-pay.png', alt='Generic placeholder image', style='margin:20px 0;')
+                p
+                    | Pay per letter. No need to deposit cash.
+    div#price-top
+    div#price
+        .container
+            .row
+                div#pricebox
+                    p
+                        | Sending
+                        input(type='text', value='1')#pages
+                        span#pagestext page to
+                        p
+                        select#countries
+                            each country in countries
+                                if country[0] == "US"
+                                    option(value=country[0], selected="selected") #{country[1]}
+                                else
+                                    option(value=country[0]) #{country[1]}
+                        p
+                        | costs
+                    p(style='margin-top: 20px;font-weight: bold;color: #fff;')#costs
+                        | EUR 3,99
+                div.spinner-wrap
+                    div.sprite-spinner
+                        img(src="/images/progressindicator.png")

@@ -4,6 +4,8 @@
 var express = require('express'),
     routes = require('./routes'),
     letter = require('./routes/letter'),
+    index = require('./routes/index'),
+    admin = require('./routes/admin'),
     http = require('http'),
     path = require('path'),
     mailer = require('express-mailer');
@@ -67,9 +69,18 @@ app.configure(function () {
     app.use(express.logger('dev')); /* 'default', 'short', 'tiny', 'dev' */
 });
 
-app.get('/', letter.index);
+// Synchronous Function
+var auth = express.basicAuth(function(user, pass) {
+    if (user === 'arein' && pass === 'Derek12345') return true;
+    if (user === 'fehrhardt' && pass === 'Edmund') return true;
+    
+    return false;
+});
+
+app.get('/', index.index);
 //app.get('/letters', letter.findAll);
 app.get('/letters/calculate-price', letter.calculatePrice);
+app.get('/admin', auth, admin.index);
 //app.get('/letters/:id', letter.findById);
 app.post('/letters/:id', letter.purchaseLetter);
 app.post('/letters', letter.uploadLetter);

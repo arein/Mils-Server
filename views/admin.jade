@@ -1,0 +1,57 @@
+extends layout
+
+block content
+    div#welcome
+        .container(style="padding:60px 0;text-align: center;")
+            .row
+                .col-lg-12(style="margin-bottom:49px;")
+                    img(src='/images/logo.png', alt='Logo')
+                    h1(style="color: #3974ba;margin: 40px 0;")
+                        | Dashboard
+            .row
+                .col-lg-6
+                    p
+                        a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Monthly Reports
+                    p
+                        a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Customer Analysis
+                    p
+                        a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Technical Status
+                .col-lg-6
+                    p
+                        a.btn.btn-default(href='#', role='button', style='margin: 15px 0 49px 0;') Google Analytics
+                    p
+                        a.btn.btn-default(href='#', role='button', style='margin: 15px 0 49px 0;') Tapstream
+                    p
+                        a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Braintree
+    .container(style="text-align: center;padding: 60px 0;")
+        .row
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Average Page Count
+                canvas#averagePageCount(width=500 height=200)
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Total Page Count
+                canvas#totalPageCount(width=500 height=200)
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Average Grossing
+                canvas#averagePrice(width=500 height=200)
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Total Grossing
+                canvas#totalPrice(width=500 height=200)
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Average Net Grossing
+                canvas#averageNet(width=500 height=200)
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Total Net Grossing
+                canvas#totalNet(width=500 height=200)
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Average VAT
+                canvas#averageVat(width=500 height=200)
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Total VAT
+                canvas#totalVat(width=500 height=200)
+    script(src='/javascripts/chart.js')
+    script
+        monthly = !{JSON.stringify(monthly)};
+    script(src='/javascripts/admin.js')
+    style(type='text/css')
+        canvas { margin: 20px 0px 40px;}
