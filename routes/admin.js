@@ -30,11 +30,33 @@ db.open(function(err, db) {
 });
 
 exports.index = function(req, res) {
+    var monthly, recipientCountry, billingCountry;
     getMonthlyReportData(function (err, result) {
-        console.log(result);
-        res.render('admin', { 'monthly': result });
+        monthly = result;
+        respond(res, monthly, recipientCountry, billingCountry);
+    });
+
+    getCountryReportData("$recipientCountryIso", function(err, result) {
+        recipientCountry = result;
+        console.log(recipientCountry);
+        respond(res, monthly, recipientCountry, billingCountry);
+    });
+
+    getCountryReportData("$billingCountry", function(err, result) {
+        billingCountry = result;
+        console.log(billingCountry);
+        respond(res, monthly, recipientCountry, billingCountry);
     });
 };
+
+function respond(res, monthly, recipientCountry, billingCountry) {
+    if (monthly == undefined || recipientCountry == undefined || billingCountry == undefined) return;
+    res.render('admin', {
+        'monthly': monthly,
+        'recipientCountry': recipientCountry,
+        'billingCountry': billingCountry
+    });
+}
 
 function getMonthlyReportData(callback) {
     db.collection('letter', function(err, collection) {
@@ -54,6 +76,20 @@ function getMonthlyReportData(callback) {
                 netAvg: { $avg: "$net" },
                 vatTotal: { $sum: "$vat" },
                 vatAvg: { $avg: "$vat" }
+            }},
+            callback);
+    });
+}
+
+function getCountryReportData(value, callback) {
+    db.collection('letter', function(err, collection) {
+        collection.aggregate(
+            { $sort: { "createdAt": -1 }},
+            { $group : {
+                _id: {
+                    recipientCountry : value
+                },
+                count: { $sum: 1 }
             }},
             callback);
     });

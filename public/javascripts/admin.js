@@ -2,7 +2,11 @@
  * Created by arein on 09/03/14.
  */
 
+/*******
+ * Monthly Data
+ */
 var labels = [];
+var totalLetterCount = [];
 var averagePageCount = [];
 var totalPageCount = [];
 var averagePrice = [];
@@ -21,9 +25,11 @@ monthly.forEach(function(month) {
     totalNet.push(month.netTotal);
     averageVat.push(month.vatAvg);
     totalVat.push(month.vatTotal);
+    totalLetterCount.push(month.count);
 });
 
 
+createChart(document.getElementById("totalLetterCount").getContext("2d"), getChartData(totalLetterCount));
 createChart(document.getElementById("averagePageCount").getContext("2d"), getChartData(averagePageCount));
 createChart(document.getElementById("totalPageCount").getContext("2d"), getChartData(totalPageCount));
 createChart(document.getElementById("averagePrice").getContext("2d"), getChartData(averagePrice));
@@ -48,6 +54,50 @@ function getChartData(data) {
     }
 }
 
-function createChart(context, data) {
-    new Chart(context).Bar(data)
+function createChart(context, data, type) {
+    if (type == undefined) {
+        new Chart(context).Bar(data)
+    } else {
+        console.log("Creating Doughnut");
+        new Chart(context).Pie(data, {animation : false})
+    }
+}
+
+
+/*******
+ * Country Data
+ */
+var recipientCountryData = [];
+var billingCountryData = [];
+recipientCountry.forEach(function(country) {
+    //recipientCountryLabels.push( country._id.recipientCountry);
+    recipientCountryData.push({
+        value: country.count,
+        color: getRandomColor(),
+        label : country._id.recipientCountry,
+        labelColor : 'white',
+        labelFontSize : '16'
+    });
+});
+billingCountry.forEach(function(country) {
+    billingCountryData.push({
+        value: country.count,
+        color: getRandomColor(),
+        label : country._id.recipientCountry,
+        labelColor : 'white',
+        labelFontSize : '16'
+    });
+});
+
+createChart(document.getElementById("destinationCountries").getContext("2d"), recipientCountryData, "doughnut");
+createChart(document.getElementById("billingCountries").getContext("2d"), billingCountryData, "doughnut");
+console.log(recipientCountryData);
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+    return color;
 }

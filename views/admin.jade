@@ -25,33 +25,43 @@ block content
                         a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Braintree
     .container(style="text-align: center;padding: 60px 0;")
         .row
+            .col-lg-12(style="padding: 0 15px 20px 15px")
+                h2 Letters Sent
+                canvas#totalLetterCount(width='500', height='200')
             .col-lg-6(style="padding: 0 15px 20px 15px")
                 h2 Average Page Count
-                canvas#averagePageCount(width=500 height=200)
+                canvas#averagePageCount(width='500', height='200')
             .col-lg-6(style="padding: 0 15px 20px 15px")
                 h2 Total Page Count
-                canvas#totalPageCount(width=500 height=200)
+                canvas#totalPageCount(width='500', height='200')
             .col-lg-6(style="padding: 0 15px 20px 15px")
                 h2 Average Grossing
-                canvas#averagePrice(width=500 height=200)
+                canvas#averagePrice(width='500', height='200')
             .col-lg-6(style="padding: 0 15px 20px 15px")
                 h2 Total Grossing
-                canvas#totalPrice(width=500 height=200)
+                canvas#totalPrice(width='500', height='200')
             .col-lg-6(style="padding: 0 15px 20px 15px")
                 h2 Average Net Grossing
-                canvas#averageNet(width=500 height=200)
+                canvas#averageNet(width='500', height='200')
             .col-lg-6(style="padding: 0 15px 20px 15px")
                 h2 Total Net Grossing
-                canvas#totalNet(width=500 height=200)
+                canvas#totalNet(width='500', height='200')
             .col-lg-6(style="padding: 0 15px 20px 15px")
                 h2 Average VAT
-                canvas#averageVat(width=500 height=200)
+                canvas#averageVat(width='500', height='200')
             .col-lg-6(style="padding: 0 15px 20px 15px")
                 h2 Total VAT
-                canvas#totalVat(width=500 height=200)
+                canvas#totalVat(width='500', height='200')
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Destination Countries
+                canvas#destinationCountries(width='300', height='300')
+            .col-lg-6(style="padding: 0 15px 20px 15px")
+                h2 Billing Countries
+                canvas#billingCountries(width='300', height='300')
+
     script(src='/javascripts/chart.js')
     script
-        monthly = !{JSON.stringify(monthly)};
+        monthly = !{JSON.stringify(monthly)};recipientCountry = !{JSON.stringify(recipientCountry)};billingCountry = !{JSON.stringify(billingCountry)};
     script(src='/javascripts/admin.js')
     style(type='text/css')
         canvas { margin: 20px 0px 40px;}
