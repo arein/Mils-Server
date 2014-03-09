@@ -228,7 +228,7 @@ function sendBill(recipient, letter, fileName, callback) {
 		fs.writeFile(path, data, function(err) {
 			if (err) throw err;
             var email = letter.billingName + ' <' + letter.billingEmail +'>';
-            var serverPath = "http://milsapp.com";
+            var serverPath = "https://milsapp.com";
 
             if ('development' == app.get('env')) {
                 email = '"Ceseros" <test@dev.ceseros.de>';
