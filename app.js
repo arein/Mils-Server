@@ -73,7 +73,7 @@ app.configure(function () {
 var auth = express.basicAuth(function(user, pass) {
     if (user === 'arein' && pass === 'Derek12345') return true;
     if (user === 'fehrhardt' && pass === 'Edmund') return true;
-    
+
     return false;
 });
 

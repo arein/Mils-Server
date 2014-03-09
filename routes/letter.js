@@ -150,8 +150,8 @@ exports.purchaseLetter = function(req, res) {
 function processTaxation(letter) {
 	var isoCountry = letter.billingCountry;
 	if (isInEU(isoCountry)) {
-		letter.net = parseFloat(letter.price / 1.19).toFixed(2);
-		letter.vat = parseFloat(letter.price - letter.net).toFixed(2);
+		letter.net = parseFloat(parseFloat(letter.price / 1.19).toFixed(2));
+		letter.vat = parseFloat(parseFloat(letter.price - letter.net).toFixed(2));
 	} else {
 		letter.net = letter.price;
 		letter.vat = 0;
@@ -214,7 +214,6 @@ function conclude(status, letter, res) {
 }
 
 function sendBill(recipient, letter, fileName, callback) {
-	// .price, item.invoiceNumber, item.country, item.pageCount
 	var fs = require("fs");
 	var pdf = require(app.basePath + "/pdf/pdf_invoice");
 	var pdfInvoice = new pdf.PdfInvoice();
@@ -361,7 +360,7 @@ function insertLetter(letter, res, shouldDownload) {
         letter.courier = courier;
         letter.printingCity = city;
         letter.printingCountry = country;
-    	letter.price = priceInEur;
+    	letter.price = parseFloat(priceInEur);
 		db.collection('letter', function(err, collection) {
 		    collection.insert(letter, {safe:true}, function(err, result) {
 		      if (err) {
