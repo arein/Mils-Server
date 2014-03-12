@@ -17,6 +17,8 @@ var averageVat = [];
 var totalVat = [];
 var averageReturn = [];
 var totalReturn = [];
+var averagePrintingPrice = [];
+var totalPrintingPrice = [];
 monthly.forEach(function(month) {
     labels.push( month._id.month + "-" + month._id.year);
     averagePageCount.push(month.pagesAvg);
@@ -29,12 +31,16 @@ monthly.forEach(function(month) {
     totalVat.push(month.vatTotal);
     averageReturn.push(month.marginAppliedAvg + month.vatIncomeAvg);
     totalReturn.push(month.marginAppliedTotal + month.vatIncomeTotal);
+    averagePrintingPrice.push(month.printingPriceAvg);
+    totalPrintingPrice.push(month.printingPriceTotal);
     totalLetterCount.push(month.count);
 });
 
 createChart(document.getElementById("totalLetterCount").getContext("2d"), getChartData(totalLetterCount));
 createChart(document.getElementById("totalReturn").getContext("2d"), getChartData(totalReturn));
 createChart(document.getElementById("averageReturn").getContext("2d"), getChartData(averageReturn));
+createChart(document.getElementById("totalPrintingPrice").getContext("2d"), getChartData(totalPrintingPrice));
+createChart(document.getElementById("averagePrintingPrice").getContext("2d"), getChartData(averagePrintingPrice));
 createChart(document.getElementById("averagePageCount").getContext("2d"), getChartData(averagePageCount));
 createChart(document.getElementById("totalPageCount").getContext("2d"), getChartData(totalPageCount));
 createChart(document.getElementById("averagePrice").getContext("2d"), getChartData(averagePrice));
@@ -66,7 +72,6 @@ function createChart(context, data, type) {
         new Chart(context).Pie(data, {animation : false})
     }
 }
-
 
 /*******
  * Country Data
