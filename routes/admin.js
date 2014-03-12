@@ -38,13 +38,11 @@ exports.index = function(req, res) {
 
     getCountryReportData("$recipientCountryIso", function(err, result) {
         recipientCountry = result;
-        console.log(recipientCountry);
         respond(res, monthly, recipientCountry, billingCountry);
     });
 
     getCountryReportData("$billingCountry", function(err, result) {
         billingCountry = result;
-        console.log(billingCountry);
         respond(res, monthly, recipientCountry, billingCountry);
     });
 };
@@ -75,7 +73,11 @@ function getMonthlyReportData(callback) {
                 netTotal: { $sum: "$net" },
                 netAvg: { $avg: "$net" },
                 vatTotal: { $sum: "$vat" },
-                vatAvg: { $avg: "$vat" }
+                vatAvg: { $avg: "$vat" },
+                marginAppliedTotal: { $sum: "$marginApplied" },
+                marginAppliedAvg: { $avg: "$marginApplied" },
+                vatIncomeTotal: { $sum: "$vatIncome" },
+                vatIncomeAvg: { $avg: "$vatIncome" }
             }},
             callback);
     });

@@ -30,24 +30,6 @@ db.open(function(err, db) {
     }
 });
 
-exports.findById = function(req, res) {
-    var id = req.params.id;
-    console.log('Retrieving wine: ' + id);
-    db.collection('letter', function(err, collection) {
-        collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-            res.send(item);
-        });
-    });
-};
-
-exports.findAll = function(req, res) {
-    db.collection('letter', function(err, collection) {
-        collection.find().toArray(function(err, items) {
-            res.send(items);
-        });
-    });
-};
-
 exports.purchaseLetter = function(req, res) {
 	var check = require('validator').check,
         sanitize = require('validator').sanitize;
@@ -131,10 +113,8 @@ exports.purchaseLetter = function(req, res) {
 	    	    	status.billProcessed = true;
 	    	    	if (err) {
 	  	              item.billSent = false;
-	  	              console.log("Err" + err); // handle error
 	  	            } else {
 	  		        	item.billSent = true;
-	  		        	console.log("Invoice sent");
 	  	            }
 	    	    	
 	    	    	conclude(status, item, res);
@@ -149,10 +129,13 @@ exports.purchaseLetter = function(req, res) {
 
 function processTaxation(letter) {
 	var isoCountry = letter.billingCountry;
+    var net = parseFloat(parseFloat(letter.price / 1.19).toFixed(2));
+    var vat = parseFloat(parseFloat(letter.price - net).toFixed(2));
 	if (isInEU(isoCountry)) {
-		letter.net = parseFloat(parseFloat(letter.price / 1.19).toFixed(2));
-		letter.vat = parseFloat(parseFloat(letter.price - letter.net).toFixed(2));
+		letter.net = net;
+		letter.vat = vat;
 	} else {
+        letter.vatIncome = vat;
 		letter.net = letter.price;
 		letter.vat = 0;
 	}
@@ -357,10 +340,18 @@ function insertLetter(letter, res, shouldDownload) {
 			res.send(502, {'error': error.message});
 			return;
 		}
+
+        var finalPrice = (price + 0.15 + 0.35) * 1.19;
+        finalPrice = parseFloat(finalPrice).toFixed(2);
+
         letter.courier = courier;
         letter.printingCity = city;
         letter.printingCountry = country;
-    	letter.price = parseFloat(priceInEur);
+        letter.printingPrice = priceInEur;
+        letter.marginApplied = 0.15;
+        letter.vatIncome = 0;
+        letter.creditCardPrice = 0.35;
+    	letter.price = finalPrice;
 		db.collection('letter', function(err, collection) {
 		    collection.insert(letter, {safe:true}, function(err, result) {
 		      if (err) {
@@ -396,36 +387,12 @@ exports.calculatePrice = function(req, res) {
     	if (error) {
     		res.send(502, {'error': error.message});
     	} else {
-    		res.send({'preferredCurrency': preferredCurrency, 'priceInEur': price, 'priceInPreferredCurrency': price, 'printingCity': city, 'printingCountry': country, 'courier': courier});
+            var finalPrice = (price + 0.15 + 0.35) * 1.19;
+            finalPrice = parseFloat(finalPrice).toFixed(2);
+
+    		res.send({'preferredCurrency': preferredCurrency, 'priceInEur': finalPrice, 'priceInPreferredCurrency': finalPrice, 'printingCity': city, 'printingCountry': country, 'courier': courier});
     	}
 	});
-};
-
-exports.updateLetter = function(req, res) {
-    var id = req.params.id;
-    var wine = req.body;
-    db.collection('letter', function(err, collection) {
-        collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result) {
-            if (err) {
-                res.send({'error':'An error has occurred'});
-            } else {
-                res.send(wine);
-            }
-        });
-    });
-};
-
-exports.deleteLetter = function(req, res) {
-    var id = req.params.id;
-    db.collection('letter', function(err, collection) {
-        collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
-            if (err) {
-                res.send({'error':'An error has occurred - ' + err});
-            } else {
-                res.send(req.body);
-            }
-        });
-    });
 };
 
 var path = require('path');
@@ -440,23 +407,11 @@ exports.osxDownload = function(req, res) {
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
 var populateDB = function() {
-
-    var letters = [
-    {
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        senderName: 'Philipp Malige',
-        senderStreet: 'Gabelsbergerstraße'
-    }];
     
     var counters = [{
 	      _id: "invoicenumber",
 	      seq: 15000
 	   }];
-
-    db.collection('letter', function(err, collection) {
-        collection.insert(letters, {safe:true}, function(err, result) {});
-    });
 
     db.collection('counters', function(err, collection) {
         collection.insert(counters, {safe:true}, function(err, result) {});

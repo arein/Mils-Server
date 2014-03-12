@@ -25,10 +25,8 @@ MailClient.prototype.calculatePrice = function(pages, destinationCountry, prefer
 			callback(error);
 			return;
 		}
-		var finalPrice = (price + 0.15 + 0.35) * 1.19;
-		finalPrice = parseFloat(finalPrice).toFixed(2);
 		if (preferredCurrency.toLowerCase() == 'eur') {
-			callback(error, finalPrice, finalPrice, printingCity, printingCountry, courier);
+			callback(error, price, price, printingCity, printingCountry, courier);
 		} else {
 			// TODO: Convert Currency
 		}

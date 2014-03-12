@@ -15,6 +15,8 @@ var averageNet = [];
 var totalNet = [];
 var averageVat = [];
 var totalVat = [];
+var averageReturn = [];
+var totalReturn = [];
 monthly.forEach(function(month) {
     labels.push( month._id.month + "-" + month._id.year);
     averagePageCount.push(month.pagesAvg);
@@ -25,11 +27,14 @@ monthly.forEach(function(month) {
     totalNet.push(month.netTotal);
     averageVat.push(month.vatAvg);
     totalVat.push(month.vatTotal);
+    averageReturn.push(month.marginAppliedAvg + month.vatIncomeAvg);
+    totalReturn.push(month.marginAppliedTotal + month.vatIncomeTotal);
     totalLetterCount.push(month.count);
 });
 
-
 createChart(document.getElementById("totalLetterCount").getContext("2d"), getChartData(totalLetterCount));
+createChart(document.getElementById("totalReturn").getContext("2d"), getChartData(totalReturn));
+createChart(document.getElementById("averageReturn").getContext("2d"), getChartData(averageReturn));
 createChart(document.getElementById("averagePageCount").getContext("2d"), getChartData(averagePageCount));
 createChart(document.getElementById("totalPageCount").getContext("2d"), getChartData(totalPageCount));
 createChart(document.getElementById("averagePrice").getContext("2d"), getChartData(averagePrice));
@@ -58,7 +63,6 @@ function createChart(context, data, type) {
     if (type == undefined) {
         new Chart(context).Bar(data)
     } else {
-        console.log("Creating Doughnut");
         new Chart(context).Pie(data, {animation : false})
     }
 }
@@ -91,7 +95,6 @@ billingCountry.forEach(function(country) {
 
 createChart(document.getElementById("destinationCountries").getContext("2d"), recipientCountryData, "doughnut");
 createChart(document.getElementById("billingCountries").getContext("2d"), billingCountryData, "doughnut");
-console.log(recipientCountryData);
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
