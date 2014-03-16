@@ -21,3 +21,17 @@ function getCountries(callback) {
             return row;
         });
 }
+
+exports.pricing = function(req, res) {
+    var countries = getCountries(function (data) {
+        res.render('pricing', {countries: data});
+    });
+};
+
+exports.faq = function(req, res) {
+    res.render('faq');
+};
+
+exports.blog = function(req, res) {
+    res.render('blog');
+};

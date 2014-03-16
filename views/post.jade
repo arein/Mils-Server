@@ -1,0 +1,14 @@
+extends layout
+block content
+    div#welcome
+        .container(style="padding:60px 0;text-align: center;")
+            .row
+                .col-lg-12(style="margin-bottom:49px;")
+                    img(src='/images/logo.png', alt='Logo')
+                    h1(style="color: #3974ba;margin: 40px 0;")
+                        a(href=post.url)
+                            = post.title
+            .row
+                .col-lg-12
+                    p
+                        != post.content

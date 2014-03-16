@@ -2,12 +2,12 @@
 var windowH = $(window).height();
 //console.log(windowH);
 	var wrapperH = $('#welcome').height();
-	if(windowH > wrapperH && windowH < 1069) {          
-		var padding = (windowH - wrapperH)  / 2;
+	if(windowH > wrapperH && windowH < 1169) {
+		var padding = (windowH - wrapperH)  / 2 - 30;
 		//console.log($('#welcome .container').css('padding-top'));
 		//console.log(padding, (parseFloat($('#welcome .container').css('padding-bottom').replace('px', '')) + padding) + 'px');
 	    $('#welcome').css({
-    	  'height':($(window).height())+'px'
+    	  'height':(($(window).height()) - 30) +'px'
     	});
 	    $('#welcome.container').css({
 	        'padding-top': (parseFloat($('#welcome .container').css('padding-top').replace('px', '')) + padding) + 'px',

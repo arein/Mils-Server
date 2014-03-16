@@ -1,0 +1,39 @@
+extends layout
+block content
+    div#welcome
+        .container(style="padding:60px 0;text-align: center;")
+            .row
+                .col-lg-12(style="margin-bottom:49px;")
+                    img(src='/images/logo.png', alt='Logo')
+                    h1(style="color: #3974ba;margin: 40px 0;")
+                        | Pricing
+            .row
+                .col-lg-12
+                    p
+                        | Mils allows you to send PDF files as letter based on a pay-as-you-go pricing model.
+                        | The price for sending a letter depends on the number on the number of pages and the destination country.
+                    p
+                        | Please find a price calculator below.
+    div#price-top
+    div#price
+        .container
+            .row
+                div#pricebox
+                    p
+                        | Sending
+                        input(type='text', value='1')#pages
+                        span#pagestext page to
+                        p
+                        select#countries
+                            each country in countries
+                                if country[0] == "US"
+                                    option(value=country[0], selected="selected") #{country[1]}
+                                else
+                                    option(value=country[0]) #{country[1]}
+                        p
+                        | costs
+                    p(style='margin-top: 20px;font-weight: bold;color: #fff;')#costs
+                        | EUR 3,99
+                div.spinner-wrap
+                    div.sprite-spinner
+                        img(src="/images/progressindicator.png")

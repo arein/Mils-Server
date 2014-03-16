@@ -8,7 +8,8 @@ var express = require('express'),
     admin = require('./routes/admin'),
     http = require('http'),
     path = require('path'),
-    mailer = require('express-mailer');
+    mailer = require('express-mailer'),
+    Poet = require('poet');
 
 app = express(); // Global
 
@@ -77,7 +78,20 @@ var auth = express.basicAuth(function(user, pass) {
     return false;
 });
 
+var poet = Poet(app, {
+    posts: './_posts/',
+    postsPerPage: 2,
+    metaFormat: 'json'
+});
+
+poet.init().then(function () {
+    // ready to go!
+});
+
 app.get('/', index.index);
+app.get('/pricing', index.pricing);
+app.get('/faq', index.faq);
+app.get('/blog', index.blog);
 //app.get('/letters', letter.findAll);
 app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);

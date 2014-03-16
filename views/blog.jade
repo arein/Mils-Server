@@ -1,0 +1,17 @@
+extends layout
+block content
+    div#welcome
+        .container(style="padding:60px 0;text-align: center;")
+            .row
+                .col-lg-12(style="margin-bottom:49px;")
+                    img(src='/images/logo.png', alt='Logo')
+                    h1(style="color: #3974ba;margin: 40px 0;")
+                        | Blog
+            .row
+                .col-lg-12
+                    - var posts = getPosts(0,5)
+                    - var page  = 1
+                    - each post in posts
+                        include includes/postSnippet
+                    include includes/pagination
+block content
