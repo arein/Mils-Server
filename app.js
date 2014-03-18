@@ -92,9 +92,6 @@ var poet = Poet(app, {
 });
 
 poet.init(function (err, poet) {
-    console.log("Poet Initialized");
-    console.log(err);
-    console.log(poet);
 }).then(function () {
 });
 
