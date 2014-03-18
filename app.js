@@ -82,6 +82,7 @@ var poet = Poet(app, {
     postsPerPage: 2,
     metaFormat: 'json',
     showDrafts: true,
+    showFuture: true,
     routes: {
         '/blog/:post': 'post',
         '/blog/page/:page': 'page',
