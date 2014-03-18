@@ -84,7 +84,7 @@ var poet = Poet(app, {
 });
 
 poet.init().then(function () {
-    // ready to go!
+    console.log("Poet ready"); // ready to go!
 });
 
 app.get('/', index.index);
