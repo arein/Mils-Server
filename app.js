@@ -90,7 +90,11 @@ var poet = Poet(app, {
     }
 });
 
-poet.init().then(function () {
+poet.init(function (err, poet) {
+    console.log("Poet Initialized");
+    console.log(err);
+    console.log(poet);
+}).then(function () {
 });
 
 app.get('/', index.index);
