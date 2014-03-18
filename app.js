@@ -78,9 +78,16 @@ var auth = express.basicAuth(function(user, pass) {
 });
 
 var poet = Poet(app, {
-    posts: './_posts/',
+    posts: './blog/',
     postsPerPage: 2,
-    metaFormat: 'json'
+    metaFormat: 'json',
+    showDrafts: true,
+    routes: {
+        '/blog/:post': 'post',
+        '/blog/page/:page': 'page',
+        '/blog/tag/:tag': 'tag',
+        '/blog/category/:category': 'category'
+    }
 });
 
 poet.init().then(function () {
