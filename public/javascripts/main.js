@@ -3,7 +3,7 @@ var windowH = $(window).height();
 //console.log(windowH);
 	var wrapperH = $('#welcome').height();
 	if(windowH > wrapperH && windowH < 1169) {
-		var padding = (windowH - wrapperH)  / 2 - 30;
+		var padding = (windowH - wrapperH)  / 2;
 		//console.log($('#welcome .container').css('padding-top'));
 		//console.log(padding, (parseFloat($('#welcome .container').css('padding-bottom').replace('px', '')) + padding) + 'px');
 	    $('#welcome').css({
@@ -18,6 +18,15 @@ var windowH = $(window).height();
 
 $(document).ready(function() {
 	$(".fancybox").fancybox();
+    $('.fancybox-media').fancybox({
+        openEffect  : 'none',
+        closeEffect : 'none',
+        width: '450',
+        height: '253',
+        helpers : {
+            media : {}
+        }
+    });
 	$("#pages").change(pagesChanged);
 	$("#countries").change(pagesChanged);
 	queryPrice();

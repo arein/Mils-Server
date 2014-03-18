@@ -2,7 +2,7 @@ extends layout
 
 block content
     div#welcome
-        .container(style="padding:60px 0;text-align: center;")
+        .container(style="padding:60px 0 30px;text-align: center;")
             .row
                 .col-lg-12(style="margin-bottom:49px;")
                     img(src='/images/logo.png', alt='Logo')
@@ -12,11 +12,16 @@ block content
                         br
                         | From Your Computer
             .row
-                .col-lg-6
+                .col-lg-4
                     img(src='/images/mac-os.png', alt='Mac OS X')
                     p
                         a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X
-                .col-lg-6
+                .col-lg-4
+                    a(href="https://www.youtube.com/watch?v=z-Ag0xRoDms?autoplay=1", class='fancybox-media')
+                        img(src='/images/Play-Button.png', alt='Play Video', style='width:300px;margin-top:5px;')
+                    p
+                        a.btn.btn-default(href="https://www.youtube.com/watch?v=z-Ag0xRoDms?autoplay=1", class='fancybox-media', style='margin: 47px 0 49px 0;') Play Video
+                .col-lg-4
                     img(src='/images/windows-8.png', alt='Windows 8.1')
                     p
                         a.btn.btn-default(href='#', role='button', style='margin: 15px 0 49px 0;') Download Mils for Windows 8

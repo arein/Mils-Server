@@ -18,7 +18,6 @@ if ('development' == app.get('env')) {
     app.basePath = "/Users/arein/node/letterapp";
 } else {
     app.basePath = "/var/www/letterapp";
-    console.log("Running production");
 }
 
 // all environments
@@ -92,16 +91,12 @@ app.get('/', index.index);
 app.get('/pricing', index.pricing);
 app.get('/faq', index.faq);
 app.get('/blog', index.blog);
-//app.get('/letters', letter.findAll);
 app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
-//app.get('/letters/:id', letter.findById);
 app.post('/letters/:id', letter.purchaseLetter);
 app.post('/letters', letter.uploadLetter);
 app.get('/downloads/osx', letter.osxDownload);
-//app.put('/letters/:id', letter.updateLetter);
-//app.delete('/letters/:id', letter.deleteLetter);
 
 http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+    console.log('Mils server listening on port ' + app.get('port'));
 });
