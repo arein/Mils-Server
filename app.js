@@ -99,6 +99,7 @@ app.get('/', index.index);
 app.get('/pricing', index.pricing);
 app.get('/faq', index.faq);
 app.get('/blog', index.blog);
+app.get('/how-sending-a-letter-online-works', index.howitworks);
 app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);

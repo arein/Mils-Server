@@ -35,3 +35,7 @@ exports.faq = function(req, res) {
 exports.blog = function(req, res) {
     res.render('blog');
 };
+
+exports.howitworks = function(req, res) {
+    res.render('howitworks');
+};
