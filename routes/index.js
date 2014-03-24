@@ -36,6 +36,14 @@ exports.blog = function(req, res) {
     res.render('blog');
 };
 
+exports.imprint = function(req, res) {
+    res.render('imprint');
+};
+
+exports.contact = function(req, res) {
+    res.render('contact');
+};
+
 exports.howitworks = function(req, res) {
     res.render('howitworks');
 };
