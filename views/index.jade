@@ -15,7 +15,7 @@ block content
                 .col-lg-4
                     img(src='/images/mac-os.png', alt='Mac OS X')
                     p
-                        a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X
+                        a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X (Beta)
                 .col-lg-4
                     a(href="https://www.youtube.com/watch?v=z-Ag0xRoDms?autoplay=1", class='fancybox-media')
                         img(src='/images/Play-Button.png', alt='Play Video', style='width:300px;margin-top:5px;')
@@ -24,11 +24,11 @@ block content
                 .col-lg-4
                     img(src='/images/windows-8.png', alt='Windows 8.1')
                     p
-                        a.btn.btn-default(href='#', role='button', style='margin: 15px 0 49px 0;') Download Mils for Windows 8
+                        a.btn.btn-default(href='#', role='button', style='margin: 15px 0 49px 0;') Download Mils for Windows 8 (Available soon!)
     .container(style="text-align: center;padding: 60px 0;")
         .row
             .col-lg-4(style="padding: 0 15px 20px 15px")
-                h2 Add your Handrwitten Signature
+                h2 Add your Handwritten Signature
                 img(src='/images/icon-signature.png', alt='Generic placeholder image', style='margin:20px 0;')
                 p
                     | Using the&nbsp;
@@ -52,7 +52,74 @@ block content
                 img(src='/images/icon-pay.png', alt='Generic placeholder image', style='margin:54px 0 20px;')
                 p
                     | Pay for the service as you go. Only for the letters you really send. No need to deposit cash.
-    div#price-top
+    div.covertop
+    div#generic
+        .container
+            .row
+                .col-lg-12(style="margin-bottom:49px;")
+                    h1(style="color: #ffffff;margin: 40px 0;")
+                        strong Share Your Thoughts About Mils
+            .row
+                .col-lg-4(style="padding: 0 15px 20px 15px;max-width:390px;text-align:center;")
+                    h2 Facebook
+                    p
+                        | Share your Thoughts on Facebook
+                    p
+                        .fb-like(style="max-width:390px;", data-href='https://www.facebook.com/Milsapp', data-layout='standard', data-action='recommend', data-show-faces='true', data-share='true')
+                .col-lg-4(style="padding: 0 15px 20px 15px;;text-align:center;")
+                    h2 Google+
+                    p
+                        | Share your Thoughts on Google+
+                    p
+                        g:plus(action='share')
+                .col-lg-4(style="padding: 0 15px 20px 15px;text-align:center;")
+                    h2 Twitter
+                    p
+                        | Share your Thoughts on Twitter
+                    p
+                        a.twitter-share-button(href='https://milsapp.com', data-lang='en') Tweet About Mils
+
+    .container(style="text-align: center;padding: 60px 0;")
+        .row
+            .col-lg-12(style="margin-bottom:49px;")
+                h1(style="margin: 40px 0;")
+                    strong
+                        | What Our Customers Say
+        .row
+            .col-lg-6(style="padding: 0 15px 20px 15px; text-align:left;")
+                .col-lg-4(style="padding: 0 15px 20px 15px")
+                    img(src='/images/raffaela-rein.jpg', alt='Raffaela Rein', style='margin:20px 0;')
+                .col-lg-8(style="padding: 50px 15px 20px 15px")
+                    p
+                        | Most of CareerFoundry's stakeholders - both customers and investors - are globally distributed.
+                        | Therefore, it was crucial for us to find a partner who can dispatch letters at a fast pace.
+                        | We're happy to have found Mils as they serve our stakeholders ridiculously fast!
+                    p
+                        i
+                            | Raffaela Rein, CEO & Co-Founder at CareerFoundry
+            .col-lg-6(style="padding: 0 15px 20px 15px; text-align:left;")
+                .col-lg-4(style="padding: 0 15px 20px 15px")
+                    img(src='/images/simon-fakir.jpg', alt='Simon Fakir', style='margin:20px 0;')
+                .col-lg-8(style="padding: 50px 15px 20px 15px")
+                    p
+                        | Many of my customers require bills to be sent via postal service.
+                        | I like Mils because it allows me to dispatch the letters from any place on earth.
+                        | On top of that, it does not require me to have a printer or envelope at my current location.
+                    p
+                        i
+                            | Simon Fakir, Managing Director at Fakir Informatik
+            .col-lg-6(style="padding: 0 15px 20px 15px; text-align:left;")
+                .col-lg-4(style="padding: 0 15px 20px 15px")
+                    img(src='/images/patrick-hiesel.jpg', alt='Patrick Hiesel', style='margin:20px 0;')
+                .col-lg-8(style="padding: 20px 15px 20px 15px")
+                    p
+                        | Living in the U.S. while serving most of my customers in Germany was a tough challenge.
+                        | Especially staying in touch with authorities and customers would have been much more tedious without Mils.
+                        | Even back at home I rely on Mils for sending snail mail as it's just easy and beautiful.
+                    p
+                        i
+                            | Patrick Hiesel, Visiting Student at MIT and Managing Director at Hiesel.net
+    div.covertop
     div#price
         .container
             .row

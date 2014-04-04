@@ -181,11 +181,24 @@ body, h1, h2, h3 {
   clear: both;
 }
 
-#price-top {
+.covertop {
 	background: url(/images/calculate-background-top.png) repeat-x left top;
 	z-index: 1000;
 	height: 11px;
 	margin-bottom:-3px;
+}
+
+#generic {
+    background: url(/images/desktop.jpg) no-repeat center center fixed;
+    z-index: 0;
+    height: 500px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    text-align: center;
+    padding: 80px;
+    color: #fff;
 }
 
 #price {

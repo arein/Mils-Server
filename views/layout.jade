@@ -67,7 +67,13 @@ html(lang='en')
                         | Mils allows you to send any pdf file as a real letter. Thus, you can send snail mail fast and easy from your computer.
                         | Mils is the only app that allows you to send snail mail online and pay per letter easily via credit card.
                         | Use mils to send a letter online!
-
+            .row
+                .col-lg-4(style="padding:20px 0;text-align: center;")
+                    .fb-like(data-href='https://www.facebook.com/Milsapp', data-layout='standard', data-action='like', data-show-faces='true', data-share='true')
+                .col-lg-4(style="padding:20px 0;text-align: center;")
+                    a.twitter-follow-button(href='https://twitter.com/milsapp', data-show-count='false', data-lang='en') Follow @milsapp
+                .col-lg-4(style="padding:20px 0;text-align: center;")
+                    g:page(href='https://plus.google.com/111220395281633118387', data-layout="landscape", data-width="273", width="273")
 
         script(src='https://code.jquery.com/jquery-1.10.2.min.js')
         script(src='/javascripts/bootstrap.min.js')
@@ -75,3 +81,15 @@ html(lang='en')
         script(src='/javascripts/main.js')
         script(src='/fancybox/jquery.fancybox.pack.js?v=2.1.5')
         script(src='/fancybox/jquery.fancybox-media.js')
+        #fb-root
+        script
+            (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=460877000633532";
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        script
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+        script(type='text/javascript', src='https://apis.google.com/js/plusone.js')
