@@ -2,10 +2,8 @@
 /// <reference path="./IMailStrategy.ts"/>
 /// <reference path="./../model/SendMailDigest.ts"/>
 /// <reference path="./../model/CalculatePriceDigest.ts"/>
-var SmsKaufen = (function () {
-    function SmsKaufen() {
-    }
-    SmsKaufen.prototype.sendMail = function (filepath, recipient, callback) {
+class SmsKaufen implements IMailStrategy {
+    sendMail(filepath : string, recipient : Recipient, callback : (error : Error, digest?: SendMailDigest) => void) {
         var FormData = require('form-data');
         var fs = require('fs');
 
@@ -17,21 +15,21 @@ var SmsKaufen = (function () {
         form.append('pw', 'Derek12345');
         form.append('document', fs.createReadStream(filepath));
 
-        form.submit('http://www.smskaufen.com/sms/post/postin.php', function (err, res) {
+        form.submit('http://www.smskaufen.com/sms/post/postin.php', function(err, res) {
             // res – response object (http.IncomingMessage)  //
             if (res != undefined && err == undefined) {
                 res.resume(); // for node-0.10.x
-                res.on('data', function (chunk) {
-                    var digest = new SendMailDigest(0 /* SmsKaufen */, chunk);
+                res.on('data', function(chunk) {
+                    var digest = new SendMailDigest(ProviderType.SmsKaufen, chunk);
                     callback(undefined, digest);
                 });
             } else {
                 callback(err);
             }
         });
-    };
+    }
 
-    SmsKaufen.prototype.calculatePrice = function (pages, destinationCountryIso, callback) {
+    calculatePrice(pages : number, destinationCountryIso : string, callback : (error : Error, digest? : CalculatePriceDigest) => void) {
         var price = 0.28;
 
         pages = pages + 1; // we have to print a coverpage
@@ -64,10 +62,8 @@ var SmsKaufen = (function () {
 
         var digest = new CalculatePriceDigest(price, "Herford", "Germany", "Deutsche Post");
         callback(undefined, digest);
-    };
-    return SmsKaufen;
-})();
+    }
+}
 
 // export the class
 exports.SmsKaufen = SmsKaufen;
-//# sourceMappingURL=sms_kaufen.js.map

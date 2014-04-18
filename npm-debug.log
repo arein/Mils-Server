@@ -1,0 +1,110 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'typescript',
+1 verbose cli   '-g' ]
+2 info using npm@1.4.3
+3 info using node@v0.10.26
+4 verbose cache add [ 'typescript', null ]
+5 verbose cache add name=undefined spec="typescript" args=["typescript",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'typescript',
+6 verbose parsed url   path: 'typescript',
+6 verbose parsed url   href: 'typescript' }
+7 silly lockFile fb9da861-typescript typescript
+8 verbose lock typescript /Users/arein/.npm/fb9da861-typescript.lock
+9 silly lockFile fb9da861-typescript typescript
+10 silly lockFile fb9da861-typescript typescript
+11 verbose addNamed [ 'typescript', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile b598c0ef-typescript typescript@
+14 verbose lock typescript@ /Users/arein/.npm/b598c0ef-typescript.lock
+15 silly addNameRange { name: 'typescript', range: '*', hasData: false }
+16 verbose registry.get typescript not expired, no request
+17 silly addNameRange number 2 { name: 'typescript', range: '*', hasData: true }
+18 silly addNameRange versions [ 'typescript',
+18 silly addNameRange   [ '0.8.0',
+18 silly addNameRange     '0.8.1',
+18 silly addNameRange     '0.8.1-1',
+18 silly addNameRange     '0.8.2',
+18 silly addNameRange     '0.8.3',
+18 silly addNameRange     '0.9.0',
+18 silly addNameRange     '0.9.0-1',
+18 silly addNameRange     '0.9.1',
+18 silly addNameRange     '0.9.1-1',
+18 silly addNameRange     '0.9.5',
+18 silly addNameRange     '0.9.7',
+18 silly addNameRange     '1.0.0' ] ]
+19 verbose addNamed [ 'typescript', '1.0.0' ]
+20 verbose addNamed [ '1.0.0', '1.0.0' ]
+21 silly lockFile af9d6ca4-typescript-1-0-0 typescript@1.0.0
+22 verbose lock typescript@1.0.0 /Users/arein/.npm/af9d6ca4-typescript-1-0-0.lock
+23 silly lockFile af9d6ca4-typescript-1-0-0 typescript@1.0.0
+24 silly lockFile af9d6ca4-typescript-1-0-0 typescript@1.0.0
+25 silly lockFile b598c0ef-typescript typescript@
+26 silly lockFile b598c0ef-typescript typescript@
+27 silly resolved [ { name: 'typescript',
+27 silly resolved     author: { name: 'Microsoft Corp.' },
+27 silly resolved     homepage: 'http://typescriptlang.org/',
+27 silly resolved     version: '1.0.0',
+27 silly resolved     licenses: [ [Object] ],
+27 silly resolved     description: 'TypeScript is a language for application scale JavaScript development',
+27 silly resolved     keywords: [ 'TypeScript', 'Microsoft', 'compiler', 'language', 'javascript' ],
+27 silly resolved     bugs: { url: 'http://typescript.codeplex.com/workitem/list/basic' },
+27 silly resolved     repository: { type: 'git', url: 'https://git01.codeplex.com/typescript' },
+27 silly resolved     preferGlobal: true,
+27 silly resolved     main: './bin/typescript.js',
+27 silly resolved     bin: { tsc: './bin/tsc' },
+27 silly resolved     engines: { node: '>=0.8.0' },
+27 silly resolved     devDependencies: { jake: 'latest' },
+27 silly resolved     readme: '# TypeScript\r\n\r\nScalable JavaScript development with types, classes and modules.\r\n\r\n## Install\r\n\r\n  npm install -g typescript\r\n\r\n## Usage\r\n\r\n  tsc hello.ts\r\n  \r\n\r\n## Build\r\n\r\n1.  Install Node if you haven\'t already (http://nodejs.org/)\r\n2.  Install Jake, the tool we use to build our compiler (https://github.com/mde/jake). To do this, run "npm install -g jake".\r\n3.  To use jake, run one of the following commands: \r\n    - jake local - This builds the compiler. The output is in built/local in the public directory \r\n    - jake clean - deletes the build compiler \r\n    - jake LKG - This replaces the LKG (last known good) version of the compiler with the built one.\r\n        - This is a bootstrapping step to be executed whenever the built compiler reaches a stable state.\r\n    - jake tests - This builds the test infrastructure, using the built compiler. \r\n    - jake runtests - This runs the tests, using the built compiler and built test infrastructure. \r\n        - You can also override the host or specify a test for this command. Use host=<hostName> or tests=<testPath>. \r\n    - jake baseline-accept - This replaces the baseline test results with the results obtained from jake runtests. \r\n    - jake -T lists the above commands. \r\n',
+27 silly resolved     readmeFilename: 'README.txt',
+27 silly resolved     _id: 'typescript@1.0.0',
+27 silly resolved     _from: 'typescript@' } ]
+28 info install typescript@1.0.0 into /usr/local/lib
+29 info installOne typescript@1.0.0
+30 info /usr/local/lib/node_modules/typescript unbuild
+31 verbose tar unpack /Users/arein/.npm/typescript/1.0.0/package.tgz
+32 silly lockFile 2d878377-ocal-lib-node-modules-typescript tar:///usr/local/lib/node_modules/typescript
+33 verbose lock tar:///usr/local/lib/node_modules/typescript /Users/arein/.npm/2d878377-ocal-lib-node-modules-typescript.lock
+34 silly lockFile 57c987a8-npm-typescript-1-0-0-package-tgz tar:///Users/arein/.npm/typescript/1.0.0/package.tgz
+35 verbose lock tar:///Users/arein/.npm/typescript/1.0.0/package.tgz /Users/arein/.npm/57c987a8-npm-typescript-1-0-0-package-tgz.lock
+36 silly gunzTarPerm modes [ '755', '644' ]
+37 error Error: EACCES, mkdir '/usr/local/lib/node_modules/typescript'
+37 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/typescript']
+37 error   errno: 3,
+37 error   code: 'EACCES',
+37 error   path: '/usr/local/lib/node_modules/typescript',
+37 error   fstream_type: 'Directory',
+37 error   fstream_path: '/usr/local/lib/node_modules/typescript',
+37 error   fstream_class: 'DirWriter',
+37 error   fstream_stack:
+37 error    [ '/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+37 error      '/usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53',
+37 error      'Object.oncomplete (fs.js:107:15)' ] }
+38 error Please try running this command again as root/Administrator.
+39 error System Darwin 13.1.0
+40 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "typescript" "-g"
+41 error cwd /Users/arein/node/letterapp
+42 error node -v v0.10.26
+43 error npm -v 1.4.3
+44 error path /usr/local/lib/node_modules/typescript
+45 error fstream_path /usr/local/lib/node_modules/typescript
+46 error fstream_type Directory
+47 error fstream_class DirWriter
+48 error code EACCES
+49 error errno 3
+50 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/typescript'
+51 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+51 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53
+51 error fstream_stack Object.oncomplete (fs.js:107:15)
+52 verbose exit [ 3, true ]

@@ -1,27 +1,34 @@
-///<reference path='./../typescript-node-definitions/node.d.ts'/>
-///<reference path='./../typescript-node-definitions/mongodb.d.ts'/>
-///<reference path='./../typescript-node-definitions/express3.d.ts'/>
-var express = require("express");
-var mongo = require('mongodb');
+/// <reference path='./../typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../typescript-node-definitions/mongodb.d.ts'/>
+/// <reference path='./../typescript-node-definitions/express3.d.ts'/>
+/// <reference path="./../mail/model/Recipient.ts"/>
+/// <reference path="./../mail/model/SendMailDigest.ts"/>
 
+import express = require("express3")
+import mongo = require("mongodb")
+import MailClient = require("./../mail/client")
+import Recipient = require("./../mail/model/Recipient")
 /*
-* GET users listing.
-*/
-var Server = mongo.Server, Db = mongo.Db, BSON = mongo.BSONPure;
+ * GET users listing.
+ */
 
-var server = new Server('localhost', 27017, { auto_reconnect: true });
+
+var Server = mongo.Server,
+    Db = mongo.Db,
+    ObjectId = mongo.ObjectID;
+
+var server = new Server('localhost', 27017, {auto_reconnect: true});
 var db = new Db('letterdb', server);
 
-db.open(function (err, db) {
-    if (!err) {
-        console.log("Connected to winedb database");
-        db.createCollection('letter', { strict: true }, function (err, collection) {
+db.open(function(err : Error, db : mongo.Db) {
+    if(!err) {
+        db.createCollection('letter', {strict:true}, function(err : Error, collection : mongo.Collection) {
             if (!err) {
                 console.log("The letter collection doesn't exist. Creating it with sample data");
             }
         });
 
-        db.createCollection('counters', { strict: true }, function (err, collection) {
+        db.createCollection('counters', {strict:true}, function(err : Error, collection : mongo.Collection) {
             if (!err) {
                 console.log("Counters Collection created. Creating it with sample data");
                 populateDB();
@@ -30,8 +37,9 @@ db.open(function (err, db) {
     }
 });
 
-exports.purchaseLetter = function (req, res) {
-    var check = require('validator').check, sanitize = require('validator').sanitize;
+exports.purchaseLetter = function(req : express.Request, res : express.Response) {
+    var check = require('validator').check,
+        sanitize = require('validator').sanitize;
 
     // Validation
     var id = req.params.id;
@@ -54,11 +62,9 @@ exports.purchaseLetter = function (req, res) {
         pdfProcessed: false,
         billProcessed: false
     };
-
-    db.collection('letter', function (err, collection) {
-        collection.findOne({ '_id': new BSON.ObjectID(id) }, function (err, item) {
-            if (err)
-                throw err;
+    db.collection('letter', function(err : Error, collection : mongo.Collection) {
+        collection.findOne({'_id':new ObjectID(id)}, function(err, item) {
+            if (err) throw err;
             var braintreeHelper = new (require('./../util/braintree_helper')).BraintreeHelper(true);
             braintreeHelper.pay(item.price, req.body.creditCard, function (result) {
                 item.payed = true;
@@ -75,34 +81,22 @@ exports.purchaseLetter = function (req, res) {
                     item.billingCountry = req.body.address.country;
                     item.billingEmail = req.body.emailAddress;
 
-                    // Generate Recipient Object
-                    var recipient = {
-                        name: item.recipientName,
-                        company: item.recipientCompany,
-                        address1: item.recipientAddress1,
-                        address2: item.recipientAddress2,
-                        city: item.recipientCity,
-                        state: item.recipientState,
-                        zip: item.recipientPostalCode,
-                        country: item.recipientCountryIso,
-                        email: item.billingEmail
-                    };
+                    var recipient = new Recipient(item.recipientName, item.recipientAddress1, item.recipientCity, item.recipientPostalCode, item.recipientCountryIso, item.email, item.recipientCompany, item.recipientAddress2, item.recipientState);
 
                     processTaxation(item);
 
-                    var mc = require('./../mail/client');
-                    var mailClient = new mc.MailClient();
+                    var mailClient = new MailClient();
                     var prefix = app.basePath + '/public/pdf/';
-                    mailClient.sendMail(prefix + item.pdf, recipient, function (err, provider, letterId) {
+                    mailClient.sendMail(prefix + item.pdf, recipient, function(err, digest) {
                         status.pdfProcessed = true;
 
                         if (err) {
                             item.pdfDelivered = false;
-                            item.provider = provider;
+                            item.provider = digest.provider;
                         } else {
                             item.pdfDelivered = true;
-                            item.pdfId = letterId;
-                            item.provider = provider;
+                            item.pdfId = digest.reference;
+                            item.provider = digest.provider;
                         }
 
                         conclude(status, item, res);
@@ -183,11 +177,11 @@ function conclude(status, letter, res) {
     }
     letter.upadtedAt = new Date();
 
-    db.collection('letter', function (err, collection) {
-        collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
+    db.collection('letter', function(err, collection) {
+        collection.update({'_id':letter._id}, letter, {safe:true}, function(err, result) {
             if (err) {
                 console.log('Error updating letter: ' + err);
-                res.send(500, { 'error': 'An error has occurred' });
+                res.send(500, {'error':'An error has occurred'});
             } else {
                 console.log('' + result + ' document(s) updated');
                 res.send(letter);
@@ -208,10 +202,9 @@ function sendBill(recipient, letter, fileName, callback) {
     }
 
     pdfInvoice.createInvoice(recipient, new Date(), letter.invoiceNumber, description, letter.net, letter.vat, letter.price, function (data) {
-        fs.writeFile(path, data, function (err) {
-            if (err)
-                throw err;
-            var email = letter.billingName + ' <' + letter.billingEmail + '>';
+        fs.writeFile(path, data, function(err) {
+            if (err) throw err;
+            var email = letter.billingName + ' <' + letter.billingEmail +'>';
             var serverPath = "https://milsapp.com";
 
             if ('development' == app.get('env')) {
@@ -220,18 +213,19 @@ function sendBill(recipient, letter, fileName, callback) {
             }
 
             app.mailer.send('email', {
-                to: email,
-                subject: 'Purchase',
-                invoiceNumber: letter.invoiceNumber,
-                serverPath: serverPath
-            }, {
-                attachments: [{ fileName: 'Invoice.pdf', filePath: path }]
-            }, callback);
+                    to: email, // REQUIRED. This can be a comma delimited string just like a normal email to field.
+                    subject: 'Purchase', // REQUIRED.
+                    invoiceNumber: letter.invoiceNumber, // All additional properties are also passed to the template as local variables.
+                    serverPath: serverPath
+                },
+                {
+                    attachments : [{fileName: 'Invoice.pdf', filePath: path}]
+                }, callback);
         });
     });
 }
 
-exports.uploadLetter = function (req, res) {
+exports.uploadLetter = function(req, res) {
     // Validation
     var check = require('validator').check;
     check(req.body.pdf).notNull();
@@ -241,7 +235,7 @@ exports.uploadLetter = function (req, res) {
     check(req.body.recipientPostalCode).notNull();
     check(req.body.recipientCountryIso).notNull();
 
-    var shouldDownload = req.query.download == 'true';
+    var shouldDownload = req.query.download == 'true'; // Determine whether the pdf should be downloaded
 
     var letter = req.body;
     letter.createdAt = new Date();
@@ -265,26 +259,24 @@ exports.uploadLetter = function (req, res) {
     var tmp = require('tmp');
     var prefix = app.basePath + '/public/pdf/';
     tmp.tmpName({ template: prefix + 'letter-XXXXXX.pdf' }, function _tempNameGenerated(err, path) {
-        if (err)
-            throw err;
+        if (err) throw err;
 
         // Write PDF to File
         if (letter.pages != undefined) {
             var PDFDocument = require('pdfkit');
-            var doc = new PDFDocument({ size: 'A4' });
-            doc.image(new Buffer(letter.pages[0].image, 'base64'), 0, 0, { fit: [595.28, 841.89] });
+            var doc = new PDFDocument({size: 'A4'});
+            doc.image(new Buffer(letter.pages[0].image, 'base64'), 0, 0, {fit: [595.28, 841.89]});
             var signature = new Buffer(letter.signature, 'base64');
             addSignatures(signature, doc, letter.pages[0].signatures);
             for (var i = 1; i < letter.pages.length; i++) {
                 doc.addPage();
-                doc.image(new Buffer(letter.pages[i].image, 'base64'), 0, 0, { fit: [595.28, 841.89] });
+                doc.image(new Buffer(letter.pages[i].image, 'base64'), 0, 0, {fit: [595.28, 841.89]});
                 addSignatures(signature, doc, letter.pages[i].signatures);
             }
-            doc.output(function (data) {
+            doc.output(function(data) {
                 var fs = require('fs');
-                fs.writeFile(path, data, function (err) {
-                    if (err)
-                        throw err;
+                fs.writeFile(path, data, function(err) {
+                    if (err) throw err;
                     letter.pdf = path.replace(prefix, ''); // "Repair Path"
                     letter.pageCount = letter.pages.length;
                     letter.pages = undefined;
@@ -296,13 +288,12 @@ exports.uploadLetter = function (req, res) {
             var fs = require('fs');
             var buf = new Buffer(letter.pdf, 'base64');
             fs.writeFile(path, buf, function (err) {
-                if (err)
-                    throw err;
+                if (err) throw err;
 
                 letter.pdf = path.replace(prefix, ''); // "Repair Path"
                 var PFParser = require("pdf2json");
                 var pdfParser = new PFParser();
-                pdfParser.on("pdfParser_dataReady", function (data) {
+                pdfParser.on("pdfParser_dataReady", function(data) {
                     letter.pageCount = data.PDFJS.pages.length;
                     insertLetter(letter, res, shouldDownload);
                 });
@@ -318,7 +309,7 @@ exports.uploadLetter = function (req, res) {
 function addSignatures(buffer, doc, signatures) {
     var scaleFactor = 1.0101968821;
     for (var i = 0; i < signatures.length; i++) {
-        doc.image(buffer, signatures[i].x, signatures[i].y * scaleFactor, { width: signatures[i].width, height: signatures[i].height * scaleFactor });
+        doc.image(buffer, signatures[i].x, signatures[i].y * scaleFactor, {width: signatures[i].width, height: signatures[i].height * scaleFactor});
     }
 }
 
@@ -329,19 +320,18 @@ function insertLetter(letter, res, shouldDownload) {
 
     var stats = fs.statSync(prefix + letter.pdf);
     var fileSizeInBytes = stats["size"];
-
     //Convert the file size to megabytes (optional)
     var fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
 
     if (fileSizeInMegabytes > 2) {
-        res.send(400, { 'error': 'The File may not be larger than 2mb.' });
+        res.send(400, {'error': 'The File may not be larger than 2mb.'});
         return;
     }
 
     var mailClient = new (require('./../mail/client')).MailClient();
     mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, "EUR", function (error, priceInEur, price, city, country, courier) {
         if (error) {
-            res.send(502, { 'error': error.message });
+            res.send(502, {'error': error.message});
             return;
         }
 
@@ -356,15 +346,14 @@ function insertLetter(letter, res, shouldDownload) {
         letter.vatIncome = 0;
         letter.creditCardPrice = 0.35;
         letter.price = finalPrice;
-        db.collection('letter', function (err, collection) {
-            collection.insert(letter, { safe: true }, function (err, result) {
+        db.collection('letter', function(err, collection) {
+            collection.insert(letter, {safe:true}, function(err, result) {
                 if (err) {
                     res.send(500, "An error occurred on the server side");
                 } else {
                     if (shouldDownload) {
-                        fs.readFile(prefix + letter.pdf, function (err, data) {
-                            if (err)
-                                res.send(500, "An error occurred on the server side:" + err);
+                        fs.readFile(prefix + letter.pdf, function (err,data) {
+                            if (err) res.send(500, "An error occurred on the server side:" + err);
                             result[0].pdf = data.toString("base64");
                             res.send(result[0]);
                         });
@@ -377,23 +366,25 @@ function insertLetter(letter, res, shouldDownload) {
     });
 }
 
-exports.calculatePrice = function (req, res) {
-    var check = require('validator').check;
-    var pages = req.query.pages, destination = req.query.destination, preferredCurrency = req.query.preferred_currency;
+exports.calculatePrice = function(req, res) {
+    var check = require('validator').check; // Validation
+    var pages = req.query.pages,
+        destination = req.query.destination,
+        preferredCurrency = req.query.preferred_currency;
 
     check(pages).notNull().isInt();
     check(destination).notNull();
-    check(preferredCurrency).notNull().len(1, 6);
+    check(preferredCurrency).notNull().len(1,6);
 
     var mailClient = new (require('./../mail/client')).MailClient();
     mailClient.calculatePrice(pages, destination, preferredCurrency, function (error, price, price, city, country, courier) {
         if (error) {
-            res.send(502, { 'error': error.message });
+            res.send(502, {'error': error.message});
         } else {
             var finalPrice = (price + 0.15 + 0.35) * 1.19;
             finalPrice = parseFloat(finalPrice).toFixed(2);
 
-            res.send({ 'preferredCurrency': preferredCurrency, 'priceInEur': finalPrice, 'priceInPreferredCurrency': finalPrice, 'printingCity': city, 'printingCountry': country, 'courier': courier });
+            res.send({'preferredCurrency': preferredCurrency, 'priceInEur': finalPrice, 'priceInPreferredCurrency': finalPrice, 'printingCity': city, 'printingCountry': country, 'courier': courier});
         }
     });
 };
@@ -401,33 +392,32 @@ exports.calculatePrice = function (req, res) {
 var path = require('path');
 var mime = require('mime');
 
-exports.osxDownload = function (req, res) {
+exports.osxDownload = function(req, res) {
     var file = app.basePath + '/public/downloads/Mils.app.zip';
-    res.download(file);
+    res.download(file)
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
-var populateDB = function () {
-    var counters = [{
-            _id: "invoicenumber",
-            seq: 15000
-        }];
+var populateDB = function() {
 
-    db.collection('counters', function (err, collection) {
-        collection.insert(counters, { safe: true }, function (err, result) {
-        });
+    var counters = [{
+        _id: "invoicenumber",
+        seq: 15000
+    }];
+
+    db.collection('counters', function(err, collection) {
+        collection.insert(counters, {safe:true}, function(err, result) {});
     });
+
 };
 
 function getNextSequence(name, callback) {
-    db.collection('counters', function (err, collection) {
-        collection.findAndModify({ _id: name }, [['_id', 'asc']], { $inc: { seq: 1 } }, { new: true }, function (error, item) {
-            if (err)
-                throw err;
+    db.collection('counters', function(err, collection) {
+        collection.findAndModify({ _id: name }, [['_id','asc']], { $inc: { seq: 1 } }, {new: true}, function(error, item) {
+            if (err) throw err;
             callback(item.seq);
         });
     });
 }
-//# sourceMappingURL=letter.js.map

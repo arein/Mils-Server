@@ -1,23 +1,24 @@
 ///<reference path='./../typescript-node-definitions/node.d.ts'/>
 ///<reference path='./context.ts' />
-var Policy = (function () {
-    function Policy(theContext) {
-        this.theContext = theContext;
+class Policy {
+    context: Context;
+    constructor(public theContext) {
         this.context = theContext;
     }
-    Policy.prototype.configure = function (destinationCountry) {
+    configure(destinationCountry : string) {
         //if (destinationCountry.toLowerCase() == 'de')
-        if (false) {
+        if (false) // currently not possible
+        {
             var sk = require('./strategies/sms_kaufen');
             this.context.mailStrategy = new sk.SmsKaufen();
-        } else {
+        }
+        else
+        {
             var da = require('./strategies/docsaway');
             this.context.mailStrategy = new da.Docsaway();
         }
-    };
-    return Policy;
-})();
+    }
+}
 
 // export the class
 exports.Policy = Policy;
-//# sourceMappingURL=policy.js.map
