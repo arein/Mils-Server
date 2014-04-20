@@ -1,0 +1,5 @@
+class Letter {
+
+}
+
+export = Letter;

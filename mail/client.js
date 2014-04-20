@@ -1,15 +1,10 @@
-///<reference path='./../typescript-node-definitions/node.d.ts'/>
-///<reference path='./context.ts' />
-///<reference path='./policy.ts' />
-///<reference path='./model/SendMailDigest.ts' />
-///<reference path='./model/CalculatePriceDigest.ts' />
-///<reference path='./model/Recipient.ts' />
+var Policy = require('./policy');
+
+var Context = require('./context');
 var MailClient = (function () {
     function MailClient() {
-        var ctx = require('./context');
-        var policy = require('./policy');
-        this.context = new ctx.Context();
-        this.policy = new policy.Policy(this.context);
+        this.context = new Context();
+        this.policy = new Policy(this.context);
     }
     MailClient.prototype.sendMail = function (filepath, recipient, callback) {
         this.policy.configure(recipient.country);
@@ -36,4 +31,6 @@ var MailClient = (function () {
     };
     return MailClient;
 })();
+
+module.exports = MailClient;
 //# sourceMappingURL=client.js.map

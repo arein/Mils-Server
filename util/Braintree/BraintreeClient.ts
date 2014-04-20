@@ -1,7 +1,10 @@
+/// <reference path='./../../typescript-node-definitions/node.d.ts'/>
+import CreditCard = require('./Model/CreditCard');
+
 class BraintreeHelper {
-    braintree : object;
+    braintree : any;
     sandboxed : boolean;
-    gateway : object;
+    gateway : any;
     constructor(sandboxed) {
         this.braintree = require("braintree");
         this.sandboxed = sandboxed;
@@ -20,13 +23,13 @@ class BraintreeHelper {
         return this.sandboxed;
     }
 
-    pay(amount : number, creditCard : CreditCard, success : function() => void, failure : function () => void) {
+    pay(amount : number, creditCard : CreditCard, success : (result : any) => void, failure : (error : Error) => void) {
         var saleRequest = {
             amount: amount,
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,
-                expirationDate: creditCard.date
+                expirationDate: creditCard.expirationDate
             },
             options: {
                 submitForSettlement: true
@@ -36,8 +39,8 @@ class BraintreeHelper {
         // development only
         /*
          if ('development' == app.get('env')) {
-         success("development");
-         return;
+             success("development");
+             return;
          }
          */
 
@@ -45,12 +48,16 @@ class BraintreeHelper {
             if (result != undefined && result.success) {
                 success(result);
             } else {
-                if (err != undefined) failure(err);
-                failure(result.message);
+                if (typeof err !== 'undefined') {
+
+                } else {
+                    // TODO: Make this a new Error
+                    failure(result.message);
+                }
             }
         });
     }
 }
 
 // export the class
-exports = BraintreeHelper;
+export = BraintreeHelper;

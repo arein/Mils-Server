@@ -1,9 +1,11 @@
-///<reference path='./../../typescript-node-definitions/node.d.ts'/>
-/// <reference path="./IMailStrategy.ts"/>
-/// <reference path="./../model/SendMailDigest.ts"/>
-/// <reference path="./../model/CalculatePriceDigest.ts"/>
+/// <reference path='./../../typescript-node-definitions/node.d.ts'/>
+import Recipient = require('./../model/Recipient');
+import SendMailDigest = require('./../model/SendMailDigest');
+import CalculatePriceDigest = require('./../model/CalculatePriceDigest');
+import IMailStrategy = require('./IMailStrategy');
+import ProviderType = require('./../model/ProviderType');
 class SmsKaufen implements IMailStrategy {
-    sendMail(filepath : string, recipient : Recipient, callback : (error : Error, digest?: SendMailDigest) => void) {
+    sendMail(filepath:string, recipient:Recipient, callback:(error:Error, digest?:SendMailDigest) => void) {
         var FormData = require('form-data');
         var fs = require('fs');
 
@@ -15,12 +17,12 @@ class SmsKaufen implements IMailStrategy {
         form.append('pw', 'Derek12345');
         form.append('document', fs.createReadStream(filepath));
 
-        form.submit('http://www.smskaufen.com/sms/post/postin.php', function(err, res) {
+        form.submit('http://www.smskaufen.com/sms/post/postin.php', function (err, res) {
             // res – response object (http.IncomingMessage)  //
             if (res != undefined && err == undefined) {
                 res.resume(); // for node-0.10.x
-                res.on('data', function(chunk) {
-                    var digest = new SendMailDigest(ProviderType.SmsKaufen, chunk);
+                res.on('data', function (chunk) {
+                    var digest = new SendMailDigest(ProviderType.ProviderType.SmsKaufen, chunk);
                     callback(undefined, digest);
                 });
             } else {
@@ -29,7 +31,7 @@ class SmsKaufen implements IMailStrategy {
         });
     }
 
-    calculatePrice(pages : number, destinationCountryIso : string, callback : (error : Error, digest? : CalculatePriceDigest) => void) {
+    calculatePrice(pages:number, destinationCountryIso:string, callback:(error:Error, digest?:CalculatePriceDigest) => void) {
         var price = 0.28;
 
         pages = pages + 1; // we have to print a coverpage
@@ -65,5 +67,4 @@ class SmsKaufen implements IMailStrategy {
     }
 }
 
-// export the class
-exports.SmsKaufen = SmsKaufen;
+export = SmsKaufen;

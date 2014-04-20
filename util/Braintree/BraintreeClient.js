@@ -15,41 +15,41 @@ var BraintreeHelper = (function () {
     BraintreeHelper.prototype.isSandbox = function () {
         return this.sandboxed;
     };
+
+    BraintreeHelper.prototype.pay = function (amount, creditCard, success, failure) {
+        var saleRequest = {
+            amount: amount,
+            creditCard: {
+                number: creditCard.number,
+                cvv: creditCard.cvv,
+                expirationDate: creditCard.expirationDate
+            },
+            options: {
+                submitForSettlement: true
+            }
+        };
+
+        // development only
+        /*
+        if ('development' == app.get('env')) {
+        success("development");
+        return;
+        }
+        */
+        this.gateway.transaction.sale(saleRequest, function (err, result) {
+            if (result != undefined && result.success) {
+                success(result);
+            } else {
+                if (typeof err !== 'undefined') {
+                } else {
+                    // TODO: Make this a new Error
+                    failure(result.message);
+                }
+            }
+        });
+    };
     return BraintreeHelper;
 })();
 
-// class methods
-BraintreeHelper.prototype.pay = function (amount, creditCard, success, failure) {
-    var saleRequest = {
-        amount: amount,
-        creditCard: {
-            number: creditCard.number,
-            cvv: creditCard.cvv,
-            expirationDate: creditCard.date
-        },
-        options: {
-            submitForSettlement: true
-        }
-    };
-
-    // development only
-    /*
-    if ('development' == app.get('env')) {
-    success("development");
-    return;
-    }
-    */
-    this.gateway.transaction.sale(saleRequest, function (err, result) {
-        if (result != undefined && result.success) {
-            success(result);
-        } else {
-            if (err != undefined)
-                failure(err);
-            failure(result.message);
-        }
-    });
-};
-
-// export the class
-exports.BraintreeHelper = BraintreeHelper;
+module.exports = BraintreeHelper;
 //# sourceMappingURL=BraintreeClient.js.map

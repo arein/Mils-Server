@@ -1,7 +1,7 @@
-///<reference path='./../../typescript-node-definitions/node.d.ts'/>
-/// <reference path="./IMailStrategy.ts"/>
-/// <reference path="./../model/SendMailDigest.ts"/>
-/// <reference path="./../model/CalculatePriceDigest.ts"/>
+var SendMailDigest = require('./../model/SendMailDigest');
+var CalculatePriceDigest = require('./../model/CalculatePriceDigest');
+
+var ProviderType = require('./../model/ProviderType');
 var SmsKaufen = (function () {
     function SmsKaufen() {
     }
@@ -68,6 +68,5 @@ var SmsKaufen = (function () {
     return SmsKaufen;
 })();
 
-// export the class
-exports.SmsKaufen = SmsKaufen;
+module.exports = SmsKaufen;
 //# sourceMappingURL=sms_kaufen.js.map

@@ -12,4 +12,6 @@ var Recipient = (function () {
     }
     return Recipient;
 })();
+
+module.exports = Recipient;
 //# sourceMappingURL=Recipient.js.map

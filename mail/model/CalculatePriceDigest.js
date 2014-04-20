@@ -7,4 +7,6 @@ var CalculatePriceDigest = (function () {
     }
     return CalculatePriceDigest;
 })();
+
+module.exports = CalculatePriceDigest;
 //# sourceMappingURL=CalculatePriceDigest.js.map

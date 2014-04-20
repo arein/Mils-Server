@@ -1,12 +1,21 @@
 /// <reference path='./typescript-node-definitions/node.d.ts'/>
 /// <reference path='./typescript-node-definitions/mongodb.d.ts'/>
 /// <reference path='./typescript-node-definitions/express3.d.ts'/>
-/**
-* Module dependencies.
-*/
-var express = require('express'), routes = require('./routes'), letter = require('./routes/letter'), index = require('./routes/index'), admin = require('./routes/admin'), http = require('http'), path = require('path'), mailer = require('express-mailer'), Poet = require('poet');
 
-var app = module.exports = express();
+/**
+ * Module dependencies.
+ */
+var express = require('express'),
+    routes = require('./routes'),
+    letter = require('./routes/letter'),
+    index = require('./routes/index'),
+    admin = require('./routes/admin'),
+    http = require('http'),
+    path = require('path'),
+    mailer = require('express-mailer'),
+    Poet = require('poet');
+
+var app = module.exports = express(); // Global
 
 // development only
 if ('development' == app.get('env')) {
@@ -17,8 +26,8 @@ if ('development' == app.get('env')) {
 
 // all environments
 app.use(express.limit('70mb'));
-app.use(express.json({ limit: '70mb' }));
-app.use(express.urlencoded({ limit: '70mb' }));
+app.use(express.json({limit: '70mb'}));
+app.use(express.urlencoded({limit: '70mb'}));
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -36,18 +45,18 @@ app.use(express.bodyParser());
 if ('development' == app.get('env')) {
     mailer.extend(app, {
         from: 'test@dev.ceseros.de',
-        host: 'dev.ceseros.de',
-        secureConnection: false,
-        port: 25,
-        transportMethod: 'SMTP'
+        host: 'dev.ceseros.de', // hostname
+        secureConnection: false, // use SSL
+        port: 25, // port for secure SMTP
+        transportMethod: 'SMTP' // default is SMTP. Accepts anything that nodemailer accepts
     });
 } else {
     mailer.extend(app, {
         from: 'hello@milsapp.com',
-        host: 'intern.ceseros.de',
-        secureConnection: false,
-        port: 25,
-        transportMethod: 'SMTP',
+        host: 'intern.ceseros.de', // hostname
+        secureConnection: false, // use SSL
+        port: 25, // port for secure SMTP
+        transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
         auth: {
             user: 'hello@milsapp.com',
             pass: 'Mk72TBbL'
@@ -65,11 +74,9 @@ app.configure(function () {
 });
 
 // Synchronous Function
-var auth = express.basicAuth(function (user, pass) {
-    if (user === 'arein' && pass === 'Derek12345')
-        return true;
-    if (user === 'fehrhardt' && pass === 'Edmund')
-        return true;
+var auth = express.basicAuth(function(user, pass) {
+    if (user === 'arein' && pass === 'Derek12345') return true;
+    if (user === 'fehrhardt' && pass === 'Edmund') return true;
 
     return false;
 });
@@ -109,5 +116,4 @@ http.createServer(app).listen(app.get('port'), function () {
     console.log('Mils server listening on port ' + app.get('port'));
 });
 
-module.exports = app;
-//# sourceMappingURL=app.js.map
+export = app;

@@ -1,6 +1,8 @@
-///<reference path='./../../typescript-node-definitions/node.d.ts'/>
-/// <reference path="./IMailStrategy.ts"/>
-/// <reference path="./../model/SendMailDigest.ts"/>
+/// <reference path='./../../typescript-node-definitions/node.d.ts'/>
+var SendMailDigest = require('./../model/SendMailDigest');
+var CalculatePriceDigest = require('./../model/CalculatePriceDigest');
+var ProviderType = require('./../model/ProviderType');
+
 var Docsaway = (function () {
     function Docsaway() {
     }
@@ -52,7 +54,5 @@ var Docsaway = (function () {
     };
     return Docsaway;
 })();
-
-// export the class
-exports.Docsaway = Docsaway;
+module.exports = Docsaway;
 //# sourceMappingURL=docsaway.js.map

@@ -1,24 +1,24 @@
-///<reference path='./../typescript-node-definitions/node.d.ts'/>
-///<reference path='./context.ts' />
+/// <reference path='./../typescript-node-definitions/node.d.ts'/>
+import Context = require('./context');
+import Docsaway = require('./strategies/docsaway');
+import SmsKaufen = require('./strategies/sms_kaufen');
 class Policy {
     context: Context;
+
     constructor(public theContext) {
         this.context = theContext;
     }
-    configure(destinationCountry : string) {
+
+    configure(destinationCountry:string) {
         //if (destinationCountry.toLowerCase() == 'de')
         if (false) // currently not possible
         {
-            var sk = require('./strategies/sms_kaufen');
-            this.context.mailStrategy = new sk.SmsKaufen();
+            this.context.mailStrategy = new SmsKaufen();
         }
-        else
-        {
-            var da = require('./strategies/docsaway');
-            this.context.mailStrategy = new da.Docsaway();
+        else {
+            this.context.mailStrategy = new Docsaway();
         }
     }
 }
 
-// export the class
-exports.Policy = Policy;
+export = Policy;

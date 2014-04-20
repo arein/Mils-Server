@@ -1,20 +1,26 @@
-///<reference path='./../typescript-node-definitions/node.d.ts'/>
-///<reference path='./../typescript-node-definitions/mongodb.d.ts'/>
-///<reference path='./../typescript-node-definitions/express3.d.ts'/>
-var express = require("express");
-var mongo = require('mongodb');
+/// <reference path='./../typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../typescript-node-definitions/mongodb.d.ts'/>
+/// <reference path='./../typescript-node-definitions/express3.d.ts'/>
+var mongo = require("mongodb");
+var app = require('./../app');
+var Server = mongo.Server;
+var Db = mongo.Db;
+
+var MailClient = require("./../mail/client");
+var Recipient = require("./../mail/model/Recipient");
+
+var BraintreeClient = require("./../util/Braintree/BraintreeClient");
+var CreditCard = require('./../util/Braintree/Model/CreditCard');
+var TaxationHelper = require('./../util/TaxationHelper');
 
 /*
 * GET users listing.
 */
-var Server = mongo.Server, Db = mongo.Db, BSON = mongo.BSONPure;
-
 var server = new Server('localhost', 27017, { auto_reconnect: true });
 var db = new Db('letterdb', server);
 
 db.open(function (err, db) {
     if (!err) {
-        console.log("Connected to winedb database");
         db.createCollection('letter', { strict: true }, function (err, collection) {
             if (!err) {
                 console.log("The letter collection doesn't exist. Creating it with sample data");
@@ -55,14 +61,16 @@ exports.purchaseLetter = function (req, res) {
         billProcessed: false
     };
 
+    var creditCard = new CreditCard(req.body.creditCard.number, req.body.creditCard.name, req.body.creditCard.date, req.body.creditCard.cvv, req.body.creditCard.type);
+
     db.collection('letter', function (err, collection) {
-        collection.findOne({ '_id': new BSON.ObjectID(id) }, function (err, item) {
+        collection.findOne({ '_id': new mongo.ObjectID(id) }, function (err, item) {
             if (err)
                 throw err;
-            var braintreeHelper = new (require('./../util/braintree_helper')).BraintreeHelper(true);
-            braintreeHelper.pay(item.price, req.body.creditCard, function (result) {
+            var braintreeClient = new BraintreeClient(true);
+            braintreeClient.pay(item.price, creditCard, function (result) {
                 item.payed = true;
-                item.sandboxPurchase = braintreeHelper.isSandbox();
+                item.sandboxPurchase = braintreeClient.isSandbox();
                 item.purchased = new Date();
                 item.transactionId = result.transaction.id;
                 getNextSequence("invoicenumber", function (invoiceNumber) {
@@ -75,34 +83,21 @@ exports.purchaseLetter = function (req, res) {
                     item.billingCountry = req.body.address.country;
                     item.billingEmail = req.body.emailAddress;
 
-                    // Generate Recipient Object
-                    var recipient = {
-                        name: item.recipientName,
-                        company: item.recipientCompany,
-                        address1: item.recipientAddress1,
-                        address2: item.recipientAddress2,
-                        city: item.recipientCity,
-                        state: item.recipientState,
-                        zip: item.recipientPostalCode,
-                        country: item.recipientCountryIso,
-                        email: item.billingEmail
-                    };
+                    var recipient = new Recipient(item.recipientName, item.recipientAddress1, item.recipientCity, item.recipientPostalCode, item.recipientCountryIso, item.email, item.recipientCompany, item.recipientAddress2, item.recipientState);
+                    TaxationHelper.processTaxation(item);
 
-                    processTaxation(item);
-
-                    var mc = require('./../mail/client');
-                    var mailClient = new mc.MailClient();
+                    var mailClient = new MailClient();
                     var prefix = app.basePath + '/public/pdf/';
-                    mailClient.sendMail(prefix + item.pdf, recipient, function (err, provider, letterId) {
+                    mailClient.sendMail(prefix + item.pdf, recipient, function (err, digest) {
                         status.pdfProcessed = true;
 
                         if (err) {
                             item.pdfDelivered = false;
-                            item.provider = provider;
+                            item.provider = digest.provider;
                         } else {
                             item.pdfDelivered = true;
-                            item.pdfId = letterId;
-                            item.provider = provider;
+                            item.pdfId = digest.reference;
+                            item.provider = digest.provider;
                         }
 
                         conclude(status, item, res);
@@ -126,56 +121,6 @@ exports.purchaseLetter = function (req, res) {
         });
     });
 };
-
-function processTaxation(letter) {
-    var isoCountry = letter.billingCountry;
-    var net = parseFloat(parseFloat(letter.price / 1.19).toFixed(2));
-    var vat = parseFloat(parseFloat(letter.price - net).toFixed(2));
-    if (isInEU(isoCountry)) {
-        letter.net = net;
-        letter.vat = vat;
-    } else {
-        letter.vatIncome = vat;
-        letter.net = letter.price;
-        letter.vat = 0;
-    }
-}
-
-function isInEU(isoCountry) {
-    switch (isoCountry) {
-        case 'BE':
-        case 'BG':
-        case 'HR':
-        case 'DK':
-        case 'DE':
-        case 'EE':
-        case 'FI':
-        case 'FR':
-        case 'GR':
-        case 'IE':
-        case 'IT':
-        case 'LT':
-        case 'LV':
-        case 'LU':
-        case 'MT':
-        case 'NL':
-        case 'AT':
-        case 'PL':
-        case 'RO':
-        case 'PT':
-        case 'SE':
-        case 'SK':
-        case 'SI':
-        case 'ES':
-        case 'HU':
-        case 'CZ':
-        case 'GB':
-        case 'CY':
-            return true;
-        default:
-            return false;
-    }
-}
 
 function conclude(status, letter, res) {
     if (!status.pdfProcessed || !status.billProcessed) {
@@ -338,20 +283,20 @@ function insertLetter(letter, res, shouldDownload) {
         return;
     }
 
-    var mailClient = new (require('./../mail/client')).MailClient();
-    mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, "EUR", function (error, priceInEur, price, city, country, courier) {
+    var mailClient = new MailClient();
+    mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, function (error, digest) {
         if (error) {
             res.send(502, { 'error': error.message });
             return;
         }
 
-        var finalPrice = (price + 0.15 + 0.35) * 1.19;
-        finalPrice = parseFloat(finalPrice).toFixed(2);
+        var finalPrice = (digest.priceInEur + 0.15 + 0.35) * 1.19;
 
-        letter.courier = courier;
-        letter.printingCity = city;
-        letter.printingCountry = country;
-        letter.printingPrice = priceInEur;
+        //finalPrice = parseFloat(finalPrice.toString().toFixed(2));
+        letter.courier = digest.courier;
+        letter.printingCity = digest.city;
+        letter.printingCountry = digest.country;
+        letter.printingPrice = digest.priceInEur;
         letter.marginApplied = 0.15;
         letter.vatIncome = 0;
         letter.creditCardPrice = 0.35;
@@ -385,15 +330,15 @@ exports.calculatePrice = function (req, res) {
     check(destination).notNull();
     check(preferredCurrency).notNull().len(1, 6);
 
-    var mailClient = new (require('./../mail/client')).MailClient();
-    mailClient.calculatePrice(pages, destination, preferredCurrency, function (error, price, price, city, country, courier) {
+    var mailClient = new MailClient();
+    mailClient.calculatePrice(pages, destination, function (error, digest) {
         if (error) {
             res.send(502, { 'error': error.message });
         } else {
-            var finalPrice = (price + 0.15 + 0.35) * 1.19;
-            finalPrice = parseFloat(finalPrice).toFixed(2);
+            var finalPrice = (digest.priceInEur + 0.15 + 0.35) * 1.19;
+            var finalPriceShorted = finalPrice.toFixed(2);
 
-            res.send({ 'preferredCurrency': preferredCurrency, 'priceInEur': finalPrice, 'priceInPreferredCurrency': finalPrice, 'printingCity': city, 'printingCountry': country, 'courier': courier });
+            res.send({ 'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': finalPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier });
         }
     });
 };

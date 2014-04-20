@@ -10,3 +10,5 @@ class CalculatePriceDigest {
         this.courier = courier;
     }
 }
+
+export = CalculatePriceDigest;

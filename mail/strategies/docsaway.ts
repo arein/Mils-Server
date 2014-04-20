@@ -1,8 +1,11 @@
-///<reference path='./../../typescript-node-definitions/node.d.ts'/>
-/// <reference path="./IMailStrategy.ts"/>
-/// <reference path="./../model/SendMailDigest.ts"/>
+/// <reference path='./../../typescript-node-definitions/node.d.ts'/>
+import SendMailDigest = require('./../model/SendMailDigest');
+import CalculatePriceDigest = require('./../model/CalculatePriceDigest');
+import ProviderType = require('./../model/ProviderType');
+import IMailStrategy = require('./IMailStrategy');
+import Recipient = require('./../model/Recipient');
 class Docsaway implements IMailStrategy {
-    sendMail(filepath : string, recipient : Recipient, callback : (error : Error, digest?: SendMailDigest) => void) {
+    sendMail(filepath:string, recipient:Recipient, callback:(error:Error, digest?:SendMailDigest) => void) {
         var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
         var email = 'test-docsaway-api@ceseros.de';
         // /Users/arein/node/letterapp
@@ -22,13 +25,13 @@ class Docsaway implements IMailStrategy {
             data.file = pdf.toString('base64');
             var client = new docsaway.Client(email, installationKey, "TEST");
             client.sendMail(data.recipient, data.file, function (error, result) {
-                var digest = new SendMailDigest(ProviderType.Docsaway, result.transaction.reference);
+                var digest = new SendMailDigest(ProviderType.ProviderType.Docsaway, result.transaction.reference);
                 callback(error, digest);
             });
         });
     }
 
-    calculatePrice(pages : number, destinationCountryIso : string, callback : (error : Error, digest? : CalculatePriceDigest) => void) {
+    calculatePrice(pages:number, destinationCountryIso:string, callback:(error:Error, digest?:CalculatePriceDigest) => void) {
         var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
         var email = 'test-docsaway-api@ceseros.de';
         // /Users/arein/node/letterapp
@@ -47,5 +50,4 @@ class Docsaway implements IMailStrategy {
         });
     }
 }
-// export the class
-exports.Docsaway = Docsaway;
+export = Docsaway;

@@ -1,6 +1,6 @@
-var ProviderType;
 (function (ProviderType) {
     ProviderType[ProviderType["SmsKaufen"] = 0] = "SmsKaufen";
     ProviderType[ProviderType["Docsaway"] = 1] = "Docsaway";
-})(ProviderType || (ProviderType = {}));
-//# sourceMappingURL=Provider.js.map
+})(exports.ProviderType || (exports.ProviderType = {}));
+var ProviderType = exports.ProviderType;
+//# sourceMappingURL=ProviderType.js.map

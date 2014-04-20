@@ -1,5 +1,5 @@
-///<reference path='./../typescript-node-definitions/node.d.ts'/>
-///<reference path='./context.ts' />
+var Docsaway = require('./strategies/docsaway');
+var SmsKaufen = require('./strategies/sms_kaufen');
 var Policy = (function () {
     function Policy(theContext) {
         this.theContext = theContext;
@@ -8,16 +8,13 @@ var Policy = (function () {
     Policy.prototype.configure = function (destinationCountry) {
         //if (destinationCountry.toLowerCase() == 'de')
         if (false) {
-            var sk = require('./strategies/sms_kaufen');
-            this.context.mailStrategy = new sk.SmsKaufen();
+            this.context.mailStrategy = new SmsKaufen();
         } else {
-            var da = require('./strategies/docsaway');
-            this.context.mailStrategy = new da.Docsaway();
+            this.context.mailStrategy = new Docsaway();
         }
     };
     return Policy;
 })();
 
-// export the class
-exports.Policy = Policy;
+module.exports = Policy;
 //# sourceMappingURL=policy.js.map

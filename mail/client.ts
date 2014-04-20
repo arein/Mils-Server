@@ -1,19 +1,15 @@
-///<reference path='./../typescript-node-definitions/node.d.ts'/>
-///<reference path='./context.ts' />
-///<reference path='./policy.ts' />
-///<reference path='./model/SendMailDigest.ts' />
-///<reference path='./model/CalculatePriceDigest.ts' />
-///<reference path='./model/Recipient.ts' />
-
+import Policy = require('./policy');
+import Recipient = require('./model/Recipient');
+import SendMailDigest = require('./model/SendMailDigest');
+import CalculatePriceDigest = require('./model/CalculatePriceDigest');
+import Context = require('./context');
 class MailClient {
     policy:Policy;
     context:Context;
 
     constructor() {
-        var ctx = require('./context');
-        var policy = require('./policy');
-        this.context = new ctx.Context();
-        this.policy = new policy.Policy(this.context);
+        this.context = new Context();
+        this.policy = new Policy(this.context);
     }
 
     sendMail(filepath:string, recipient:Recipient, callback:(error:Error, digest?:SendMailDigest, reference?:string) => void) {
