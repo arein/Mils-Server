@@ -338,6 +338,12 @@ function Client(email, installationKey, mode) {
 
 // class methods
 Client.prototype.sendMail = function(recipient, file, callback) {
+
+    // The docsaway library requires NO instead of undefined
+    recipient.address2 = (typeof recipient.address2 === 'undefined') ? false : recipient.address2;
+    recipient.company = (typeof recipient.company === 'undefined') ? false : recipient.company;
+    recipient.state = (typeof recipient.state === 'undefined') ? false : recipient.state;
+
 	var validator = require('validator');
 	if (validator.isNull(recipient.name)) throw new Error("The name may not be empty");
 	if (validator.isLength(recipient.company.toString(), 0, 0)) recipient.company = false;

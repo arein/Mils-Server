@@ -4,7 +4,6 @@
 
 import express = require("express3")
 import mongo = require("mongodb")
-import app = require('./../app')
 import Server = mongo.Server
 import Db = mongo.Db
 import ObjectId = mongo.ObjectID
@@ -16,6 +15,9 @@ import CalculatePriceDigest = require("./../mail/model/CalculatePriceDigest")
 import BraintreeClient = require("./../util/Braintree/BraintreeClient")
 import CreditCard = require('./../util/Braintree/Model/CreditCard')
 import TaxationHelper = require('./../util/TaxationHelper')
+import Letter = require('./../model/Letter')
+import PdfWriter = require('./../util/Pdf/PdfWriter')
+import PdfInvoice = require('./../pdf/PdfInvoice')
 /*
  * GET users listing.
  */
@@ -69,54 +71,57 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
     var creditCard = new CreditCard(req.body.creditCard.number, req.body.creditCard.name, req.body.creditCard.date, req.body.creditCard.cvv, req.body.creditCard.type);
 
     db.collection('letter', function(err : Error, collection : mongo.Collection) {
-        collection.findOne({'_id':new mongo.ObjectID(id)}, function(err, item) {
+        collection.findOne({'_id':new mongo.ObjectID(id)}, function(err : Error, letter : Letter) {
             if (err) throw err;
             var braintreeClient = new BraintreeClient(true);
-            braintreeClient.pay(item.price, creditCard, function (result) {
-                item.payed = true;
-                item.sandboxPurchase = braintreeClient.isSandbox();
-                item.purchased = new Date();
-                item.transactionId = result.transaction.id;
+            braintreeClient.pay(letter.price, creditCard, function (result) {
+                letter.payed = true;
+                letter.sandboxPurchase = braintreeClient.isSandbox();
+                letter.purchaseDate = new Date();
+                letter.transactionId = result.transaction.id;
                 getNextSequence("invoicenumber", function (invoiceNumber) {
-                    item.invoiceNumber = invoiceNumber;
-                    item.billingName = req.body.address.name;
-                    item.billingLine1 = req.body.address.line1;
-                    item.billingLine2 = req.body.address.line2;
-                    item.billingPostalCode = req.body.address.postalCode;
-                    item.billingCity = req.body.address.city;
-                    item.billingCountry = req.body.address.country;
-                    item.billingEmail = req.body.emailAddress;
+                    letter.invoiceNumber = invoiceNumber;
+                    letter.issuer.name = sanitize(req.body.address.name).escape();
+                    letter.issuer.address1 = sanitize(req.body.address.line1).escape();
+                    letter.issuer.address2 = (typeof req.body.address.line2 === 'undefined') ? undefined : sanitize(req.body.address.line2).escape();
+                    letter.issuer.postalCode = sanitize(req.body.address.postalCode).escape();
+                    letter.issuer.city = sanitize(req.body.address.city).escape();
+                    letter.issuer.country = sanitize(req.body.address.country).escape();
+                    letter.issuer.email = sanitize(req.body.emailAddress).escape();
 
-                    var recipient = new Recipient(item.recipientName, item.recipientAddress1, item.recipientCity, item.recipientPostalCode, item.recipientCountryIso, item.email, item.recipientCompany, item.recipientAddress2, item.recipientState);
-                    TaxationHelper.processTaxation(item);
+                    var recipient = new Recipient(letter.recipient.name, letter.recipient.address1, letter.recipient.city, letter.recipient.postalCode, letter.recipient.countryIso, letter.issuer.email, letter.recipient.company, letter.recipient.address2, letter.recipient.state);
+                    TaxationHelper.processTaxation(letter);
 
                     var mailClient = new MailClient();
+                    var app = require('./../app');
                     var prefix = app.basePath + '/public/pdf/';
-                    mailClient.sendMail(prefix + item.pdf, recipient, function(err, digest) {
+                    mailClient.sendMail(prefix + letter.pdf, recipient, function(err, digest) {
                         status.pdfProcessed = true;
 
                         if (err) {
-                            item.pdfDelivered = false;
-                            item.provider = digest.provider;
+                            letter.dispatched = false;
+                            letter.printInformation.provider = digest.provider;
                         } else {
-                            item.pdfDelivered = true;
-                            item.pdfId = digest.reference;
-                            item.provider = digest.provider;
+                            letter.dispatched = true;
+                            letter.dispatchedAt = new Date();
+                            letter.pdfId = digest.reference;
+                            letter.printInformation.provider = digest.provider;
                         }
 
-                        conclude(status, item, res);
+                        conclude(status, letter, res);
                     });
 
                     // Send Email
-                    sendBill(req.body, item, 'invoice-' + item.pdf, function (err) {
+                    sendBill(letter, 'invoice-' + letter.pdf, function (err : Error) {
                         status.billProcessed = true;
                         if (err) {
-                            item.billSent = false;
+                            letter.billSent = false;
                         } else {
-                            item.billSent = true;
+                            letter.billSent = true;
+                            letter.billSentAt = new Date();
                         }
 
-                        conclude(status, item, res);
+                        conclude(status, letter, res);
                     });
                 });
             }, function (error) {
@@ -126,40 +131,34 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
     });
 };
 
-function conclude(status, letter, res) {
+function conclude(status, letter : Letter, res : express.Response) {
     if (!status.pdfProcessed || !status.billProcessed) {
         return;
     }
-    letter.upadtedAt = new Date();
+    letter.updatedAt = new Date();
 
-    db.collection('letter', function(err, collection) {
-        collection.update({'_id':letter._id}, letter, {safe:true}, function(err, result) {
+    db.collection('letter', function(err : Error, collection) {
+        collection.update({'_id':letter._id}, letter, {safe:true}, function(err : Error, result : number) {
             if (err) {
-                console.log('Error updating letter: ' + err);
                 res.send(500, {'error':'An error has occurred'});
             } else {
-                console.log('' + result + ' document(s) updated');
                 res.send(letter);
             }
         });
     });
 }
 
-function sendBill(recipient, letter, fileName, callback) {
+function sendBill(letter : Letter, fileName : string, callback) {
     var fs = require("fs");
-    var pdf = require(app.basePath + "/pdf/pdf_invoice");
-    var pdfInvoice = new pdf.PdfInvoice();
+    var app = require('./../app');
+    var pdfInvoice = new PdfInvoice();
     var prefix = app.basePath + '/public/pdf/';
     var path = prefix + fileName;
-    var description = letter.pageCount + " pages to " + letter.recipientCountryIso;
-    if (letter.pageCount == 1) {
-        description = letter.pageCount + " page to " + letter.recipientCountryIso;
-    }
 
-    pdfInvoice.createInvoice(recipient, new Date(), letter.invoiceNumber, description, letter.net, letter.vat, letter.price, function (data) {
+    pdfInvoice.createInvoice(letter, function (data) {
         fs.writeFile(path, data, function(err) {
             if (err) throw err;
-            var email = letter.billingName + ' <' + letter.billingEmail +'>';
+            var email = letter.issuer.name + ' <' + letter.issuer.email +'>';
             var serverPath = "https://milsapp.com";
 
             if ('development' == app.get('env')) {
@@ -180,9 +179,10 @@ function sendBill(recipient, letter, fileName, callback) {
     });
 }
 
-exports.uploadLetter = function(req, res) {
+exports.uploadLetter = function(req : express.Request, res : express.Response) {
     // Validation
     var check = require('validator').check;
+    var sanitize = require('validator').sanitize;
     check(req.body.pdf).notNull();
     check(req.body.recipientName).notNull();
     check(req.body.recipientAddress1).notNull();
@@ -192,133 +192,66 @@ exports.uploadLetter = function(req, res) {
 
     var shouldDownload = req.query.download == 'true'; // Determine whether the pdf should be downloaded
 
-    var letter = req.body;
+    // Letter Creation
+    var letter = new Letter();
     letter.createdAt = new Date();
-    letter.upadtedAt = new Date();
-    letter.pdfDelivered = false;
+    letter.updatedAt = new Date();
+    letter.dispatched = false;
     letter.billSent = false;
-    letter.payed = false;
-    letter.pdfId = null;
-    letter.provider = null;
+    letter.recipient.name = sanitize(req.body.recipientName).escape();
+    letter.recipient.company = (typeof req.body.recipientCompany === 'undefined') ? undefined : sanitize(req.body.recipientCompany).escape();
+    letter.recipient.address1 = sanitize(req.body.recipientAddress1).escape();
+    letter.recipient.address2 = (typeof req.body.recipientAddress2 === 'undefined') ? undefined : sanitize(req.body.recipientAddress2).escape();
+    letter.recipient.city = sanitize(req.body.recipientCity).escape();
+    letter.recipient.postalCode = sanitize(req.body.recipientPostalCode).escape();
+    letter.recipient.countryIso = (typeof req.body.recipientCountryIso === 'undefined') ? undefined : sanitize(req.body.recipientCountryIso).escape();
 
-    // Recipient Data
-    letter.recipientName = req.body.recipientName;
-    letter.recipientCompany = (req.body.recipientCompany == undefined) ? false : req.body.recipientCompany;
-    letter.recipientAddress1 = req.body.recipientAddress1;
-    letter.recipientAddress2 = (req.body.recipientAddress2 == undefined) ? false : req.body.recipientAddress2;
-    letter.recipientCity = req.body.recipientCity;
-    letter.recipientPostalCode = req.body.recipientPostalCode;
-    letter.recipientState = (req.body.recipientState == undefined) ? false : req.body.recipientState;
-    letter.recipientCountryIso = req.body.recipientCountryIso;
+    var pdfWriter = new PdfWriter();
+    pdfWriter.writePdf(req.body, letter, function (fileSizeInMegabytes: number) {
 
-    var tmp = require('tmp');
-    var prefix = app.basePath + '/public/pdf/';
-    tmp.tmpName({ template: prefix + 'letter-XXXXXX.pdf' }, function _tempNameGenerated(err, path) {
-        if (err) throw err;
-
-        // Write PDF to File
-        if (letter.pages != undefined) {
-            var PDFDocument = require('pdfkit');
-            var doc = new PDFDocument({size: 'A4'});
-            doc.image(new Buffer(letter.pages[0].image, 'base64'), 0, 0, {fit: [595.28, 841.89]});
-            var signature = new Buffer(letter.signature, 'base64');
-            addSignatures(signature, doc, letter.pages[0].signatures);
-            for (var i = 1; i < letter.pages.length; i++) {
-                doc.addPage();
-                doc.image(new Buffer(letter.pages[i].image, 'base64'), 0, 0, {fit: [595.28, 841.89]});
-                addSignatures(signature, doc, letter.pages[i].signatures);
-            }
-            doc.output(function(data) {
-                var fs = require('fs');
-                fs.writeFile(path, data, function(err) {
-                    if (err) throw err;
-                    letter.pdf = path.replace(prefix, ''); // "Repair Path"
-                    letter.pageCount = letter.pages.length;
-                    letter.pages = undefined;
-                    letter.signature = undefined;
-                    insertLetter(letter, res, shouldDownload);
-                });
-            });
-        } else {
-            var fs = require('fs');
-            var buf = new Buffer(letter.pdf, 'base64');
-            fs.writeFile(path, buf, function (err) {
-                if (err) throw err;
-
-                letter.pdf = path.replace(prefix, ''); // "Repair Path"
-                var PFParser = require("pdf2json");
-                var pdfParser = new PFParser();
-                pdfParser.on("pdfParser_dataReady", function(data) {
-                    letter.pageCount = data.PDFJS.pages.length;
-                    insertLetter(letter, res, shouldDownload);
-                });
-                pdfParser.on("pdfParser_dataError", function (error) {
-                    throw error;
-                });
-                pdfParser.loadPDF(path);
-            });
-        }
-    });
-};
-
-function addSignatures(buffer, doc, signatures) {
-    var scaleFactor = 1.0101968821;
-    for (var i = 0; i < signatures.length; i++) {
-        doc.image(buffer, signatures[i].x, signatures[i].y * scaleFactor, {width: signatures[i].width, height: signatures[i].height * scaleFactor});
-    }
-}
-
-function insertLetter(letter, res, shouldDownload) {
-    var fs = require('fs');
-    var check = require('validator').check;
-    var prefix = app.basePath + '/public/pdf/';
-
-    var stats = fs.statSync(prefix + letter.pdf);
-    var fileSizeInBytes = stats["size"];
-    //Convert the file size to megabytes (optional)
-    var fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
-
-    if (fileSizeInMegabytes > 2) {
-        res.send(400, {'error': 'The File may not be larger than 2mb.'});
-        return;
-    }
-
-    var mailClient = new MailClient();
-    mailClient.calculatePrice(letter.pageCount, letter.recipientCountryIso, function (error: Error, digest: CalculatePriceDigest) {
-        if (error) {
-            res.send(502, {'error': error.message});
+        if (fileSizeInMegabytes > 2) {
+            res.send(400, {'error': 'The File may not be larger than 2mb.'});
             return;
         }
 
-        var finalPrice = (digest.priceInEur + 0.15 + 0.35) * 1.19;
-        //finalPrice = parseFloat(finalPrice.toString().toFixed(2));
+        var mailClient = new MailClient();
+        mailClient.calculatePrice(letter.pageCount, letter.recipient.countryIso, function (error: Error, digest?: CalculatePriceDigest) {
+            if (error) {
+                res.send(502, {'error': error.message});
+                return;
+            }
 
-        letter.courier = digest.courier;
-        letter.printingCity = digest.city;
-        letter.printingCountry = digest.country;
-        letter.printingPrice = digest.priceInEur;
-        letter.marginApplied = 0.15;
-        letter.vatIncome = 0;
-        letter.creditCardPrice = 0.35;
-        letter.price = finalPrice;
-        db.collection('letter', function(err, collection) {
-            collection.insert(letter, {safe:true}, function(err, result) {
-                if (err) {
-                    res.send(500, "An error occurred on the server side");
-                } else {
-                    if (shouldDownload) {
-                        fs.readFile(prefix + letter.pdf, function (err,data) {
-                            if (err) res.send(500, "An error occurred on the server side:" + err);
-                            result[0].pdf = data.toString("base64");
-                            res.send(result[0]);
-                        });
+            var finalPrice = (digest.priceInEur + 0.15 + 0.35) * 1.19;
+            finalPrice = parseFloat(finalPrice.toFixed(2));
+
+            letter.printInformation.courier = digest.courier;
+            letter.printInformation.city = digest.city;
+            letter.printInformation.country = digest.country;
+            letter.price = digest.priceInEur;
+            letter.margin = 0.15;
+            letter.creditCardCost = 0.35;
+            letter.price = finalPrice;
+            db.collection('letter', function(err, collection) {
+                collection.insert(letter, {safe:true}, function(err, result) {
+                    if (err) {
+                        res.send(500, "An error occurred on the server side");
                     } else {
-                        res.send(result[0]);
+                        if (shouldDownload) {
+                            var fs = require('fs');
+                            var app = require('./../app');
+                            fs.readFile(app.basePath + '/public/pdf/' + letter.pdf, function (err,data) {
+                                if (err) res.send(500, "An error occurred on the server side:" + err);
+                                result[0].pdf = data.toString("base64");
+                                res.send(result[0]);
+                            });
+                        } else {
+                            res.send(result[0]);
+                        }
                     }
-                }
+                });
             });
         });
-    });
+    })
 }
 
 exports.calculatePrice = function(req: express.Request, res: express.Response) {
@@ -332,7 +265,7 @@ exports.calculatePrice = function(req: express.Request, res: express.Response) {
     check(preferredCurrency).notNull().len(1,6);
 
     var mailClient = new MailClient();
-    mailClient.calculatePrice(pages, destination, function (error : Error, digest : CalculatePriceDigest) {
+    mailClient.calculatePrice(pages, destination, function (error : Error, digest?: CalculatePriceDigest) {
         if (error) {
             res.send(502, {'error': error.message});
         } else {
@@ -348,6 +281,7 @@ var path = require('path');
 var mime = require('mime');
 
 exports.osxDownload = function(req, res) {
+    var app = require('./../app');
     var file = app.basePath + '/public/downloads/Mils.app.zip';
     res.download(file)
 };

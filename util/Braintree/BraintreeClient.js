@@ -37,12 +37,12 @@ var BraintreeHelper = (function () {
         }
         */
         this.gateway.transaction.sale(saleRequest, function (err, result) {
-            if (result != undefined && result.success) {
+            if (result != null && typeof result !== 'undefined' && result.success) {
                 success(result);
             } else {
-                if (typeof err !== 'undefined') {
+                if (typeof err !== 'undefined' && err != null) {
+                    failure(err);
                 } else {
-                    // TODO: Make this a new Error
                     failure(result.message);
                 }
             }
