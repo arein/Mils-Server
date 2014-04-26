@@ -390,15 +390,15 @@ Client.prototype.sendMail = function(recipient, file, callback) {
 					return;
 				}
 				var response = JSON.parse(stdout);
-				if (stderr != undefined && stderr != '') {
+				if (typeof stderr !== 'undefined' && stderr != '') {
 					callback(new Error(stderr), undefined);
 					return;
 				}
-				if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
+				if (typeof response.debug !== 'undefined' && typeof response.debug.errno !== 'undefined' && response.debug.errno != '0') {
 					callback(new Error(errorKeyToSendMailErrorMessage(response.debug.errno)), undefined);
 					return;
 				}
-                if (response.error != undefined && response.error != '') {
+                if (typeof response.error !== 'undefined' && response.error != '') {
                     callback(new Error(response.error), undefined);
                     return;
                 }
@@ -436,11 +436,11 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 			return;
 		}
 		var response = JSON.parse(stdout);
-		if (stderr != undefined && stderr != '') {
+		if (typeof stderr !== 'undefined' && stderr != '') {
 			callback(new Error(stderr), undefined);
 			return;
 		}
-		if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
+		if (typeof response.debug !== 'undefined' && typeof response.debug.errno !== 'undefined' && response.debug.errno != '0') {
 			callback(new Error(errorKeyToFindStationErrorMessage(response.debug.errno)), undefined);
 			return;
 		}
@@ -463,11 +463,11 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 				callback(new Error(stderr), undefined);
 				return;
 			}
-			if (response.debug != undefined && response.debug.errno != undefined && response.debug.errno != '') {
+			if (typeof response.debug !== 'undefined' && typeof response.debug.errno !== 'undefined' && response.debug.errno != '0') {
 				callback(new Error(errorKeyToPricingErrorMessage(response.debug.errno)), undefined);
 				return;
 			}
-            if (response.error != undefined && response.error != '') {
+            if (typeof response.error !== 'undefined' && response.error != '') {
                 callback(new Error(response.error), undefined);
                 return;
             }

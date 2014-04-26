@@ -1,2 +1,6 @@
 User-agent: *
 Disallow: /imprint
+Disallow: /misc/Terms_and_Conditions.pdf
+Disallow: /misc/Delivery_Policy.pdf
+Disallow: /misc/Privacy_Policy.pdf
+Disallow: /misc/Refund_Policy.pdf
