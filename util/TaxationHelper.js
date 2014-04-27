@@ -1,12 +1,13 @@
 function processTaxation(letter) {
-    var isoCountry = letter.billingCountry;
-    var net = (parseFloat(letter.price) / 1.19).toFixed(2);
-    var vat = (parseFloat(letter.price) - parseFloat(net)).toFixed(2);
+    var isoCountry = letter.issuer.country;
+    var net = (letter.price / 1.19).toFixed(2);
+    var vat = (letter.price - parseFloat(net)).toFixed(2);
     if (isInEU(isoCountry)) {
-        letter.net = net;
-        letter.vat = vat;
+        letter.net = parseFloat(net);
+        letter.vat = parseFloat(vat);
+        letter.vatIncome = 0;
     } else {
-        letter.vatIncome = vat;
+        letter.vatIncome = parseFloat(vat);
         letter.net = letter.price;
         letter.vat = 0;
     }

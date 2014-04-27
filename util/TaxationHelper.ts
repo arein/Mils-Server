@@ -1,12 +1,14 @@
-export function processTaxation(letter: any) {
-    var isoCountry: string = letter.billingCountry;
-    var net : string = (parseFloat(letter.price) / 1.19).toFixed(2);
-    var vat : string = (parseFloat(letter.price) - parseFloat(net)).toFixed(2);
+import Letter = require('../model/Letter')
+export function processTaxation(letter: Letter) {
+    var isoCountry: string = letter.issuer.country;
+    var net : string = (letter.price / 1.19).toFixed(2);
+    var vat : string = (letter.price - parseFloat(net)).toFixed(2);
     if (isInEU(isoCountry)) {
-        letter.net = net;
-        letter.vat = vat;
+        letter.net = parseFloat(net);
+        letter.vat = parseFloat(vat);
+        letter.vatIncome = 0;
     } else {
-        letter.vatIncome = vat;
+        letter.vatIncome = parseFloat(vat);
         letter.net = letter.price;
         letter.vat = 0;
     }

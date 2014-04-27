@@ -26,6 +26,7 @@ class Letter {
     pdfId: string;
     purchaseDate: Date;
     transactionId: string;
+    vatIncome: number;
     createdAt: Date;
     updatedAt: Date;
 
