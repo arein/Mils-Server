@@ -46,7 +46,7 @@ var PdfInvoice = (function () {
         }
 
         // Bill Content
-        doc.font('OpenSans-Regular').fontSize(12).fillColor("#000000").text(description, 71, 511).text(letter.price + '€', 479, 511).text("VAT", 71, 530).text(letter.vat + '€', 479, 530);
+        doc.font('OpenSans-Regular').fontSize(12).fillColor("#000000").text(description, 71, 511).text(letter.net + '€', 479, 511).text("VAT", 71, 530).text(letter.vat + '€', 479, 530);
 
         // Final Amount
         doc.fontSize(18).fillColor("#3470B8").text('Final Amount', 49.235, 626.458).text(letter.price + '€', 432.095, 626.458, { width: 100, align: 'right' }).fillColor("#000000").fontSize(14).text("Your credit card was charged with the amount due.", 49.235, 650.464);

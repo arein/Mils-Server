@@ -67,7 +67,7 @@ class PdfInvoice {
             .fontSize(12)
             .fillColor("#000000")
             .text(description, 71, 511)
-            .text(letter.price + '€', 479, 511)
+            .text(letter.net + '€', 479, 511)
             .text("VAT",  71, 530)
             .text(letter.vat + '€', 479, 530);
 
