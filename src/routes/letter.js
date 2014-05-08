@@ -10,7 +10,7 @@ var BraintreeClient = require("./../util/Braintree/BraintreeClient");
 var CreditCard = require('./../util/Braintree/Model/CreditCard');
 var TaxationHelper = require('./../util/TaxationHelper');
 
-var PdfWriter = require('./../util/Pdf/PdfWriter');
+var PdfWriter = require('./../util/pdf/PdfWriter');
 var Config = require('./../config');
 var MongoManager = require('./../manager/MongoManager');
 var PurchaseValidator = require('./../validator/PurchaseValidator');
