@@ -1,4 +1,4 @@
-/// <reference path='./../../typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
 import Recipient = require('./../model/Recipient');
 import SendMailDigest = require('./../model/SendMailDigest');
 import CalculatePriceDigest = require('./../model/CalculatePriceDigest');

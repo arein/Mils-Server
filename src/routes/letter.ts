@@ -1,6 +1,6 @@
-/// <reference path='./../typescript-node-definitions/node.d.ts'/>
-/// <reference path='././mongodb.d.ts'/>
-/// <reference path='././express3.d.ts'/>
+/// <reference path='./../../vendor/typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
+/// <reference path='./../../vendor/typescript-node-definitions/express3.d.ts'/>
 
 import express = require("express3")
 import mongo = require("mongodb")
@@ -9,15 +9,15 @@ import Db = mongo.Db
 import ObjectId = mongo.ObjectID
 
 
-import MailClient = require("././client")
-import Recipient = require("././model/Recipient")
-import CalculatePriceDigest = require("././model/CalculatePriceDigest")
-import BraintreeClient = require("././Braintree/BraintreeClient")
-import CreditCard = require('././Braintree/Model/CreditCard')
-import TaxationHelper = require('././TaxationHelper')
-import Letter = require('././Letter')
-import PdfWriter = require('././Pdf/PdfWriter')
-import PdfInvoice = require('././PdfInvoice')
+import MailClient = require("./../mail/client")
+import Recipient = require("./../mail/model/Recipient")
+import CalculatePriceDigest = require("./../mail/model/CalculatePriceDigest")
+import BraintreeClient = require("./../util/Braintree/BraintreeClient")
+import CreditCard = require('./../util/Braintree/Model/CreditCard')
+import TaxationHelper = require('./../util/TaxationHelper')
+import Letter = require('./../model/Letter')
+import PdfWriter = require('./../util/Pdf/PdfWriter')
+import PdfInvoice = require('./../pdf/PdfInvoice')
 
 // TODO: Refactor
 var server = new Server('localhost', 27017, {auto_reconnect: true});

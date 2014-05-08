@@ -4,7 +4,7 @@
 /**
 * Module dependencies.
 */
-var express = require('express'), routes = require('./routes'), letter = require('./routes/letter'), index = require('./routes/index'), admin = require('./routes/admin'), http = require('http'), path = require('path'), mailer = require('express-mailer'), Poet = require('poet');
+var express = require('express'), routes = require('./routes/index'), letter = require('./routes/letter'), index = require('./routes/index'), admin = require('./routes/admin'), http = require('http'), path = require('path'), mailer = require('express-mailer'), Poet = require('poet');
 
 var app = module.exports = express();
 

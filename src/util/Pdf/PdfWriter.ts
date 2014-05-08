@@ -1,5 +1,5 @@
 /// <reference path='./../../typescript-node-definitions/node.d.ts'/>
-import Letter = require('./.././Letter')
+import Letter = require('./../../model/Letter')
 class PdfWriter {
     writePdf(body: any, letter: Letter, callback: (fileSizeInMegabytes: number) => void) {
         var tmp = require('tmp');

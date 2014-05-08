@@ -1,19 +1,19 @@
-/// <reference path='./../typescript-node-definitions/node.d.ts'/>
-/// <reference path='././mongodb.d.ts'/>
-/// <reference path='././express3.d.ts'/>
+/// <reference path='./../../vendor/typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
+/// <reference path='./../../vendor/typescript-node-definitions/express3.d.ts'/>
 var mongo = require("mongodb");
 var Server = mongo.Server;
 var Db = mongo.Db;
 
-var MailClient = require("././client");
-var Recipient = require("././model/Recipient");
+var MailClient = require("./../mail/client");
+var Recipient = require("./../mail/model/Recipient");
 
-var BraintreeClient = require("././Braintree/BraintreeClient");
-var CreditCard = require('././Braintree/Model/CreditCard');
-var TaxationHelper = require('././TaxationHelper');
-var Letter = require('././Letter');
-var PdfWriter = require('././Pdf/PdfWriter');
-var PdfInvoice = require('././PdfInvoice');
+var BraintreeClient = require("./../util/Braintree/BraintreeClient");
+var CreditCard = require('./../util/Braintree/Model/CreditCard');
+var TaxationHelper = require('./../util/TaxationHelper');
+var Letter = require('./../model/Letter');
+var PdfWriter = require('./../util/Pdf/PdfWriter');
+var PdfInvoice = require('./../pdf/PdfInvoice');
 
 // TODO: Refactor
 var server = new Server('localhost', 27017, { auto_reconnect: true });

@@ -1,4 +1,4 @@
-import Letter = require('././Letter');
+import Letter = require('./../model/Letter');
 class PdfInvoice {
     createInvoice (letter: Letter, callback) {
 
