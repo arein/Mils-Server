@@ -11,30 +11,14 @@ var CreditCard = require('./../util/Braintree/Model/CreditCard');
 var TaxationHelper = require('./../util/TaxationHelper');
 var Letter = require('./../model/Letter');
 var PdfWriter = require('./../util/Pdf/PdfWriter');
-var PdfInvoice = require('./../util/pdf/invoice/PdfInvoice');
 var Config = require('./../config');
 var MongoManager = require('./../manager/MongoManager');
+var PurchaseValidator = require('./../validator/PurchaseValidator');
+var BillHelper = require('./../util/BillHelper');
 
 exports.purchaseLetter = function (req, res) {
-    var check = require('validator').check, sanitize = require('validator').sanitize;
-
-    // Validation
+    PurchaseValidator.validate(req); // Validate Input
     var id = req.params.id;
-    check(id).notNull();
-    check(req.body).notNull();
-    check(req.body.emailAddress).notNull().isEmail();
-    check(req.body.address).notNull();
-    check(req.body.creditCard).notNull();
-    check(req.body.creditCard.number).notNull();
-    req.body.creditCard.type = undefined; // we do not need this input
-    check(req.body.creditCard.cvv).notNull();
-    check(req.body.creditCard.date).notNull();
-    check(req.body.address.name).notNull();
-    check(req.body.address.line1).notNull();
-    check(req.body.address.postalCode).notNull();
-    check(req.body.address.city).notNull();
-    check(req.body.address.country).notNull();
-
     var status = {
         pdfProcessed: false,
         billProcessed: false
@@ -53,6 +37,7 @@ exports.purchaseLetter = function (req, res) {
                 letter.purchaseDate = new Date();
                 letter.transactionId = result.transaction.id;
                 MongoManager.getInstance().getNextSequence("invoicenumber", function (invoiceNumber) {
+                    var sanitize = require('validator').sanitize;
                     letter.invoiceNumber = invoiceNumber;
                     letter.issuer.name = sanitize(req.body.address.name).escape();
                     letter.issuer.address1 = sanitize(req.body.address.line1).escape();
@@ -65,8 +50,23 @@ exports.purchaseLetter = function (req, res) {
                     var recipient = new Recipient(letter.recipient.name, letter.recipient.address1, letter.recipient.city, letter.recipient.postalCode, letter.recipient.countryIso, letter.issuer.email, letter.recipient.company, letter.recipient.address2, letter.recipient.state);
                     TaxationHelper.processTaxation(letter);
 
+                    var conclude = function (status, letter, res) {
+                        if (!status.pdfProcessed || !status.billProcessed)
+                            return;
+                        letter.updatedAt = new Date();
+
+                        MongoManager.getInstance().db.collection('letter', function (err, collection) {
+                            collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
+                                if (err) {
+                                    res.send(500, { 'error': 'An error has occurred' });
+                                } else {
+                                    res.send(letter);
+                                }
+                            });
+                        });
+                    };
+
                     var mailClient = new MailClient();
-                    var app = require('./../app');
                     var prefix = Config.getBasePath() + '/public/pdf/';
                     mailClient.sendMail(prefix + letter.pdf, recipient, function (err, digest) {
                         status.pdfProcessed = true;
@@ -85,7 +85,7 @@ exports.purchaseLetter = function (req, res) {
                     });
 
                     // Send Email
-                    sendBill(letter, 'invoice-' + letter.pdf, function (err) {
+                    BillHelper.sendBill(letter, 'invoice-' + letter.pdf, function (err) {
                         status.billProcessed = true;
                         if (err) {
                             letter.billSent = false;
@@ -103,54 +103,6 @@ exports.purchaseLetter = function (req, res) {
         });
     });
 };
-
-function conclude(status, letter, res) {
-    if (!status.pdfProcessed || !status.billProcessed) {
-        return;
-    }
-    letter.updatedAt = new Date();
-
-    MongoManager.getInstance().db.collection('letter', function (err, collection) {
-        collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
-            if (err) {
-                res.send(500, { 'error': 'An error has occurred' });
-            } else {
-                res.send(letter);
-            }
-        });
-    });
-}
-
-function sendBill(letter, fileName, callback) {
-    var fs = require("fs");
-    var app = require('./../app');
-    var pdfInvoice = new PdfInvoice();
-    var prefix = Config.getBasePath() + '/public/pdf/';
-    var path = prefix + fileName;
-
-    pdfInvoice.createInvoice(letter, function (data) {
-        fs.writeFile(path, data, function (err) {
-            if (err)
-                throw err;
-            var email = letter.issuer.name + ' <' + letter.issuer.email + '>';
-            var serverPath = "https://milsapp.com";
-
-            if (!Config.isProd()) {
-                email = '"Ceseros" <test@dev.ceseros.de>';
-                serverPath = "http://localhost:3000";
-            }
-
-            app.mailer.send('email', {
-                to: email,
-                subject: 'Purchase',
-                invoiceNumber: letter.invoiceNumber,
-                serverPath: serverPath
-            }, {
-                attachments: [{ fileName: 'Invoice.pdf', filePath: path }]
-            }, callback);
-        });
-    });
-}
 
 exports.uploadLetter = function (req, res) {
     // Validation
