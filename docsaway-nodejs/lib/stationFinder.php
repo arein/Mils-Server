@@ -14,13 +14,12 @@ try
     $stationString = $client->getStationAuto('AUTO',80,'CL',$json->countryCodeIso);
     $stationData = json_decode($stationString);
 
-    if (count($stationData) == 3) {
-        $arr['result']['station']['station'] = $stationData['stationID'];
-        $arr['result']['station']['courier'] = $stationData['courierID'];
-        $arr['result']['station']['zone'] = $stationData['zone'];
+    if (isset($stationData->stationID)) {
+        $arr['result']['station']['station'] = $stationData->stationID;
+        $arr['result']['station']['courier'] = $stationData->courierID;
+        $arr['result']['station']['zone'] = $stationData->zone;
     }
 
-    //$arr['debug']['report'] = $client->APIReport();
     $arr['debug']['errno'] = $client->APIErrorNumber();
     echo json_encode($arr);
 }
