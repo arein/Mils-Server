@@ -5,8 +5,6 @@
 import express = require("express3")
 import mongo = require("mongodb")
 import ObjectId = mongo.ObjectID
-
-
 import MailClient = require("./../util/mail/client")
 import Recipient = require("./../util/mail/model/Recipient")
 import CalculatePriceDigest = require("./../util/mail/model/CalculatePriceDigest")
@@ -18,6 +16,8 @@ import PdfWriter = require('./../util/Pdf/PdfWriter')
 import Config = require('./../config')
 import MongoManager = require('./../manager/MongoManager')
 import PurchaseValidator = require('./../validator/PurchaseValidator')
+import UploadValidator = require('./../validator/UploadValidator')
+import LetterFactory = require('./../model/LetterFactory')
 import BillHelper = require('./../util/BillHelper')
 
 exports.purchaseLetter = function(req : express.Request, res : express.Response) {
@@ -107,31 +107,9 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
 };
 
 exports.uploadLetter = function(req : express.Request, res : express.Response) {
-    // Validation
-    var check = require('validator').check;
-    var sanitize = require('validator').sanitize;
-    check(req.body.pdf).notNull();
-    check(req.body.recipientName).notNull();
-    check(req.body.recipientAddress1).notNull();
-    check(req.body.recipientCity).notNull();
-    check(req.body.recipientPostalCode).notNull();
-    check(req.body.recipientCountryIso).notNull();
-
     var shouldDownload = req.query.download == 'true'; // Determine whether the pdf should be downloaded
-
-    // Letter Creation
-    var letter = new Letter();
-    letter.createdAt = new Date();
-    letter.updatedAt = new Date();
-    letter.dispatched = false;
-    letter.billSent = false;
-    letter.recipient.name = sanitize(req.body.recipientName).escape();
-    letter.recipient.company = (typeof req.body.recipientCompany === 'undefined') ? undefined : sanitize(req.body.recipientCompany).escape();
-    letter.recipient.address1 = sanitize(req.body.recipientAddress1).escape();
-    letter.recipient.address2 = (typeof req.body.recipientAddress2 === 'undefined') ? undefined : sanitize(req.body.recipientAddress2).escape();
-    letter.recipient.city = sanitize(req.body.recipientCity).escape();
-    letter.recipient.postalCode = sanitize(req.body.recipientPostalCode).escape();
-    letter.recipient.countryIso = (typeof req.body.recipientCountryIso === 'undefined') ? undefined : sanitize(req.body.recipientCountryIso).escape();
+    UploadValidator.validate(req); // Validation
+    var letter = LetterFactory.createLetterFromRequest(req); // Letter Creation
 
     var pdfWriter = new PdfWriter();
     pdfWriter.writePdf(req.body, letter, function (fileSizeInMegabytes: number) {
@@ -148,9 +126,9 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
                 return;
             }
 
+            // Update Letter with Price and Digest Information
             var finalPrice = (digest.priceInEur + 0.15 + 0.35) * 1.19;
             finalPrice = parseFloat(finalPrice.toFixed(2));
-
             letter.printInformation.courier = digest.courier;
             letter.printInformation.city = digest.city;
             letter.printInformation.country = digest.country;
@@ -158,6 +136,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
             letter.margin = 0.15;
             letter.creditCardCost = 0.35;
             letter.price = finalPrice;
+
             MongoManager.getInstance().db.collection('letter', function(err, collection) {
                 collection.insert(letter, {safe:true}, function(err, result) {
                     if (err) {
