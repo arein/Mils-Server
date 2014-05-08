@@ -1,4 +1,4 @@
-/// <reference path='./../typescript-node-definitions/mongodb.d.ts'/>
+/// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
 import mongo = require("mongodb");
 import Issuer = require("./Issuer");
 import Recipient = require("./Recipient");

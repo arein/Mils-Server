@@ -5,12 +5,20 @@
 var Config = (function () {
     function Config() {
     }
-    Config.prototype.basePath = function () {
-        if (process.env.NODE_ENV != undefined && process.env.NODE_ENV.toLowerCase() == 'production') {
+    Config.getBasePath = function () {
+        if (Config.isProd()) {
             return "/var/www/letterapp";
         }
 
         return "/Users/arein/node/letterapp";
+    };
+
+    Config.isProd = function () {
+        if (process.env.NODE_ENV != undefined && process.env.NODE_ENV.toLowerCase() == 'production') {
+            return true;
+        }
+
+        return false;
     };
     return Config;
 })();

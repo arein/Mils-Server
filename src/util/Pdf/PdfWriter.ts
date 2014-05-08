@@ -1,4 +1,4 @@
-/// <reference path='./../../typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
 import Letter = require('./../../model/Letter')
 class PdfWriter {
     writePdf(body: any, letter: Letter, callback: (fileSizeInMegabytes: number) => void) {

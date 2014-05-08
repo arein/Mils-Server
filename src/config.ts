@@ -3,12 +3,20 @@
  * Created by arein on 09/03/14.
  */
 class Config {
-    basePath() {
-        if (process.env.NODE_ENV != undefined && process.env.NODE_ENV.toLowerCase() == 'production') {
+    public static getBasePath() {
+        if (Config.isProd()) {
             return "/var/www/letterapp";
         }
 
         return "/Users/arein/node/letterapp";
+    }
+
+    public static isProd() {
+        if (process.env.NODE_ENV != undefined && process.env.NODE_ENV.toLowerCase() == 'production') {
+            return true;
+        }
+
+        return false;
     }
 }
 

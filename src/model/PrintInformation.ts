@@ -1,4 +1,4 @@
-import ProviderType = require('./../mail/model/ProviderType')
+import ProviderType = require('./../util/mail/model/ProviderType')
 class PrintInformation {
     courier: string;
     city: string;

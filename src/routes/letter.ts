@@ -18,6 +18,7 @@ import TaxationHelper = require('./../util/TaxationHelper')
 import Letter = require('./../model/Letter')
 import PdfWriter = require('./../util/Pdf/PdfWriter')
 import PdfInvoice = require('./../util/pdf/invoice/PdfInvoice')
+import Config = require('./../config')
 
 // TODO: Refactor
 var server = new Server('localhost', 27017, {auto_reconnect: true});
@@ -92,7 +93,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
 
                     var mailClient = new MailClient();
                     var app = require('./../app');
-                    var prefix = app.basePath + '/public/pdf/';
+                    var prefix = Config.getBasePath() + '/public/pdf/';
                     mailClient.sendMail(prefix + letter.pdf, recipient, function(err, digest) {
                         status.pdfProcessed = true;
 
@@ -150,7 +151,7 @@ function sendBill(letter : Letter, fileName : string, callback) {
     var fs = require("fs");
     var app = require('./../app');
     var pdfInvoice = new PdfInvoice();
-    var prefix = app.basePath + '/public/pdf/';
+    var prefix = Config.getBasePath() + '/public/pdf/';
     var path = prefix + fileName;
 
     pdfInvoice.createInvoice(letter, function (data) {
@@ -159,7 +160,7 @@ function sendBill(letter : Letter, fileName : string, callback) {
             var email = letter.issuer.name + ' <' + letter.issuer.email +'>';
             var serverPath = "https://milsapp.com";
 
-            if ('development' == app.get('env')) {
+            if (!Config.isProd()) {
                 email = '"Ceseros" <test@dev.ceseros.de>';
                 serverPath = "http://localhost:3000";
             }
@@ -237,7 +238,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
                         if (shouldDownload) {
                             var fs = require('fs');
                             var app = require('./../app');
-                            fs.readFile(app.basePath + '/public/pdf/' + letter.pdf, function (err,data) {
+                            fs.readFile(Config.getBasePath() + '/public/pdf/' + letter.pdf, function (err,data) {
                                 if (err) res.send(500, "An error occurred on the server side:" + err);
                                 result[0].pdf = data.toString("base64");
                                 res.send(result[0]);
