@@ -4,8 +4,6 @@
 
 import express = require("express3")
 import mongo = require("mongodb")
-import Server = mongo.Server
-import Db = mongo.Db
 import ObjectId = mongo.ObjectID
 
 
@@ -19,27 +17,7 @@ import Letter = require('./../model/Letter')
 import PdfWriter = require('./../util/Pdf/PdfWriter')
 import PdfInvoice = require('./../util/pdf/invoice/PdfInvoice')
 import Config = require('./../config')
-
-// TODO: Refactor
-var server = new Server('localhost', 27017, {auto_reconnect: true});
-var db = new Db('letterdb', server);
-
-db.open(function(err : Error, db : mongo.Db) {
-    if(!err) {
-        db.createCollection('letter', {strict:true}, function(err : Error, collection : mongo.Collection) {
-            if (!err) {
-                console.log("The letter collection doesn't exist. Creating it with sample data");
-            }
-        });
-
-        db.createCollection('counters', {strict:true}, function(err : Error, collection : mongo.Collection) {
-            if (!err) {
-                console.log("Counters Collection created. Creating it with sample data");
-                populateDB();
-            }
-        });
-    }
-});
+import MongoManager = require('./../manager/MongoManager')
 
 exports.purchaseLetter = function(req : express.Request, res : express.Response) {
     var check = require('validator').check,
@@ -69,7 +47,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
 
     var creditCard = new CreditCard(req.body.creditCard.number, req.body.creditCard.name, req.body.creditCard.date, req.body.creditCard.cvv, req.body.creditCard.type);
 
-    db.collection('letter', function(err : Error, collection : mongo.Collection) {
+    MongoManager.getInstance().db.collection('letter', function(err : Error, collection : mongo.Collection) {
         collection.findOne({'_id':new mongo.ObjectID(id)}, function(err : Error, letter : Letter) {
             if (err) throw err;
             var braintreeClient = new BraintreeClient(true);
@@ -78,7 +56,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                 letter.sandboxPurchase = braintreeClient.isSandbox();
                 letter.purchaseDate = new Date();
                 letter.transactionId = result.transaction.id;
-                getNextSequence("invoicenumber", function (invoiceNumber) {
+                MongoManager.getInstance().getNextSequence("invoicenumber", function (invoiceNumber) {
                     letter.invoiceNumber = invoiceNumber;
                     letter.issuer.name = sanitize(req.body.address.name).escape();
                     letter.issuer.address1 = sanitize(req.body.address.line1).escape();
@@ -136,7 +114,7 @@ function conclude(status, letter : Letter, res : express.Response) {
     }
     letter.updatedAt = new Date();
 
-    db.collection('letter', function(err : Error, collection) {
+    MongoManager.getInstance().db.collection('letter', function(err : Error, collection) {
         collection.update({'_id':letter._id}, letter, {safe:true}, function(err : Error, result : number) {
             if (err) {
                 res.send(500, {'error':'An error has occurred'});
@@ -230,7 +208,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
             letter.margin = 0.15;
             letter.creditCardCost = 0.35;
             letter.price = finalPrice;
-            db.collection('letter', function(err, collection) {
+            MongoManager.getInstance().db.collection('letter', function(err, collection) {
                 collection.insert(letter, {safe:true}, function(err, result) {
                     if (err) {
                         res.send(500, "An error occurred on the server side");
@@ -275,28 +253,3 @@ exports.calculatePrice = function(req: express.Request, res: express.Response) {
         }
     });
 };
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-// Populate database with sample data -- Only used once: the first time the application is started.
-// You'd typically not find this code in a real-life app, since the database would already exist.
-var populateDB = function() {
-
-    var counters = [{
-        _id: "invoicenumber",
-        seq: 15000
-    }];
-
-    db.collection('counters', function(err, collection) {
-        collection.insert(counters, {safe:true}, function(err, result) {});
-    });
-
-};
-
-function getNextSequence(name, callback) {
-    db.collection('counters', function(err, collection) {
-        collection.findAndModify({ _id: name }, [['_id','asc']], { $inc: { seq: 1 } }, {new: true}, function(error, item) {
-            if (err) throw err;
-            callback(item.seq);
-        });
-    });
-}

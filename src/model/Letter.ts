@@ -11,7 +11,7 @@ class Letter {
     printInformation: PrintInformation;
     issuer: Issuer;
     recipient: Recipient;
-    invoiceNumber: string;
+    invoiceNumber: number;
     price: number;
     printingCost: number;
     net: number;
