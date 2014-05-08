@@ -1,4 +1,4 @@
-/// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../../../../vendor/typescript-node-definitions/node.d.ts'/>
 import SendMailDigest = require('./../model/SendMailDigest');
 import CalculatePriceDigest = require('./../model/CalculatePriceDigest');
 import ProviderType = require('./../model/ProviderType');
@@ -35,7 +35,7 @@ class Docsaway implements IMailStrategy {
         var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
         var email = 'test-docsaway-api@ceseros.de';
         // /Users/arein/node/letterapp
-        var docsaway = require('./../../docsaway-nodejs/lib/main');
+        var docsaway = require('./../transport/Docsaway/lib/main');
 
         // Request Price
         var client = new docsaway.Client(email, installationKey, "TEST");

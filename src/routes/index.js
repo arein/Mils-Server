@@ -1,7 +1,4 @@
-
-/*
- * GET home page.
- */
+var config = require("./../config");
 
 exports.index = function(req, res) {
     var countries = getCountries(function (data) {
@@ -46,4 +43,13 @@ exports.contact = function(req, res) {
 
 exports.howitworks = function(req, res) {
     res.render('howitworks');
+};
+
+var path = require('path');
+var mime = require('mime');
+
+exports.osxDownload = function(req, res) {
+    var app = require('./../app');
+    var file = config.basePath + '/public/downloads/Mils.app.zip';
+    res.download(file)
 };

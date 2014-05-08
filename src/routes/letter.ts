@@ -9,15 +9,15 @@ import Db = mongo.Db
 import ObjectId = mongo.ObjectID
 
 
-import MailClient = require("./../mail/client")
-import Recipient = require("./../mail/model/Recipient")
-import CalculatePriceDigest = require("./../mail/model/CalculatePriceDigest")
+import MailClient = require("./../util/mail/client")
+import Recipient = require("./../util/mail/model/Recipient")
+import CalculatePriceDigest = require("./../util/mail/model/CalculatePriceDigest")
 import BraintreeClient = require("./../util/Braintree/BraintreeClient")
 import CreditCard = require('./../util/Braintree/Model/CreditCard')
 import TaxationHelper = require('./../util/TaxationHelper')
 import Letter = require('./../model/Letter')
 import PdfWriter = require('./../util/Pdf/PdfWriter')
-import PdfInvoice = require('./../pdf/PdfInvoice')
+import PdfInvoice = require('./../util/pdf/invoice/PdfInvoice')
 
 // TODO: Refactor
 var server = new Server('localhost', 27017, {auto_reconnect: true});
@@ -273,15 +273,6 @@ exports.calculatePrice = function(req: express.Request, res: express.Response) {
             res.send({'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': finalPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier});
         }
     });
-};
-
-var path = require('path');
-var mime = require('mime');
-
-exports.osxDownload = function(req, res) {
-    var app = require('./../app');
-    var file = app.basePath + '/public/downloads/Mils.app.zip';
-    res.download(file)
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/

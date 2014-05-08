@@ -1,6 +1,6 @@
-/// <reference path='./typescript-node-definitions/node.d.ts'/>
-/// <reference path='./typescript-node-definitions/mongodb.d.ts'/>
-/// <reference path='./typescript-node-definitions/express3.d.ts'/>
+/// <reference path='./../vendor/typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../vendor/typescript-node-definitions/mongodb.d.ts'/>
+/// <reference path='./../vendor/typescript-node-definitions/express3.d.ts'/>
 
 /**
  * Module dependencies.
@@ -82,7 +82,7 @@ var auth = express.basicAuth(function(user, pass) {
 });
 
 var poet = Poet(app, {
-    posts: './blog/',
+    posts: './private/blog/',
     postsPerPage: 2,
     metaFormat: 'json',
     showDrafts: true,
@@ -110,7 +110,7 @@ app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);
 app.post('/letters', letter.uploadLetter);
-app.get('/downloads/osx', letter.osxDownload);
+app.get('/downloads/osx', index.osxDownload);
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Mils server listening on port ' + app.get('port'));

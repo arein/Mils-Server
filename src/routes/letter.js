@@ -5,15 +5,15 @@ var mongo = require("mongodb");
 var Server = mongo.Server;
 var Db = mongo.Db;
 
-var MailClient = require("./../mail/client");
-var Recipient = require("./../mail/model/Recipient");
+var MailClient = require("./../util/mail/client");
+var Recipient = require("./../util/mail/model/Recipient");
 
 var BraintreeClient = require("./../util/Braintree/BraintreeClient");
 var CreditCard = require('./../util/Braintree/Model/CreditCard');
 var TaxationHelper = require('./../util/TaxationHelper');
 var Letter = require('./../model/Letter');
 var PdfWriter = require('./../util/Pdf/PdfWriter');
-var PdfInvoice = require('./../pdf/PdfInvoice');
+var PdfInvoice = require('./../util/pdf/invoice/PdfInvoice');
 
 // TODO: Refactor
 var server = new Server('localhost', 27017, { auto_reconnect: true });
@@ -267,15 +267,6 @@ exports.calculatePrice = function (req, res) {
             res.send({ 'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': finalPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier });
         }
     });
-};
-
-var path = require('path');
-var mime = require('mime');
-
-exports.osxDownload = function (req, res) {
-    var app = require('./../app');
-    var file = app.basePath + '/public/downloads/Mils.app.zip';
-    res.download(file);
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/

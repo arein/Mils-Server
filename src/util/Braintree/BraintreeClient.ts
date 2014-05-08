@@ -1,4 +1,4 @@
-/// <reference path='./../../typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
 import CreditCard = require('./Model/CreditCard');
 
 class BraintreeHelper {

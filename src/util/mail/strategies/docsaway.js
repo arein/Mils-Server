@@ -1,4 +1,4 @@
-/// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
+/// <reference path='./../../../../vendor/typescript-node-definitions/node.d.ts'/>
 var SendMailDigest = require('./../model/SendMailDigest');
 var CalculatePriceDigest = require('./../model/CalculatePriceDigest');
 var ProviderType = require('./../model/ProviderType');
@@ -38,7 +38,7 @@ var Docsaway = (function () {
         var email = 'test-docsaway-api@ceseros.de';
 
         // /Users/arein/node/letterapp
-        var docsaway = require('./../../docsaway-nodejs/lib/main');
+        var docsaway = require('./../transport/Docsaway/lib/main');
 
         // Request Price
         var client = new docsaway.Client(email, installationKey, "TEST");
