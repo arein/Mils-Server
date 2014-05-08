@@ -74,9 +74,9 @@ function getMonthlyReportData(callback) {
                 netAvg: { $avg: "$net" },
                 vatTotal: { $sum: "$vat" },
                 vatAvg: { $avg: "$vat" },
-                marginAppliedTotal: { $sum: "$marginApplied" },
-                marginAppliedAvg: { $avg: "$marginApplied" },
-                printingPriceTotal: { $sum: "$printingPrice" },
+                marginAppliedTotal: { $sum: "$margin" },
+                marginAppliedAvg: { $avg: "$margin" },
+                printingPriceTotal: { $sum: "$printingCost" },
                 printingPriceAvg: { $avg: "$printingPrice" },
                 vatIncomeTotal: { $sum: "$vatIncome" },
                 vatIncomeAvg: { $avg: "$vatIncome" }

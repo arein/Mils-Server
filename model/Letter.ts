@@ -13,6 +13,7 @@ class Letter {
     recipient: Recipient;
     invoiceNumber: string;
     price: number;
+    printingCost: number;
     net: number;
     vat: number;
     margin: number;

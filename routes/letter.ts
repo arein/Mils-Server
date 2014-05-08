@@ -18,10 +18,8 @@ import TaxationHelper = require('./../util/TaxationHelper')
 import Letter = require('./../model/Letter')
 import PdfWriter = require('./../util/Pdf/PdfWriter')
 import PdfInvoice = require('./../pdf/PdfInvoice')
-/*
- * GET users listing.
- */
 
+// TODO: Refactor
 var server = new Server('localhost', 27017, {auto_reconnect: true});
 var db = new Db('letterdb', server);
 
@@ -227,7 +225,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
             letter.printInformation.courier = digest.courier;
             letter.printInformation.city = digest.city;
             letter.printInformation.country = digest.country;
-            letter.price = digest.priceInEur;
+            letter.printingCost = digest.priceInEur;
             letter.margin = 0.15;
             letter.creditCardCost = 0.35;
             letter.price = finalPrice;

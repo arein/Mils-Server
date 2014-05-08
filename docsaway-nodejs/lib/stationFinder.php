@@ -11,15 +11,13 @@ try
     );
     $client = new SoapClient('https://www.docsaway.com/app/api/soap/api_station_finder.wsdl', array('trace' => true, "connection_timeout" => 180, 'stream_context' => stream_context_create($context)));
     $client->setAPIConnection($json->credentials->email, $json->credentials->installationKey);
-    $client->setColumnSeparator('$$$$$');
-    $client->setRowSeparator('\n');
     $stationString = $client->getStationAuto('AUTO',80,'CL',$json->countryCodeIso);
-    $stationData = explode("$$$$$", $stationString);
+    $stationData = json_decode($stationString);
 
     if (count($stationData) == 3) {
-        $arr['result']['station']['station'] = $stationData[0];
-        $arr['result']['station']['courier'] = $stationData[1];
-        $arr['result']['station']['zone'] = $stationData[2];
+        $arr['result']['station']['station'] = $stationData['stationID'];
+        $arr['result']['station']['courier'] = $stationData['courierID'];
+        $arr['result']['station']['zone'] = $stationData['zone'];
     }
 
     //$arr['debug']['report'] = $client->APIReport();
