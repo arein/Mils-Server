@@ -1,14 +1,12 @@
 /// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
-import Server = mongo.Server
 import mongo = require("mongodb")
-import Db = mongo.Db
 
 class MongoManager {
-    server : Server;
-    db : Db;
+    server : mongo.Server;
+    db : mongo.Db;
     constructor() {
-        this.server = new Server('localhost', 27017, {auto_reconnect: true});
-        this.db = new Db('letterdb', this.server);
+        this.server = new mongo.Server('localhost', 27017, {auto_reconnect: true});
+        this.db = new mongo.Db('letterdb', this.server);
 
         this.db.open(function(err : Error, db : mongo.Db) {
             if(!err) {

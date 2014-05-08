@@ -1,12 +1,10 @@
 /// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
-var Server = mongo.Server;
 var mongo = require("mongodb");
-var Db = mongo.Db;
 
 var MongoManager = (function () {
     function MongoManager() {
-        this.server = new Server('localhost', 27017, { auto_reconnect: true });
-        this.db = new Db('letterdb', this.server);
+        this.server = new mongo.Server('localhost', 27017, { auto_reconnect: true });
+        this.db = new mongo.Db('letterdb', this.server);
 
         this.db.open(function (err, db) {
             if (!err) {
