@@ -7,10 +7,10 @@ var Config = (function () {
     }
     Config.getBasePath = function () {
         if (Config.isProd()) {
-            return "/var/www/letterapp";
+            return "/var/www/letterapp/src";
         }
 
-        return "/Users/arein/node/letterapp";
+        return "/Users/arein/node/letterapp/src";
     };
 
     Config.isProd = function () {

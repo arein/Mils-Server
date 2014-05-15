@@ -12,7 +12,7 @@ class MailClient {
         this.policy = new Policy(this.context);
     }
 
-    sendMail(filepath:string, recipient:Recipient, callback:(error:Error, digest?:SendMailDigest, reference?:string) => void) {
+    sendMail(filepath: string, recipient: Recipient, callback: (error: Error, digest?: SendMailDigest) => void) {
         this.policy.configure(recipient.country);
         this.context.sendMail(filepath, recipient, callback);
     }

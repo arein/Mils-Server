@@ -26,7 +26,24 @@ exports.pricing = function(req, res) {
 };
 
 exports.faq = function(req, res) {
-    res.render('faq');
+    var helper = require('./../util/FaqHelper');
+    helper.getFaqRecords(function(err, data) {
+       if (err) throw err;
+        res.render('faq', {data: data});
+    });
+};
+
+exports.faqSub = function (req, res) {
+    var title = req.params.title;
+    var fs = require("fs");
+    var path = config.getBasePath() + '/views/faq/' + title + '.jade';
+    fs.exists(path, function (exists) {
+        if (exists) {
+            res.render('faq/' + title);
+        } else {
+            res.render(404);
+        }
+    });
 };
 
 exports.blog = function(req, res) {
@@ -39,10 +56,6 @@ exports.imprint = function(req, res) {
 
 exports.contact = function(req, res) {
     res.render('contact');
-};
-
-exports.howitworks = function(req, res) {
-    res.render('howitworks');
 };
 
 var path = require('path');

@@ -4,6 +4,7 @@
 /**
 * Module dependencies.
 */
+var config = require("./config");
 var express = require('express'), routes = require('./routes/index'), letter = require('./routes/letter'), index = require('./routes/index'), admin = require('./routes/admin'), http = require('http'), path = require('path'), mailer = require('express-mailer'), Poet = require('poet');
 
 var app = module.exports = express();
@@ -75,7 +76,7 @@ var auth = express.basicAuth(function (user, pass) {
 });
 
 var poet = Poet(app, {
-    posts: './private/blog/',
+    posts: config.getBasePath() + '/private/blog/',
     postsPerPage: 2,
     metaFormat: 'json',
     showDrafts: true,
@@ -89,21 +90,41 @@ var poet = Poet(app, {
 });
 
 poet.init(function (err, poet) {
+    console.log(err);
 }).then(function () {
 });
 
 app.get('/', index.index);
 app.get('/pricing', index.pricing);
 app.get('/faq', index.faq);
+app.get('/faq/:title', index.faqSub);
 app.get('/blog', index.blog);
 app.get('/imprint', index.imprint);
 app.get('/contact', index.contact);
-app.get('/how-sending-a-letter-online-works', index.howitworks);
 app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);
 app.post('/letters', letter.uploadLetter);
 app.get('/downloads/osx', index.osxDownload);
+
+app.use(function (req, res, next) {
+    res.status(404);
+
+    // respond with html page
+    if (req.accepts('html')) {
+        res.render('404', { url: req.url });
+        return;
+    }
+
+    // respond with json
+    if (req.accepts('json')) {
+        res.send({ error: 'Not found' });
+        return;
+    }
+
+    // default to plain-text. send()
+    res.type('txt').send('Not found');
+});
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Mils server listening on port ' + app.get('port'));

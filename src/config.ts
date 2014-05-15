@@ -5,10 +5,10 @@
 class Config {
     public static getBasePath() {
         if (Config.isProd()) {
-            return "/var/www/letterapp";
+            return "/var/www/letterapp/src";
         }
 
-        return "/Users/arein/node/letterapp";
+        return "/Users/arein/node/letterapp/src";
     }
 
     public static isProd() {
