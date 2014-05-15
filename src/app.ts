@@ -6,6 +6,7 @@
  * Module dependencies.
  */
 import config = require("./config")
+import FaqHelper = require("./util/FaqHelper")
 var express = require('express'),
     routes = require('./routes/index'),
     letter = require('./routes/letter'),
@@ -113,6 +114,9 @@ app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);
 app.post('/letters', letter.uploadLetter);
 app.get('/downloads/osx', index.osxDownload);
+
+// Rendering
+app.locals.faqs = FaqHelper.getFaqRecords();
 
 app.use(function(req, res, next){
     res.status(404);

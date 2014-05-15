@@ -60,6 +60,13 @@ html(lang='en')
                         | Mils is the only app that allows you to send snail mail online and pay per letter easily via credit card.
                         | Use mils to send a letter online!
             .row
+                .col-lg-12(style="padding-top: 5px;")
+                    p
+                        strong FAQ&nbsp;
+                        each item in faqs
+                            a(href=item.link) #{item.name}&nbsp;·&nbsp;
+
+            .row
                 .col-lg-4(style="padding:20px 0;text-align: center;")
                     .fb-like(data-href='https://www.facebook.com/Milsapp', data-layout='standard', data-action='like', data-show-faces='true', data-share='true')
                 .col-lg-4(style="padding:20px 0;text-align: center;")

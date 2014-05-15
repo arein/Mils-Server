@@ -1,32 +1,25 @@
 /// <reference path='./../../vendor/typescript-node-definitions/node.d.ts'/>
 import Config = require('./../config')
 class FaqHelper {
-    public static getFaqRecords(callback: (err: Error, data?: any) => void) {
+    public static getFaqRecords() {
         var fs=require('fs');
 
         var dir= Config.getBasePath() + '/views/faq';
         var data=[];
 
-        fs.readdir(dir,function(err,files){
-            if (err)  {
-                callback(err);
-                return;
+        var files = fs.readdirSync(dir);
+        files.forEach(function(file){
+            if (file.match(/.jade$/) && file != "layout.jade") {
+                var match = file.match(/(.*).jade$/);
+                var f = {
+                    link: match[1],
+                    name: uppercasify(match[1])
+                };
+                data.push(f);
             }
-            files.forEach(function(file){
-                if (file.match(/.jade$/) && file != "layout.jade") {
-                    var match = file.match(/(.*).jade$/);
-                    var f = {
-                        link: match[1],
-                        name: uppercasify(match[1])
-                    };
-                    data.push(f);
-                }
-            });
-
-            callback(undefined, data);
         });
 
-
+        return data;
     }
 }
 

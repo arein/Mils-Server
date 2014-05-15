@@ -27,10 +27,8 @@ exports.pricing = function(req, res) {
 
 exports.faq = function(req, res) {
     var helper = require('./../util/FaqHelper');
-    helper.getFaqRecords(function(err, data) {
-       if (err) throw err;
-        res.render('faq', {data: data});
-    });
+    var data = helper.getFaqRecords();
+    res.render('faq', {data: data});
 };
 
 exports.faqSub = function (req, res) {

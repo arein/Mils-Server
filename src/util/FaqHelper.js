@@ -3,30 +3,25 @@ var Config = require('./../config');
 var FaqHelper = (function () {
     function FaqHelper() {
     }
-    FaqHelper.getFaqRecords = function (callback) {
+    FaqHelper.getFaqRecords = function () {
         var fs = require('fs');
 
         var dir = Config.getBasePath() + '/views/faq';
         var data = [];
 
-        fs.readdir(dir, function (err, files) {
-            if (err) {
-                callback(err);
-                return;
+        var files = fs.readdirSync(dir);
+        files.forEach(function (file) {
+            if (file.match(/.jade$/) && file != "layout.jade") {
+                var match = file.match(/(.*).jade$/);
+                var f = {
+                    link: match[1],
+                    name: uppercasify(match[1])
+                };
+                data.push(f);
             }
-            files.forEach(function (file) {
-                if (file.match(/.jade$/) && file != "layout.jade") {
-                    var match = file.match(/(.*).jade$/);
-                    var f = {
-                        link: match[1],
-                        name: uppercasify(match[1])
-                    };
-                    data.push(f);
-                }
-            });
-
-            callback(undefined, data);
         });
+
+        return data;
     };
     return FaqHelper;
 })();
