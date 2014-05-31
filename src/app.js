@@ -96,6 +96,7 @@ poet.init(function (err, poet) {
 });
 
 app.get('/', index.index);
+app.get('/about-mils', index.aboutMils);
 app.get('/pricing', index.pricing);
 app.get('/faq', index.faq);
 app.get('/faq/:title', index.faqSub);
@@ -106,7 +107,6 @@ app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);
 app.post('/letters', letter.uploadLetter);
-app.post('/about-mils', index.aboutMils);
 app.get('/downloads/osx', index.osxDownload);
 
 // Rendering
