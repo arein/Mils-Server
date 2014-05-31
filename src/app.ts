@@ -113,6 +113,7 @@ app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);
 app.post('/letters', letter.uploadLetter);
+app.post('/about-mils', index.aboutMils);
 app.get('/downloads/osx', index.osxDownload);
 
 // Rendering

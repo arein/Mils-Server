@@ -48,6 +48,10 @@ exports.blog = function(req, res) {
     res.render('blog');
 };
 
+exports.aboutMils = function(req, res) {
+    res.render('about-mils');
+};
+
 exports.imprint = function(req, res) {
     res.render('imprint');
 };
