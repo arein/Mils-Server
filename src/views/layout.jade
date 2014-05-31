@@ -64,7 +64,8 @@ html(lang='en')
                     p
                         strong FAQ&nbsp;
                         each item in faqs
-                            a(href="/faq/" +item.link) #{item.name}&nbsp;·&nbsp;
+                            span &nbsp;·&nbsp;
+                            a(href="/faq/" +item.link) #{item.name}
 
             .row
                 .col-lg-4(style="padding:20px 0;text-align: center;")
