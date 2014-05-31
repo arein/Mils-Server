@@ -49,7 +49,7 @@ exports.blog = function(req, res) {
 };
 
 exports.aboutMils = function(req, res) {
-    res.render('about-mils');
+    res.render('aboutmils');
 };
 
 exports.imprint = function(req, res) {
