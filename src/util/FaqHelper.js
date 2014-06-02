@@ -33,6 +33,8 @@ function uppercasify(input) {
         if (count++ == 0 || word.length >= 4) {
             var v = word.substr(0, 1).toUpperCase() + word.substr(1);
             return v;
+        } else if (word.toLowerCase() === 'i') {
+            return 'I';
         }
         return word;
     });
