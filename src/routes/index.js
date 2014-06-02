@@ -65,6 +65,6 @@ var mime = require('mime');
 
 exports.osxDownload = function(req, res) {
     var app = require('./../app');
-    var file = config.basePath + '/public/downloads/Mils.app.zip';
+    var file = config.getBasePath() + '/public/downloads/Mils.app.zip';
     res.download(file)
 };
