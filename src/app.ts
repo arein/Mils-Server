@@ -98,7 +98,6 @@ var poet = Poet(app, {
 });
 
 poet.init(function (err, poet) {
-    console.log(err);
 }).then(function () {
 });
 

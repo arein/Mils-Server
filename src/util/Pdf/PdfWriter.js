@@ -1,10 +1,10 @@
+var Config = require('./../../config');
 var PdfWriter = (function () {
     function PdfWriter() {
     }
     PdfWriter.prototype.writePdf = function (body, letter, callback) {
         var tmp = require('tmp');
-        var app = require('./../../app');
-        var prefix = app.basePath + '/public/pdf/';
+        var prefix = Config.getBasePath() + '/public/pdf/';
         tmp.tmpName({ template: prefix + 'letter-XXXXXX.pdf' }, function _tempNameGenerated(err, path) {
             if (err)
                 throw err;
@@ -58,8 +58,7 @@ var PdfWriter = (function () {
 
 function checkSize(letter, callback) {
     var fs = require('fs');
-    var app = require('./../../app');
-    var prefix = app.basePath + '/public/pdf/';
+    var prefix = Config.getBasePath() + '/public/pdf/';
 
     var stats = fs.statSync(prefix + letter.pdf);
     var fileSizeInBytes = stats["size"];

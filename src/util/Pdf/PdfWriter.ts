@@ -1,10 +1,10 @@
 /// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
 import Letter = require('./../../model/Letter')
+import Config = require('./../../config')
 class PdfWriter {
     writePdf(body: any, letter: Letter, callback: (fileSizeInMegabytes: number) => void) {
         var tmp = require('tmp');
-        var app = require('./../../app');
-        var prefix = app.basePath + '/public/pdf/';
+        var prefix = Config.getBasePath() + '/public/pdf/';
         tmp.tmpName({ template: prefix + 'letter-XXXXXX.pdf' }, function _tempNameGenerated(err, path) {
             if (err) throw err;
             // Write PDF to File
@@ -53,8 +53,7 @@ class PdfWriter {
 
 function checkSize(letter: Letter, callback: (fileSizeInMegabytes: number) => void) {
     var fs = require('fs');
-    var app = require('./../../app');
-    var prefix = app.basePath + '/public/pdf/';
+    var prefix = Config.getBasePath() + '/public/pdf/';
 
     var stats = fs.statSync(prefix + letter.pdf);
     var fileSizeInBytes = stats["size"];
