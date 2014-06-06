@@ -10,9 +10,9 @@ app = express(); // Global
 
 // development only
 if ('development' == app.get('env')) {
-    app.basePath = "/Users/arein/node/letterapp";
+    app.basePath = "/Users/arein/node/letterapp/src";
 } else {
-    app.basePath = "/var/www/letterapp";
+    app.basePath = "/var/www/letterapp/src";
     console.log("Running production");
 }
 

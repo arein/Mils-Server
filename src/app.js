@@ -12,9 +12,9 @@ var app = module.exports = express();
 
 // development only
 if ('development' == app.get('env')) {
-    app.basePath = "/Users/arein/node/letterapp";
+    app.basePath = "/Users/arein/node/letterapp/src";
 } else {
-    app.basePath = "/var/www/letterapp";
+    app.basePath = "/var/www/letterapp/src";
 }
 
 // all environments

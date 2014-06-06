@@ -1,3 +1,4 @@
+var Config = require('./../../../config');
 var PdfInvoice = (function () {
     function PdfInvoice() {
     }
@@ -11,12 +12,12 @@ var PdfInvoice = (function () {
         doc.info['Author'] = 'Alexander-Derek Rein';
 
         // Register a font name for use later
-        doc.registerFont('OpenSans-Regular', app.basePath + '/pdf/fonts/OpenSans-Regular.ttf');
-        doc.registerFont('OpenSans-Light', app.basePath + '/pdf/fonts/OpenSans-Light.ttf');
-        doc.registerFont('OpenSans-Bold', app.basePath + '/pdf/fonts/OpenSans-Bold.ttf');
+        doc.registerFont('OpenSans-Regular', Config.getBasePath() + '/pdf/fonts/OpenSans-Regular.ttf');
+        doc.registerFont('OpenSans-Light', Config.getBasePath() + '/pdf/fonts/OpenSans-Light.ttf');
+        doc.registerFont('OpenSans-Bold', Config.getBasePath() + '/pdf/fonts/OpenSans-Bold.ttf');
 
         // Draw Images
-        doc.image(app.basePath + '/pdf/assets/logo.png', 234, 21, { width: 125.88 }).image(app.basePath + '/pdf/assets/box.png', 48, 446, { width: 497.765 });
+        doc.image(Config.getBasePath() + '/pdf/assets/logo.png', 234, 21, { width: 125.88 }).image(Config.getBasePath() + '/pdf/assets/box.png', 48, 446, { width: 497.765 });
 
         //.fontSize(25)
         //.text('Some text with an embedded font!', 100, 100)
