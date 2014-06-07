@@ -2,7 +2,7 @@
     "title": "Desktop App Analytics",
     "tags": ["analytics", "marketing"],
     "category": "marketing",
-    "date": "7-6-2014"
+    "date": "6-7-2014"
 }}}
 
 Having created several apps before, we've grown to be super huge fans of __app analytics__. There are several great tools out there for __mobile__ app analytics.

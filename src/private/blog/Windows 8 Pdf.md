@@ -2,7 +2,7 @@
     "title": "PDF Manipulation on Windows 8",
     "tags": ["pdf", "windows 8"],
     "category": "implementation",
-    "date": "16-3-2014"
+    "date": "3-16-2014"
 }}}
 
 Adding a signature as a PNG image on Mac OS X was a breeze through Apple's PdfKit.

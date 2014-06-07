@@ -2,7 +2,7 @@
     "title": "Processing Credit Card Payments on Mac OS X and Windows 8",
     "tags": ["payments", "credit card", "pci compliance"],
     "category": "implementation",
-    "date": "16-3-2014"
+    "date": "3-16-2014"
 }}}
 
 We saw three options to implement Mils' payment system:

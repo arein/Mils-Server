@@ -2,7 +2,7 @@
     "title": "Mils Project Study Paper Published",
     "tags": ["paper", "university"],
     "category": "implementation",
-    "date": "19-3-2014"
+    "date": "3-19-2014"
 }}}
 
 Mils was developed in a project study at the Technical University of Munich. We first had another ida, "Train Claim", which was a smartphone app that facilitated the process of claiming refunds in the case of train delays.

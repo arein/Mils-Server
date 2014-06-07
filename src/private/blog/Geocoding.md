@@ -2,7 +2,7 @@
     "title": "Google Geocoding on Windows 8",
     "tags": ["payments", "credit card"],
     "category": "implementation",
-    "date": "16-3-2014"
+    "date": "3-16-2014"
 }}}
 
 The default for geocoding on Windows 8 is Bing Maps. Unfortunately, Bing Maps requires the geocoding query to be in the user's language language. Moreover, mixing languages within a query is not supported.
