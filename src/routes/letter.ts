@@ -70,7 +70,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                                 }
                             });
                         });
-                    }
+                    };
 
                     var mailClient = new MailClient();
                     var prefix = Config.getBasePath() + '/public/pdf/';
