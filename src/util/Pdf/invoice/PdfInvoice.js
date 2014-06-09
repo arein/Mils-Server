@@ -5,19 +5,18 @@ var PdfInvoice = (function () {
     PdfInvoice.prototype.createInvoice = function (letter, callback) {
         var PDFDocument = require('pdfkit');
         var doc = new PDFDocument({ size: 'A4' });
-        var app = require('./../app');
 
         // Set some meta data
         doc.info['Title'] = 'Mils Invoice';
         doc.info['Author'] = 'Alexander-Derek Rein';
 
         // Register a font name for use later
-        doc.registerFont('OpenSans-Regular', Config.getBasePath() + '/pdf/fonts/OpenSans-Regular.ttf');
-        doc.registerFont('OpenSans-Light', Config.getBasePath() + '/pdf/fonts/OpenSans-Light.ttf');
-        doc.registerFont('OpenSans-Bold', Config.getBasePath() + '/pdf/fonts/OpenSans-Bold.ttf');
+        doc.registerFont('OpenSans-Regular', Config.getBasePath() + '/util/invoice/pdf/fonts/OpenSans-Regular.ttf');
+        doc.registerFont('OpenSans-Light', Config.getBasePath() + '/util/invoice/pdf/fonts/OpenSans-Light.ttf');
+        doc.registerFont('OpenSans-Bold', Config.getBasePath() + '/util/invoice/pdf/fonts/OpenSans-Bold.ttf');
 
         // Draw Images
-        doc.image(Config.getBasePath() + '/pdf/assets/logo.png', 234, 21, { width: 125.88 }).image(Config.getBasePath() + '/pdf/assets/box.png', 48, 446, { width: 497.765 });
+        doc.image(Config.getBasePath() + '/util/invoice/pdf/assets/logo.png', 234, 21, { width: 125.88 }).image(Config.getBasePath() + '/util/invoice/assets/box.png', 48, 446, { width: 497.765 });
 
         //.fontSize(25)
         //.text('Some text with an embedded font!', 100, 100)

@@ -11,7 +11,7 @@ var Docsaway = (function () {
         var email = 'test-docsaway-api@ceseros.de';
 
         // /Users/arein/node/letterapp
-        var docsaway = require('.././lib/main');
+        var docsaway = require('./../transport/Docsaway/lib/main');
 
         var data = {
             recipient: recipient,

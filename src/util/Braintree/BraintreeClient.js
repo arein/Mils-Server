@@ -10,6 +10,13 @@ var BraintreeHelper = (function () {
                 publicKey: "78rfb5jwd4877d48",
                 privateKey: "333775c67b6af31779a8bc9e8c529b31"
             });
+        } else {
+            this.gateway = this.braintree.connect({
+                environment: this.braintree.Environment.Production,
+                merchantId: "krf85rj993z3mj7n",
+                publicKey: "9nnsbrqv7nbvd4wq",
+                privateKey: "a2e371f67b9839d5e8fd5b6685bb3a31"
+            });
         }
     }
     BraintreeHelper.prototype.isSandbox = function () {

@@ -28,17 +28,20 @@ exports.purchaseLetter = function (req, res) {
 
     var creditCard = new CreditCard(req.body.creditCard.number, req.body.creditCard.name, req.body.creditCard.date, req.body.creditCard.cvv, req.body.creditCard.type);
 
-    MongoManager.getInstance().db.collection('letter', function (err, collection) {
+    var mi = MongoManager.getInstance();
+    mi.db.collection('letter', function (err, collection) {
         collection.findOne({ '_id': new mongo.ObjectID(id) }, function (err, letter) {
-            if (err)
-                throw err;
+            if (err) {
+                res.json(500, "The letter could not be found");
+                return;
+            }
             var braintreeClient = new BraintreeClient(true);
             braintreeClient.pay(letter.price, creditCard, function (result) {
                 letter.payed = true;
                 letter.sandboxPurchase = braintreeClient.isSandbox();
                 letter.purchaseDate = new Date();
                 letter.transactionId = result.transaction.id;
-                MongoManager.getInstance().getNextSequence("invoicenumber", function (invoiceNumber) {
+                mi.getNextSequence("invoicenumber", function (invoiceNumber) {
                     var sanitize = require('validator').sanitize;
                     letter.invoiceNumber = invoiceNumber;
                     letter.issuer.name = sanitize(req.body.address.name).escape();
@@ -57,7 +60,7 @@ exports.purchaseLetter = function (req, res) {
                             return;
                         letter.updatedAt = new Date();
 
-                        MongoManager.getInstance().db.collection('letter', function (err, collection) {
+                        mi.db.collection('letter', function (err, collection) {
                             collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
                                 if (err) {
                                     res.send(500, { 'error': 'An error has occurred' });
@@ -136,19 +139,21 @@ exports.uploadLetter = function (req, res) {
             letter.creditCardCost = 0.35;
             letter.price = finalPrice;
 
-            MongoManager.getInstance().db.collection('letter', function (err, collection) {
+            var mi = MongoManager.getInstance();
+            mi.db.collection('letter', function (err, collection) {
                 collection.insert(letter, { safe: true }, function (err, result) {
                     if (err) {
                         res.send(500, "An error occurred on the server side");
                     } else {
                         if (shouldDownload) {
                             var fs = require('fs');
-                            var app = require('./../app');
                             fs.readFile(Config.getBasePath() + '/public/pdf/' + letter.pdf, function (err, data) {
-                                if (err)
+                                if (err) {
                                     res.send(500, "An error occurred on the server side:" + err);
-                                result[0].pdf = data.toString("base64");
-                                res.send(result[0]);
+                                } else {
+                                    result[0].pdf = data.toString("base64");
+                                    res.send(result[0]);
+                                }
                             });
                         } else {
                             res.send(result[0]);

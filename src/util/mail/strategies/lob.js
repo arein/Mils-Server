@@ -69,4 +69,4 @@ var Lob = (function () {
 })();
 
 module.exports = Lob;
-//# sourceMappingURL=Lob.js.map
+//# sourceMappingURL=lob.js.map

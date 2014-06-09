@@ -9,7 +9,7 @@ class Docsaway implements IMailStrategy {
         var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
         var email = 'test-docsaway-api@ceseros.de';
         // /Users/arein/node/letterapp
-        var docsaway = require('.././lib/main');
+        var docsaway = require('./../transport/Docsaway/lib/main');
 
         var data = {
             recipient: recipient,
