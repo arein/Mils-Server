@@ -143,6 +143,10 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
 
             var mi = MongoManager.getInstance();
             mi.db.collection('letter', function(err, collection) {
+                if (err) {
+                    res.send(500, "An error occurred on the server side");
+                    return;
+                }
                 collection.insert(letter, {safe:true}, function(err, result) {
                     if (err) {
                         res.send(500, "An error occurred on the server side");
