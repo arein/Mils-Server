@@ -12,8 +12,10 @@ class PdfWriter {
                 var PDFDocument = require('pdfkit');
                 var doc = new PDFDocument({size: 'A4'});
                 doc.image(new Buffer(body.pages[0].image, 'base64'), 0, 0, {fit: [595.28, 841.89]});
-                var signature = new Buffer(body.signature, 'base64');
-                addSignatures(signature, doc, body.pages[0].signatures);
+                if (body.signature !== 'undefined' && body.signature != null) {
+                    var signature = new Buffer(body.signature, 'base64');
+                    addSignatures(signature, doc, body.pages[0].signatures);
+                }
                 for (var i = 1; i < body.pages.length; i++) {
                     doc.addPage();
                     doc.image(new Buffer(body.pages[i].image, 'base64'), 0, 0, {fit: [595.28, 841.89]});

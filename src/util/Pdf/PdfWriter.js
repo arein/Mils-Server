@@ -14,7 +14,7 @@ var PdfWriter = (function () {
                 var PDFDocument = require('pdfkit');
                 var doc = new PDFDocument({ size: 'A4' });
                 doc.image(new Buffer(body.pages[0].image, 'base64'), 0, 0, { fit: [595.28, 841.89] });
-                if (typeof body.signature !== "undefined") {
+                if (body.signature !== 'undefined' && body.signature != null) {
                     var signature = new Buffer(body.signature, 'base64');
                     addSignatures(signature, doc, body.pages[0].signatures);
                 }
