@@ -24,6 +24,7 @@ var MongoManager = (function () {
                 ], { $inc: { seq: 1 } }, { new: true }, function (error, item) {
                     if (err)
                         throw err;
+                    console.log(item);
                     callback(item.seq);
                 });
             });
