@@ -44,7 +44,8 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.bodyParser());
 
-if ('development' == app.get('env')) {
+//if ('development' == app.get('env')) {
+if (false) {
     mailer.extend(app, {
         from: 'test@dev.ceseros.de',
         host: 'dev.ceseros.de', // hostname
