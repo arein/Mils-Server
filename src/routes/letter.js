@@ -78,7 +78,6 @@ exports.purchaseLetter = function (req, res) {
 
                             if (err) {
                                 letter.dispatched = false;
-                                letter.printInformation.provider = digest.provider;
                             } else {
                                 letter.dispatched = true;
                                 letter.dispatchedAt = new Date();

@@ -30,6 +30,7 @@ var Docsaway = (function () {
                 if (error) {
                     return callback(error, undefined);
                 }
+                console.log("Provider: " + 1 /* Docsaway */);
                 var digest = new SendMailDigest(1 /* Docsaway */, result.transaction.reference);
                 callback(undefined, digest);
             });
