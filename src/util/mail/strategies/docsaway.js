@@ -3,12 +3,13 @@ var SendMailDigest = require('./../model/SendMailDigest');
 var CalculatePriceDigest = require('./../model/CalculatePriceDigest');
 var ProviderType = require('./../model/ProviderType');
 
+var Config = require('./../../../config');
 var Docsaway = (function () {
     function Docsaway() {
     }
     Docsaway.prototype.sendMail = function (filepath, recipient, callback) {
-        var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
-        var email = 'test-docsaway-api@ceseros.de';
+        var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
+        var email = 'adr@ceseros.de';
 
         // /Users/arein/node/letterapp
         var docsaway = require('./../transport/Docsaway/lib/main');
@@ -25,7 +26,8 @@ var Docsaway = (function () {
                 return;
             }
             data.file = pdf.toString('base64');
-            var client = new docsaway.Client(email, installationKey, "TEST");
+            var mode = Config.isProd() ? "LIVE" : "TEST";
+            var client = new docsaway.Client(email, installationKey, mode);
             client.sendMail(data.recipient, data.file, function (error, result) {
                 if (error) {
                     return callback(error, undefined);
@@ -38,14 +40,15 @@ var Docsaway = (function () {
     };
 
     Docsaway.prototype.calculatePrice = function (pages, destinationCountryIso, callback) {
-        var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
-        var email = 'test-docsaway-api@ceseros.de';
+        var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
+        var email = 'adr@ceseros.de';
 
         // /Users/arein/node/letterapp
         var docsaway = require('./../transport/Docsaway/lib/main');
 
         // Request Price
-        var client = new docsaway.Client(email, installationKey, "TEST");
+        var mode = Config.isProd() ? "LIVE" : "TEST";
+        var client = new docsaway.Client(email, installationKey, mode);
         client.calculatePrice(destinationCountryIso, pages, function (error, result) {
             if (error) {
                 callback(error);

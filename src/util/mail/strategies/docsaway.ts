@@ -4,10 +4,11 @@ import CalculatePriceDigest = require('./../model/CalculatePriceDigest');
 import ProviderType = require('./../model/ProviderType');
 import IMailStrategy = require('./IMailStrategy');
 import Recipient = require('./../model/Recipient');
+import Config = require('./../../../config');
 class Docsaway implements IMailStrategy {
     sendMail(filepath:string, recipient:Recipient, callback:(error:Error, digest?:SendMailDigest) => void) {
-        var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
-        var email = 'test-docsaway-api@ceseros.de';
+        var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
+        var email = 'adr@ceseros.de';
         // /Users/arein/node/letterapp
         var docsaway = require('./../transport/Docsaway/lib/main');
 
@@ -16,6 +17,7 @@ class Docsaway implements IMailStrategy {
             file: ""
         };
 
+
         var fs = require('fs');
         fs.readFile(filepath, function (err, pdf) {
             if (err) {
@@ -23,7 +25,8 @@ class Docsaway implements IMailStrategy {
                 return;
             }
             data.file = pdf.toString('base64');
-            var client = new docsaway.Client(email, installationKey, "TEST");
+            var mode : String = Config.isProd() ? "LIVE" : "TEST";
+            var client = new docsaway.Client(email, installationKey, mode);
             client.sendMail(data.recipient, data.file, function (error, result) {
                 if (error) {
                     return callback(error, undefined);
@@ -36,13 +39,14 @@ class Docsaway implements IMailStrategy {
     }
 
     calculatePrice(pages:number, destinationCountryIso:string, callback:(error:Error, digest?:CalculatePriceDigest) => void) {
-        var installationKey = 'HzPSxZHdY49xIeylq7S5iC7ceqB3i7sxEfmGz82zbN9euyuArzMWJ5CRqo0kapOY';
-        var email = 'test-docsaway-api@ceseros.de';
+        var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
+        var email = 'adr@ceseros.de';
         // /Users/arein/node/letterapp
         var docsaway = require('./../transport/Docsaway/lib/main');
 
         // Request Price
-        var client = new docsaway.Client(email, installationKey, "TEST");
+        var mode : String = Config.isProd() ? "LIVE" : "TEST";
+        var client = new docsaway.Client(email, installationKey, mode);
         client.calculatePrice(destinationCountryIso, pages, function (error, result) {
             if (error) {
                 callback(error);
