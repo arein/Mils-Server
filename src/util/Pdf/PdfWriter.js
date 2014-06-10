@@ -10,17 +10,21 @@ var PdfWriter = (function () {
                 throw err;
 
             // Write PDF to File
-            if (body.pages != undefined) {
+            if (typeof body.pages !== "undefined") {
                 var PDFDocument = require('pdfkit');
                 var doc = new PDFDocument({ size: 'A4' });
                 doc.image(new Buffer(body.pages[0].image, 'base64'), 0, 0, { fit: [595.28, 841.89] });
-                var signature = new Buffer(body.signature, 'base64');
-                addSignatures(signature, doc, body.pages[0].signatures);
+                if (typeof body.signature !== "undefined") {
+                    var signature = new Buffer(body.signature, 'base64');
+                    addSignatures(signature, doc, body.pages[0].signatures);
+                }
                 for (var i = 1; i < body.pages.length; i++) {
                     doc.addPage();
                     doc.image(new Buffer(body.pages[i].image, 'base64'), 0, 0, { fit: [595.28, 841.89] });
                     addSignatures(signature, doc, body.pages[i].signatures);
                 }
+
+                // Write the File
                 doc.output(function (data) {
                     var fs = require('fs');
                     fs.writeFile(path, data, function (err) {
