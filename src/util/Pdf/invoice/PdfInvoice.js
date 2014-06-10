@@ -8,7 +8,7 @@ var PdfInvoice = (function () {
 
         // Set some meta data
         doc.info['Title'] = 'Mils Invoice';
-        doc.info['Author'] = 'Alexander-Derek Rein';
+        doc.info['Author'] = 'Mils';
 
         // Register a font name for use later
         doc.registerFont('OpenSans-Regular', Config.getBasePath() + '/util/pdf/invoice/fonts/OpenSans-Regular.ttf');
