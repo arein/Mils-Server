@@ -3,10 +3,43 @@ var mongo = require("mongodb");
 
 var MongoManager = (function () {
     function MongoManager() {
-        this.server = new mongo.Server('localhost', 27017, { auto_reconnect: true });
-        this.db = new mongo.Db('letterdb', this.server);
+    }
+    MongoManager.prototype.populateDB = function () {
+        var counters = [{
+                _id: "invoicenumber",
+                seq: 15000
+            }];
 
-        this.db.open(function (err, db) {
+        MongoManager.db.collection('counters', function (err, collection) {
+            collection.insert(counters, { safe: true }, function (err, result) {
+            });
+        });
+    };
+
+    MongoManager.getNextSequence = function (name, callback) {
+        MongoManager.getDb(function (db) {
+            db.collection('counters', function (err, collection) {
+                collection.findAndModify({ _id: name }, [
+                    ['_id', 'asc']
+                ], { $inc: { seq: 1 } }, { new: true }, function (error, item) {
+                    if (err)
+                        throw err;
+                    callback(item.seq);
+                });
+            });
+        });
+    };
+
+    MongoManager.getDb = function (callback) {
+        if (MongoManager.db) {
+            callback(MongoManager.db);
+            return;
+        }
+
+        var server = new mongo.Server('localhost', 27017, { auto_reconnect: true });
+        var db = new mongo.Db('letterdb', server);
+
+        db.open(function (err, db) {
             if (!err) {
                 db.createCollection('letter', { strict: true }, function (err, collection) {
                     if (!err) {
@@ -20,37 +53,11 @@ var MongoManager = (function () {
                         this.populateDB();
                     }
                 });
+                callback(db);
+            } else {
+                throw err;
             }
         });
-    }
-    MongoManager.prototype.populateDB = function () {
-        var counters = [{
-                _id: "invoicenumber",
-                seq: 15000
-            }];
-
-        this.db.collection('counters', function (err, collection) {
-            collection.insert(counters, { safe: true }, function (err, result) {
-            });
-        });
-    };
-
-    MongoManager.prototype.getNextSequence = function (name, callback) {
-        this.db.collection('counters', function (err, collection) {
-            collection.findAndModify({ _id: name }, [['_id', 'asc']], { $inc: { seq: 1 } }, { new: true }, function (error, item) {
-                if (err)
-                    throw err;
-                callback(item.seq);
-            });
-        });
-    };
-
-    MongoManager.getInstance = function () {
-        if (typeof MongoManager.instance === 'undefined') {
-            MongoManager.instance = new MongoManager();
-        }
-
-        return MongoManager.instance;
     };
     return MongoManager;
 })();

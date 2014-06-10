@@ -27,8 +27,11 @@ var Docsaway = (function () {
             data.file = pdf.toString('base64');
             var client = new docsaway.Client(email, installationKey, "TEST");
             client.sendMail(data.recipient, data.file, function (error, result) {
+                if (error) {
+                    return callback(error, undefined);
+                }
                 var digest = new SendMailDigest(1 /* Docsaway */, result.transaction.reference);
-                callback(error, digest);
+                callback(undefined, digest);
             });
         });
     };

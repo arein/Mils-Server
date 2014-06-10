@@ -28,82 +28,83 @@ exports.purchaseLetter = function (req, res) {
 
     var creditCard = new CreditCard(req.body.creditCard.number, req.body.creditCard.name, req.body.creditCard.date, req.body.creditCard.cvv, req.body.creditCard.type);
 
-    var mi = MongoManager.getInstance();
-    mi.db.collection('letter', function (err, collection) {
-        collection.findOne({ '_id': new mongo.ObjectID(id) }, function (err, letter) {
-            if (err) {
-                res.json(500, "The letter could not be found");
-                return;
-            }
-            var braintreeClient = new BraintreeClient(true);
-            braintreeClient.pay(letter.price, creditCard, function (result) {
-                letter.payed = true;
-                letter.sandboxPurchase = braintreeClient.isSandbox();
-                letter.purchaseDate = new Date();
-                letter.transactionId = result.transaction.id;
-                mi.getNextSequence("invoicenumber", function (invoiceNumber) {
-                    var sanitize = require('validator').sanitize;
-                    letter.invoiceNumber = invoiceNumber;
-                    letter.issuer.name = sanitize(req.body.address.name).escape();
-                    letter.issuer.address1 = sanitize(req.body.address.line1).escape();
-                    letter.issuer.address2 = (typeof req.body.address.line2 === 'undefined') ? undefined : sanitize(req.body.address.line2).escape();
-                    letter.issuer.postalCode = sanitize(req.body.address.postalCode).escape();
-                    letter.issuer.city = sanitize(req.body.address.city).escape();
-                    letter.issuer.country = sanitize(req.body.address.country).escape();
-                    letter.issuer.email = sanitize(req.body.emailAddress).escape();
+    MongoManager.getDb(function (db) {
+        db.collection('letter', function (err, collection) {
+            collection.findOne({ '_id': new mongo.ObjectID(id) }, function (err, letter) {
+                if (err) {
+                    res.json(500, "The letter could not be found");
+                    return;
+                }
+                var braintreeClient = new BraintreeClient(true);
+                braintreeClient.pay(letter.price, creditCard, function (result) {
+                    letter.payed = true;
+                    letter.sandboxPurchase = braintreeClient.isSandbox();
+                    letter.purchaseDate = new Date();
+                    letter.transactionId = result.transaction.id;
+                    MongoManager.getNextSequence("invoicenumber", function (invoiceNumber) {
+                        var sanitize = require('validator').sanitize;
+                        letter.invoiceNumber = invoiceNumber;
+                        letter.issuer.name = sanitize(req.body.address.name).escape();
+                        letter.issuer.address1 = sanitize(req.body.address.line1).escape();
+                        letter.issuer.address2 = (typeof req.body.address.line2 === 'undefined') ? undefined : sanitize(req.body.address.line2).escape();
+                        letter.issuer.postalCode = sanitize(req.body.address.postalCode).escape();
+                        letter.issuer.city = sanitize(req.body.address.city).escape();
+                        letter.issuer.country = sanitize(req.body.address.country).escape();
+                        letter.issuer.email = sanitize(req.body.emailAddress).escape();
 
-                    var recipient = new Recipient(letter.recipient.name, letter.recipient.address1, letter.recipient.city, letter.recipient.postalCode, letter.recipient.countryIso, letter.issuer.email, letter.recipient.company, letter.recipient.address2, letter.recipient.state);
-                    TaxationHelper.processTaxation(letter);
+                        var recipient = new Recipient(letter.recipient.name, letter.recipient.address1, letter.recipient.city, letter.recipient.postalCode, letter.recipient.countryIso, letter.issuer.email, letter.recipient.company, letter.recipient.address2, letter.recipient.state);
+                        TaxationHelper.processTaxation(letter);
 
-                    var conclude = function (status, letter, res) {
-                        if (!status.pdfProcessed || !status.billProcessed)
-                            return;
-                        letter.updatedAt = new Date();
+                        var conclude = function (status, letter, res) {
+                            if (!status.pdfProcessed || !status.billProcessed)
+                                return;
+                            letter.updatedAt = new Date();
 
-                        mi.db.collection('letter', function (err, collection) {
-                            collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
-                                if (err) {
-                                    res.send(500, { 'error': 'An error has occurred' });
-                                } else {
-                                    res.send(letter);
-                                }
+                            db.collection('letter', function (err, collection) {
+                                collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
+                                    if (err) {
+                                        res.send(500, { 'error': 'An error has occurred' });
+                                    } else {
+                                        res.send(letter);
+                                    }
+                                });
                             });
+                        };
+
+                        var mailClient = new MailClient();
+                        var prefix = Config.getBasePath() + '/public/pdf/';
+                        mailClient.sendMail(prefix + letter.pdf, recipient, function (err, digest) {
+                            status.pdfProcessed = true;
+
+                            if (err) {
+                                letter.dispatched = false;
+                                letter.printInformation.provider = digest.provider;
+                            } else {
+                                letter.dispatched = true;
+                                letter.dispatchedAt = new Date();
+                                letter.pdfId = digest.reference;
+                                letter.printInformation.provider = digest.provider;
+                            }
+
+                            conclude(status, letter, res);
                         });
-                    };
 
-                    var mailClient = new MailClient();
-                    var prefix = Config.getBasePath() + '/public/pdf/';
-                    mailClient.sendMail(prefix + letter.pdf, recipient, function (err, digest) {
-                        status.pdfProcessed = true;
+                        // Send Email
+                        BillHelper.sendBill(letter, 'invoice-' + letter.pdf, function (err) {
+                            status.billProcessed = true;
+                            if (err) {
+                                letter.billSent = false;
+                            } else {
+                                letter.billSent = true;
+                                letter.billSentAt = new Date();
+                            }
 
-                        if (err) {
-                            letter.dispatched = false;
-                            letter.printInformation.provider = digest.provider;
-                        } else {
-                            letter.dispatched = true;
-                            letter.dispatchedAt = new Date();
-                            letter.pdfId = digest.reference;
-                            letter.printInformation.provider = digest.provider;
-                        }
-
-                        conclude(status, letter, res);
+                            conclude(status, letter, res);
+                        });
                     });
-
-                    // Send Email
-                    BillHelper.sendBill(letter, 'invoice-' + letter.pdf, function (err) {
-                        status.billProcessed = true;
-                        if (err) {
-                            letter.billSent = false;
-                        } else {
-                            letter.billSent = true;
-                            letter.billSentAt = new Date();
-                        }
-
-                        conclude(status, letter, res);
-                    });
+                }, function (error) {
+                    res.json(500, error);
                 });
-            }, function (error) {
-                res.json(500, error);
             });
         });
     });
@@ -139,30 +140,31 @@ exports.uploadLetter = function (req, res) {
             letter.creditCardCost = 0.35;
             letter.price = finalPrice;
 
-            var mi = MongoManager.getInstance();
-            mi.db.collection('letter', function (err, collection) {
-                if (err) {
-                    res.send(500, "An error occurred on the server side");
-                    return;
-                }
-                collection.insert(letter, { safe: true }, function (err, result) {
+            MongoManager.getDb(function (db) {
+                db.collection('letter', function (err, collection) {
                     if (err) {
                         res.send(500, "An error occurred on the server side");
-                    } else {
-                        if (shouldDownload) {
-                            var fs = require('fs');
-                            fs.readFile(Config.getBasePath() + '/public/pdf/' + letter.pdf, function (err, data) {
-                                if (err) {
-                                    res.send(500, "An error occurred on the server side:" + err);
-                                } else {
-                                    result[0].pdf = data.toString("base64");
-                                    res.send(result[0]);
-                                }
-                            });
-                        } else {
-                            res.send(result[0]);
-                        }
+                        return;
                     }
+                    collection.insert(letter, { safe: true }, function (err, result) {
+                        if (err) {
+                            res.send(500, "An error occurred on the server side");
+                        } else {
+                            if (shouldDownload) {
+                                var fs = require('fs');
+                                fs.readFile(Config.getBasePath() + '/public/pdf/' + letter.pdf, function (err, data) {
+                                    if (err) {
+                                        res.send(500, "An error occurred on the server side:" + err);
+                                    } else {
+                                        result[0].pdf = data.toString("base64");
+                                        res.send(result[0]);
+                                    }
+                                });
+                            } else {
+                                res.send(result[0]);
+                            }
+                        }
+                    });
                 });
             });
         });

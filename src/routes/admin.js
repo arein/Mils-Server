@@ -14,7 +14,6 @@ db = new Db('letterdb', server);
 
 db.open(function(err, db) {
     if(!err) {
-        console.log("Connected to winedb database");
         db.createCollection('letter', {strict:true}, function(err, collection) {
             if (!err) {
                 console.log("The letter collection doesn't exist. Creating it with sample data");
