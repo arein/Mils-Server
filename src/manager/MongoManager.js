@@ -4,14 +4,17 @@ var mongo = require("mongodb");
 var MongoManager = (function () {
     function MongoManager() {
     }
-    MongoManager.prototype.populateDB = function () {
+    MongoManager.populateDB = function (callback) {
         var counters = [{
                 _id: "invoicenumber",
                 seq: 15000
             }];
 
-        MongoManager.db.collection('counters', function (err, collection) {
-            collection.insert(counters, { safe: true }, function (err, result) {
+        MongoManager.getDb(function (db) {
+            db.collection('counters', function (err, collection) {
+                collection.insert(counters, { safe: true }, function (err, result) {
+                    callback(result);
+                });
             });
         });
     };
@@ -24,8 +27,13 @@ var MongoManager = (function () {
                 ], { $inc: { seq: 1 } }, { new: true }, function (error, item) {
                     if (err)
                         throw err;
-                    console.log(item);
-                    callback(item.seq);
+                    if (item == null || typeof item === "undefined") {
+                        MongoManager.populateDB(function (result) {
+                            callback(result.seq);
+                        });
+                    } else {
+                        callback(item.seq);
+                    }
                 });
             });
         });

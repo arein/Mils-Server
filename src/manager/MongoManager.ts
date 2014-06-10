@@ -2,17 +2,20 @@
 import mongo = require("mongodb")
 
 class MongoManager {
-    populateDB() {
+    private static populateDB(callback : (result : any) => void) {
 
         var counters = [{
             _id: "invoicenumber",
             seq: 15000
         }];
 
-        MongoManager.db.collection('counters', function(err, collection) {
-            collection.insert(counters, {safe:true}, function(err, result) {});
+        MongoManager.getDb(function (db : mongo.Db) {
+            db.collection('counters', function (err, collection) {
+                collection.insert(counters, {safe: true}, function (err, result) {
+                    callback(result);
+                });
+            });
         });
-
     }
 
     public static getNextSequence(name : string, callback : (sequence : number) => void) {
@@ -22,7 +25,13 @@ class MongoManager {
                     ['_id', 'asc']
                 ], { $inc: { seq: 1 } }, {new: true}, function (error, item) {
                     if (err) throw err;
-                    callback(item.seq);
+                    if (item == null || typeof item === "undefined") {
+                        MongoManager.populateDB(function (result : any) {
+                            callback(result.seq);
+                        });
+                    } else {
+                        callback(item.seq);
+                    }
                 });
             });
         });
