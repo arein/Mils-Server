@@ -26,9 +26,7 @@ var Docsaway = (function () {
                 return;
             }
             data.file = pdf.toString('base64');
-
-            //var mode : String = Config.isProd() ? "LIVE" : "TEST";
-            var mode = "TEST";
+            var mode = Config.isProd() ? "LIVE" : "TEST";
             var client = new docsaway.Client(email, installationKey, mode);
             client.sendMail(data.recipient, data.file, function (error, result) {
                 if (error) {
