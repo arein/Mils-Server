@@ -25,7 +25,8 @@ class Docsaway implements IMailStrategy {
                 return;
             }
             data.file = pdf.toString('base64');
-            var mode : String = Config.isProd() ? "LIVE" : "TEST";
+            //var mode : String = Config.isProd() ? "LIVE" : "TEST";
+            var mode : String = "TEST";
             var client = new docsaway.Client(email, installationKey, mode);
             client.sendMail(data.recipient, data.file, function (error, result) {
                 if (error) {

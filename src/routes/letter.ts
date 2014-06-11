@@ -37,7 +37,8 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                     res.json(500, "The letter could not be found");
                     return;
                 }
-                var braintreeClient = new BraintreeClient(!Config.isProd());
+                //var braintreeClient = new BraintreeClient(!Config.isProd());
+                var braintreeClient = new BraintreeClient(true);
                 braintreeClient.pay(letter.price, creditCard, function (result) {
                     letter.payed = true;
                     letter.sandboxPurchase = braintreeClient.isSandbox();
