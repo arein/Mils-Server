@@ -1,0 +1,156 @@
+/* Homepage Strings */
+"DropPDFHere" = "Déposer le Pdf";
+"SelectFile" = "Choisir un fichier";
+"SelectDifferentFile" = "Choisir un pdf différent";
+"DropDifferentFile" = "Déposer un pdf different";
+"SelectedFile" = "Fichier choisi";
+"SelectPdfFile" = "Choisir un Pdf";
+"Or" = "ou";
+"Pages" = "Pages";
+"Format" = "Format";
+"Size" = "Taille du Fichier";
+"SeeWherePrinted" = "Voyez où la lettre et imprimé";
+"SeeWherePrintedDescription" = "L'imprimerie est choisie automatiquement selon le pays du destinataire";
+"AddSignature" = "Signature (Optional)";
+"AddSignatureDescription" = "Signer simplement par le portable";
+"DefaultSignature" = "Signature Standard";
+"DefaultSignatureButton" = "Se servir d'un image standard";
+"SelectImage" = "Choisir un image";
+"SelectImageDescription" = "Choisir un image à partir de l'ordinateur";
+"SelectImageButton" = "Choisir un image";
+"CreateSignature" = "Déposer votre signature";
+"CreateSignatureDescription1" = "Déposer avec le";
+"CreateSignatureDescription2" = "Portable";
+"CreateSignatureButton" = "Se servir du portable";
+"PaySubmit" = "Envoyer et payer";
+"PaySubmitDescription1" = "Un compte n'est pas nécessaire - payer par votre carte de crédit";
+"PaySubmitDescription2" = "Seulement après avoir choisi un fichier nous pouvons vous indiquer un prix";
+"PaySubmitButton" = "Envoyer et payer";
+"PaySubmitReloadPriceButton" = "Déterminer un prix de nouveau";
+"CouldNotLoadPrice" = "Il n'était pas possible de déterminer le prix";
+"PdfEncrypted" = "Le document est crypté. S'il vous plait le décrypter d'abord.";
+"PdfLocked" = "Le document est bloqué. S'il vous plait le débloquer d'abord";
+"PdfInvalidSize" = "Le format n'est pas A4. Pour le moment nous n'acceptons que A4";
+"PrintingQualityHeader" = "Qualité de l'imprimé";
+"PrintingQualitySubHeader" = "Chaque lettre est imprimée en couleur sur standard 80g/qm";
+
+/* Enter Address Strings */
+"AddressHeader" = "Ecrire l'adress du destinataire";
+"AddressSubHeader" = "Pour convenir au format de l'adresse de chaque pays l'adresse du destinataire est placée directement sur l'enveloppe ou sur une feuille extra qui correspond à la fenetre spéciale de chaque pays";
+"AddressConfirm" = "Confirmer";
+"AddressName" = "Prénom et Nom de famille";
+"AddressCompany" = "Firme (Optional)";
+"AddressLine1" = "Rue et numéro";
+"AddressLine2" = "Ajout de l'adresse (Optional)";
+"AddressPostalCode" = "Code postal";
+"AddressCity" = "Ville";
+"AddressState" = "Département (Optional)";
+"SelectCountry" = "Choisir un pays";
+
+/* Mobile Phone */
+"MobilePhoneHeader" = "Déposer la signature par le portable";
+"MobilePhoneSubHeader" = "S'il vous plait choisir quel système d'exploitation vous utilisez";
+"MobilePhoneStep1" = "Téléchargez\"$APPNAME$\" pour $PLATFORM$";
+"MobilePhoneStep2" = "Déposez votre signature et l'envoyez à votre adresse email";
+"MobilePhoneStep3" = "Enregistrez votre signature sur votre ordinateur et la choisir dans Mils";
+"MobilePhoneCancel" = "Annuler";
+"MobilePhoneSelectFile" = "Choisir un fichier";
+
+/* Signature */
+"SignatureHeader" = "Déposer votre signature";
+"SignatureSubHeader" = "Déposez une ou plusieurs signatures";
+"SignatureAddButton" = "Ajoutez votre signature à la page actuelle";
+"SignaturePagination" = "$CURRENT$ de $MAX$";
+"SignatureSaveAsDefault" = "Enregistrer comme signature standard";
+"SignatureCancel" = "Annuler";
+"SignatureConfirm" = "Confirmer";
+
+/* Tutorial */
+"TutorialTitle" = "Bienvenu chez Mils!";
+
+/* About */
+"AboutFeedback" = "Feedback";
+"AboutSubject" = "Objet";
+"AboutMessage" = "Avis";
+"AboutSend" = "Envoyer";
+"AboutAbout" = "Informations sur nous";
+"AboutDescription1" = "Mils est la version ultra moderne des lettres traditionelles. Nous avons fait cet App pour nous et pour chacun qui n'aime pas imprimer, envelopper, affranchir et envoyer des lettres";
+"AboutDescription2" = "Plus d'informations:";
+"AboutRate" = "Evaluer";
+"AboutRateDescription" = "Nous apprécions chaque évaluation. Pour des complaintes utilisez pour la première fois la formulaire feedback que vous trouvez au-dessus";
+"AboutRateButton" = "Evaluer";
+"AboutPrivacyPolicyButton" = "Protection des données";
+"AboutRefundPolicyButton" = "Retour";
+"AboutTermsAndConditionsButton" = "Conditions générales";
+
+/* Overview */
+"Overview" = "Apercu général";
+"OverviewDescription" = "Des lettres envoyées se retrouvent dans cet apercu général";
+"OverviewPages" = "%zu pages";
+"OverviewPage" = "%zu page";
+"OverviewDestination" = "Lettre pour %@";
+"OverviewTitle" = "Lettre %i";
+"OverviewDetails" = "Détails";
+"OverviewOpenButton" = "Ouvrir";
+"OverviewDeleteButton" = "Effacer";
+
+/* See where the letter will be printed control */
+"PrintingStation" = "Imprimerie";
+"PrintingStationReverseGeocodeProblem" = "Apple Maps n'a pas pu trouver l'imprimerie";
+"CourierText" = "La lettre sera envoyé avec %@.";
+"Recipient" = "Destinataire";
+"RecipientReverseGeocodeProblem" = "Apple Maps n'a pas pu trouver l'adresse du destinataire. Cela ne veut pas dire que la lettre n'a pas pu livrer, mais cela veut dire que l'adresse ne si trouve pas dans les dates de Apple Maps ou au moins pas en la langue indiquée";
+"RecipientPrintingStationDistance" = "Le destinataire se trouve à $DISTANCE$ de l'imprimerie.";
+
+/* Pay Window */
+"PayHeaderUploading" = "Der Brief wird hochgeladenLa lettre est téléchargée";
+"PaySubHeaderUploading" = "Entretemps vous pouvez insérer vos informations de paiement";
+"PayHeaderUploadFailed" = "Charge raté";
+"PaySubHeaderUploadFailed" = "S'il vous plait essayer de charger de nouveau la lettre";
+"PayHeaderUploadSuccessful" = "Charge réussi";
+"PaySubHeaderUploadSuccessful" = "On continue après vous avez écrit vous informations de paiement";
+"PayHeaderRetryingUpload" = "La lettre sera chargée";
+"PaySubHeaderRetryingUpload" = "La lettre sera chargée de nouveau";
+"PayHeaderPaymentFailed" = "Paiement raté";
+"PaySubHeaderPaymentFailed" = "S'il vous plait véfifiez vos dates de paiement";
+"PayHeaderPaymentSuccessful" = "Merci beaucoup!";
+"PaySubHeaderPaymentSuccessful" = "Nous avons recu votre paiement et nous avons commencé l'impression, l'enveloppement et l'envoi";
+"PayHeaderAcceptTerms" = "S'il vous plait acceptez les conditions générales";
+"PaySubHeaderAcceptTerms" = "Um fortzufahren müssen Sie die AGBs akzeptierenPour continuer vous devez accepter les conditions générales.";
+"PayPriceHeader" = "Prix total";
+"PayPriceButton" = "Payer";
+"PayRetryUploadButton" = "Charger de nouveau";
+"PayStoreAddress" = "Rechnungsdaten SpeichernEnregistrer les dates de paiement";
+"PayPriceUploadFailed" = "Charge raté…";
+"PayTerms" = "Acceptez nos <a href=\"http://www.ceseros.de\">conditions générales</a> et les <a href=\"http://www.qiq.com.au/php/docsaway_conditions.php\">AGBs</a> de gew&auml;hlten l'imprimerie.";
+"PayCreditCardHeader" = "Dates de la carte de crédit";
+"PayBillingHeader" = "Dates de la facture";
+"BillingName" = "Destinataire de la facture";
+"BillingLine1" = "Rue & Numéro";
+"BillingLine2" = "Seconde Bar d'adresse";
+"BillingPostalCode" = "Code postal";
+"BillingCity" = "Ville";
+"BillingCountry" = "Pays";
+"BillingEmail" = "Email (pour l'envoi de la facture)";
+"CreditCardCvv" = "CVV";
+"CreditCardHolder" = "Détenteur de la carte de crédit";
+"CreditCardNumber" = "Numéro de la carte de crédit";
+"CreditCardExpirationDate" = "Valable jusqu'à";
+
+"TutorialWelcome" = "Bienvenue Chez Mils";
+"TutorialPrintingSites" = "Printed, Enveloped, and Sent from 23 Different Sites in 23 Different Countries";
+"TutorialSignature" = "Add a Handwritten Signature using the Android, iOS, and Windows Phone Companion Apps";
+"TutorialIntegration" = "Smooth Sending from any Print Dialog in Mac OS X";
+
+/* Generic Error Strings */
+"NotEmpty" = "%@ ne doit pas etre vide";
+"NotValid" = "%@ n'est pas valable";
+
+/* Rate Questions */
+"FeedbackTitle" = "Feedback";
+"FeedbackSubTitle" = "Comment avez vous aimé le processus d'ordonner?";
+"FeedbackRateTitle" = "Voulez-vous nous donner un feedback su l'App Store?";
+"FeedbackRateSubTitle" = " Nous apprécions une évaluation dans App Store.";
+"FeedbackCommitButton" = "Envoyer anonyme";
+"FeedbackAppStoreButton" = "Vers App Store!";
+"FeedbackAppStoreNoThanksButton" = "Non merci!";
