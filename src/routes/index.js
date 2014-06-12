@@ -2,9 +2,27 @@ var config = require("./../config");
 
 exports.index = function(req, res) {
     var countries = getCountries(function (data) {
-        res.render('index', {countries: data});
+        res.render('index', {countries: data, osInfo: getOsInformation(req)});
     });
 };
+
+function getOsInformation(req) {
+    var ua = req.headers['user-agent'];
+    var info = {
+        isMacOsX: false,
+        isWindows8: false
+    };
+    console.log(ua);
+    if (/Mac OS X/.test(ua)) {
+        info.isMacOsX = true;
+    }
+
+    if (/Windows NT 6.[2-9]/.test(ua)) {
+        info.isWindows8 = true;
+    }
+
+    return info;
+}
 
 function getCountries(callback) {
     var csv = require('csv');
