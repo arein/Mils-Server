@@ -4,6 +4,11 @@ class PrintInformation {
     city: string;
     country: string;
     provider: ProviderType.ProviderType;
+    printJobReference: string;
+    passedToPrintingProvider: boolean;
+    passedToPrintingProviderAt: Date;
+    dispatchedByPrintingProvider: boolean;
+    dispatchedByPrintingProviderAt: Date;
 }
 
 export = PrintInformation;

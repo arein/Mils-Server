@@ -54,7 +54,7 @@ var Docsaway = (function () {
                 callback(error);
                 return;
             }
-            var priceInEur = result.price * 0.65 * 0.75;
+            var priceInEur = result.price * 0.65;
             var digest = new CalculatePriceDigest(priceInEur, result.city, result.country, result.courier);
             callback(undefined, digest);
         });

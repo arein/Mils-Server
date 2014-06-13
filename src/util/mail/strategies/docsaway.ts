@@ -52,7 +52,7 @@ class Docsaway implements IMailStrategy {
                 callback(error);
                 return;
             }
-            var priceInEur = result.price * 0.65 * 0.75; // Conversion and reduced price
+            var priceInEur = result.price * 0.65; // Conversion from AUD to EUR
             var digest = new CalculatePriceDigest(priceInEur, result.city, result.country, result.courier);
             callback(undefined, digest);
         });

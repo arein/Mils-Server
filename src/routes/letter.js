@@ -36,11 +36,11 @@ exports.purchaseLetter = function (req, res) {
                     return;
                 }
                 var braintreeClient = new BraintreeClient(!Config.isProd());
-                braintreeClient.pay(letter.price, creditCard, function (result) {
+                braintreeClient.pay(letter.financialInformation.price, creditCard, function (result) {
                     letter.payed = true;
-                    letter.sandboxPurchase = braintreeClient.isSandbox();
-                    letter.purchaseDate = new Date();
-                    letter.transactionId = result.transaction.id;
+                    letter.transactionInformation.sandboxTransaction = braintreeClient.isSandbox();
+                    letter.transactionInformation.transactionDate = new Date();
+                    letter.transactionInformation.transactionId = result.transaction.id;
                     MongoManager.getNextSequence("invoicenumber", function (invoiceNumber) {
                         var sanitize = require('validator').sanitize;
                         letter.invoiceNumber = invoiceNumber;
@@ -77,11 +77,11 @@ exports.purchaseLetter = function (req, res) {
                             status.pdfProcessed = true;
 
                             if (err) {
-                                letter.dispatched = false;
+                                letter.printInformation.passedToPrintingProvider = false;
                             } else {
-                                letter.dispatched = true;
-                                letter.dispatchedAt = new Date();
-                                letter.pdfId = digest.reference;
+                                letter.printInformation.passedToPrintingProvider = true;
+                                letter.printInformation.passedToPrintingProviderAt = new Date();
+                                letter.printInformation.printJobReference = digest.reference;
                                 letter.printInformation.provider = digest.provider;
                             }
 
@@ -134,10 +134,10 @@ exports.uploadLetter = function (req, res) {
             letter.printInformation.courier = digest.courier;
             letter.printInformation.city = digest.city;
             letter.printInformation.country = digest.country;
-            letter.printingCost = digest.priceInEur;
-            letter.margin = 0.15;
-            letter.creditCardCost = 0.35;
-            letter.price = finalPrice;
+            letter.financialInformation.printingCost = digest.priceInEur;
+            letter.financialInformation.margin = 0.15;
+            letter.financialInformation.creditCardCost = 0.35;
+            letter.financialInformation.price = finalPrice;
 
             MongoManager.getDb(function (db) {
                 db.collection('letter', function (err, collection) {
@@ -149,18 +149,21 @@ exports.uploadLetter = function (req, res) {
                         if (err) {
                             res.send(500, "An error occurred on the server side");
                         } else {
+                            var responseObject = result[0];
+                            responseObject.price = result[0].financialInformation.price;
+                            responseObject.pages = result[0].pages;
                             if (shouldDownload) {
                                 var fs = require('fs');
                                 fs.readFile(Config.getBasePath() + '/public/pdf/' + letter.pdf, function (err, data) {
                                     if (err) {
                                         res.send(500, "An error occurred on the server side:" + err);
                                     } else {
-                                        result[0].pdf = data.toString("base64");
-                                        res.send(result[0]);
+                                        responseObject.pdf = data.toString("base64");
+                                        res.send(responseObject);
                                     }
                                 });
                             } else {
-                                res.send(result[0]);
+                                res.send(responseObject);
                             }
                         }
                     });

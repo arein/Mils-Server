@@ -9,7 +9,7 @@ class LetterFactory {
         var letter = new Letter();
         letter.createdAt = new Date();
         letter.updatedAt = new Date();
-        letter.dispatched = false;
+        letter.printInformation.passedToPrintingProvider = false;
         letter.billSent = false;
         letter.recipient.name = sanitize(req.body.recipientName).escape();
         letter.recipient.company = (typeof req.body.recipientCompany === 'undefined') ? undefined : sanitize(req.body.recipientCompany).escape();
