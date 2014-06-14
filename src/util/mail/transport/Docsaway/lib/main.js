@@ -506,6 +506,50 @@ function coutierNameForCourierId(courier) {
     return COURIERS[courier.toString()];
 }
 
+Client.prototype.getAccountInfo = function(reference, callback) {
+
+    //http://nodejs.org/api.html#_child_processes
+    var sys = require('sys');
+    var exec = require('child_process').exec;
+    var child;
+
+    var that = this;
+
+    that.docsaway = {
+        credentials: {
+            email: that.email,
+            installationKey: that.installationKey,
+            mode: that.mode
+        },
+        reference: reference
+    };
+
+    var json = JSON.stringify(that.docsaway);
+
+    // executes `pwd`
+    child = exec("php " + __dirname + "/account.php '" + json + "'", function (error, stdout, stderr) {
+        if (error) {
+            callback(new Error(error.message), undefined);
+            return;
+        }
+        var response = JSON.parse(stdout);
+        if (typeof stderr !== 'undefined' && stderr != '') {
+            callback(new Error(stderr), undefined);
+            return;
+        }
+        if (typeof response.debug !== 'undefined' && typeof response.debug.errno !== 'undefined' && response.debug.errno != '0') {
+            callback(new Error(errorKeyToFindStationErrorMessage(response.debug.errno)), undefined);
+            return;
+        }
+        if (response.error != undefined && response.error != '') {
+            callback(new Error(response.error), undefined);
+            return;
+        }
+
+        callback(undefined, Date.parse(response.dispatch));
+    });
+};
+
 // export the class
 exports.Client = Client;
 

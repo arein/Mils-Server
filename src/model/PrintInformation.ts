@@ -9,6 +9,11 @@ class PrintInformation {
     passedToPrintingProviderAt: Date;
     dispatchedByPrintingProvider: boolean;
     dispatchedByPrintingProviderAt: Date;
+
+    constructor() {
+        this.dispatchedByPrintingProvider = false;
+        this.passedToPrintingProvider = false;
+    }
 }
 
 export = PrintInformation;

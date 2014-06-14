@@ -1,1 +1,1 @@
-{"version":3,"file":"PrintInformation.js","sourceRoot":"","sources":["PrintInformation.ts"],"names":["PrintInformation","PrintInformation.constructor"],"mappings":"AAAA;IACAA;IAUAC,CAACA;AAAAD,IAADA,wBAACA;AAADA,CAACA,IAAA;;AAED,iCAA0B,CAAA"}
+{"version":3,"file":"PrintInformation.js","sourceRoot":"","sources":["PrintInformation.ts"],"names":["PrintInformation","PrintInformation.constructor"],"mappings":"AAAA;IAYIA;QACIC,IAAIA,CAACA,4BAA4BA,GAAGA,KAAKA;QACzCA,IAAIA,CAACA,wBAAwBA,GAAGA,KAAKA;IACzCA,CAACA;IACLD,wBAACA;AAADA,CAACA,IAAA;;AAED,iCAA0B,CAAA"}

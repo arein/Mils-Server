@@ -20,6 +20,23 @@ var Config = (function () {
 
         return false;
     };
+
+    Config.getNodemailerTransport = function () {
+        var nodemailer = require("nodemailer");
+
+        // create reusable transport method (opens pool of SMTP connections)
+        var smtpTransport = nodemailer.createTransport("SMTP", {
+            host: "intern.ceseros.de",
+            secureConnection: false,
+            port: 25,
+            auth: {
+                user: "hello@milsapp.com",
+                pass: "Mk72TBbL"
+            }
+        });
+
+        return smtpTransport;
+    };
     return Config;
 })();
 
