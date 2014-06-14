@@ -325,6 +325,43 @@ var COURIERS = {
     'US1_1': 'USPS'
 };
 
+
+
+var ACCOUNT_ERROR_MESSAGES = {
+    '001': {
+        key: 'errStringEmpty',
+        value: 'Submitting an empty value for a mandatory field.'
+    },
+    '002': {
+        key: 'errUserAuthentication',
+        value: 'User authentication information is incorrect.'
+    },
+    '003': {
+        key: 'errAccountDeactivated ',
+        value: 'User account has been deactivated.'
+    },
+    '004': {
+        key: 'errAPIConnectionNotFound',
+        value: ' API connection has not been found.'
+    },
+    '005': {
+        key: 'errReferenceNotFound',
+        value: 'setAudit() method reference value not recognized.'
+    },
+    '006': {
+        key: 'errPropertyNotRecognized',
+        value: 'setAudit() method action value not recognized.'
+    },
+    '007': {
+        key: 'errReferenceRestrictedAccess',
+        value: 'setAudit() method reference specified is not accessible via your account.'
+    },
+    '008': {
+        key: 'errStringLength',
+        value: 'Submitted a string length larger than allowed.'
+    }
+};
+
 /**
  * New node file
  */
@@ -464,7 +501,7 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 				return;
 			}
 			if (typeof response.debug !== 'undefined' && typeof response.debug.errno !== 'undefined' && response.debug.errno != '0') {
-				callback(new Error(errorKeyToPricingErrorMessage(response.debug.errno)), undefined);
+				callback(new Error(errorKeyToAccountErrorMessage(response.debug.errno)), undefined);
 				return;
 			}
             if (typeof response.error !== 'undefined' && response.error != '') {
@@ -496,6 +533,10 @@ function errorKeyToFindStationErrorMessage(number) {
 
 function errorKeyToPricingErrorMessage(number) {
 	return PRICING_ERROR_MESSAGES[number.toString()].value;
+}
+
+function errorKeyToAccountErrorMessage(number) {
+    return ACCOUNT_ERROR_MESSAGES[number.toString()].value;
 }
 
 function stationInfoForStation(station) {
