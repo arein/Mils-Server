@@ -5,6 +5,7 @@ import Recipient = require("./Recipient");
 import PrintInformation = require("./PrintInformation");
 import TransactionInformation = require("./TransactionInformation");
 import FinancialInformation = require("./FinancialInformation");
+import Client = require('Client')
 
 class Letter {
     _id : mongo.ObjectID;
@@ -21,6 +22,7 @@ class Letter {
     pdf: string;
     createdAt: Date;
     updatedAt: Date;
+    devices: Array<Client>;
 
     constructor() {
         this.issuer = new Issuer();
@@ -28,6 +30,7 @@ class Letter {
         this.printInformation = new PrintInformation();
         this.financialInformation = new FinancialInformation();
         this.transactionInformation = new TransactionInformation();
+        this.devices = [];
     }
 }
 

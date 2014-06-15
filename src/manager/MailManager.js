@@ -14,7 +14,7 @@ var MailManager = (function () {
                     payed: true,
                     "printInformation.passedToPrintingProvider": true,
                     '$or': [
-                        { "printInformation.dispatchedByPrintingProvider": { '$exists': false } },
+                        { "printInformation.dispatchedByPrintingProvider": false },
                         { "printInformation.dispatchedByPrintingProvider": { '$exists': false } }]
                 }).toArray(function (err, letters) {
                     if (err)

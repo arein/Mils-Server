@@ -19,6 +19,8 @@ import PurchaseValidator = require('./../validator/PurchaseValidator')
 import UploadValidator = require('./../validator/UploadValidator')
 import LetterFactory = require('./../model/LetterFactory')
 import BillHelper = require('./../util/BillHelper')
+import Client = require('./../model/Client')
+import ClientType = require('./../model/ClientType')
 
 exports.purchaseLetter = function(req : express.Request, res : express.Response) {
     PurchaseValidator.validate(req); // Validate Input
@@ -195,5 +197,38 @@ exports.calculatePrice = function(req: express.Request, res: express.Response) {
 
             res.send({'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': finalPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier});
         }
+    });
+};
+
+exports.pushNotification = function(req :express.Request, res :express.Response) {
+    var check = require('validator').check; // Validation
+    check(req.query.device).notNull();
+    check(req.params.id).notNull();
+    check(req.query.uri).notNull();
+
+    MongoManager.getDb(function (db : mongo.Db) {
+        db.collection('letter', function (err:Error, collection:mongo.Collection) {
+            collection.findOne({'_id': new mongo.ObjectID(req.params.id)}, function (err:Error, letter:Letter) {
+                if (err) {
+                    res.json(500, "The letter could not be found");
+                    return;
+                }
+
+                var client;
+                switch (req.query.device) {
+                    default :
+                        client = new Client(ClientType.ClientType.Windows81, req.query.uri);
+                        letter.devices.push(client);
+                        break;
+                }
+                collection.update({'_id': letter._id}, letter, {safe: true}, function (err:Error, result:number) {
+                    if (err) {
+                        res.json(500, {'error': 'An error has occurred'});
+                    } else {
+                        res.json("Device added");
+                    }
+                });
+            });
+        });
     });
 };

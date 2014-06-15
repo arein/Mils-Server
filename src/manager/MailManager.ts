@@ -12,7 +12,7 @@ class MailManager {
                 collection.find({
                     payed: true,
                     "printInformation.passedToPrintingProvider": true,
-                    '$or': [{"printInformation.dispatchedByPrintingProvider": {'$exists': false}},
+                    '$or': [{"printInformation.dispatchedByPrintingProvider": false},
                         {"printInformation.dispatchedByPrintingProvider": {'$exists': false}}]
 
                 })

@@ -16,6 +16,7 @@ class NotificationManager {
                     letter.printInformation.dispatchedByPrintingProvider = true;
                     letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;
                     NotificationManager.notifyCustomerViaEmail(letter);
+                    NotificationManager.notifyCustomerViaPushNotification(letter);
                 });
             }
         });
@@ -35,7 +36,7 @@ class NotificationManager {
             dispatchedByPrintingProviderAt: prettyDispatchedByPrintingProviderAt
         };
 
-        jade.renderFile('./../views/dispatched_email.jade', options, function (err, html) {
+        jade.renderFile(Config.getBasePath()  + '/views/dispatched_email.jade', options, function (err, html) {
             if (err) throw err;
             // create reusable transport method (opens pool of SMTP connections)
             var smtpTransport = Config.getNodemailerTransport();
@@ -59,8 +60,26 @@ class NotificationManager {
         });
     }
 
-    public notifyCustomerViaPushNotification(letter: Letter) {
+    public static notifyCustomerViaPushNotification(letter: Letter) {
+        for (var i = 0; i < letter.devices.length; i++) {
+            var device = letter.devices[i];
+            var wns = require('wns');
 
+            var channelUrl = device.uri;
+            var options = {
+                client_id: 'ms-app://s-1-15-2-1797842556-2978483067-2652608984-700972092-662318483-3541751713-3387607526',
+                client_secret: 'OG53FJdqtCkjKt0dtNZyuMrUt2wWhNE6'
+            };
+
+            wns.sendToastText01(channelUrl, {
+                    text1: 'Your letter was successfully dispatched'
+                }, options, function (error, result) {
+                if (error)
+                    console.error(error);
+                else
+                    console.log(result);
+            });
+        }
     }
 }
 

@@ -11,6 +11,7 @@ var Letter = (function () {
         this.printInformation = new PrintInformation();
         this.financialInformation = new FinancialInformation();
         this.transactionInformation = new TransactionInformation();
+        this.devices = [];
     }
     return Letter;
 })();

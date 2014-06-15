@@ -20,3 +20,6 @@ BugSense has a free pricing tier which is limited to 500 errors per month and 30
 
 ## Summary
 Improve your app, one bug report at a time ;)
+
+## Update
+Thomas, the CEO of HockeyApp told us that they offer a SDK for Windows Store apps as well. Check it out: [HockeyApp Windows](https://github.com/bitstadium/HockeySDK-Windows)

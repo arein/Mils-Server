@@ -113,6 +113,7 @@ app.get('/contact', index.contact);
 app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);
+app.post('/letters/pn/:id', letter.pushNotification);
 app.post('/letters', letter.uploadLetter);
 app.get('/downloads/osx', index.osxDownload);
 
@@ -145,7 +146,7 @@ app.use(function(req, res, next){
 });
 
 http.createServer(app).listen(app.get('port'), function () {
-    console.log('Mils server listening on port ' + app.get('port'));
+    console.log('Mils listening on port ' + app.get('port'));
 });
 
 export = app;

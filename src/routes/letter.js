@@ -17,6 +17,8 @@ var PurchaseValidator = require('./../validator/PurchaseValidator');
 var UploadValidator = require('./../validator/UploadValidator');
 var LetterFactory = require('./../model/LetterFactory');
 var BillHelper = require('./../util/BillHelper');
+var Client = require('./../model/Client');
+var ClientType = require('./../model/ClientType');
 
 exports.purchaseLetter = function (req, res) {
     PurchaseValidator.validate(req); // Validate Input
@@ -191,6 +193,39 @@ exports.calculatePrice = function (req, res) {
 
             res.send({ 'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': finalPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier });
         }
+    });
+};
+
+exports.pushNotification = function (req, res) {
+    var check = require('validator').check;
+    check(req.query.device).notNull();
+    check(req.params.id).notNull();
+    check(req.query.uri).notNull();
+
+    MongoManager.getDb(function (db) {
+        db.collection('letter', function (err, collection) {
+            collection.findOne({ '_id': new mongo.ObjectID(req.params.id) }, function (err, letter) {
+                if (err) {
+                    res.json(500, "The letter could not be found");
+                    return;
+                }
+
+                var client;
+                switch (req.query.device) {
+                    default:
+                        client = new Client(0 /* Windows81 */, req.query.uri);
+                        letter.devices.push(client);
+                        break;
+                }
+                collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
+                    if (err) {
+                        res.json(500, { 'error': 'An error has occurred' });
+                    } else {
+                        res.json("Device added");
+                    }
+                });
+            });
+        });
     });
 };
 //# sourceMappingURL=letter.js.map
