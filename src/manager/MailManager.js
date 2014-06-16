@@ -34,9 +34,11 @@ var MailManager = (function () {
         var mode = Config.isProd() ? "LIVE" : "TEST";
         var client = new docsaway.Client(email, installationKey, mode);
         client.getAccountInfo(reference, function (err, dispatchDate) {
-            if (err)
-                throw err;
-            callback(dispatchDate);
+            if (err) {
+                callback(err);
+            } else {
+                callback(undefined, dispatchDate);
+            }
         });
     };
     return MailManager;

@@ -4,6 +4,7 @@ import MongoManager = require("./MongoManager")
 import Letter = require("./../model/Letter")
 import MailManager = require("./MailManager")
 import Config = require("./../config")
+import ClientType = require("./../model/ClientType")
 
 class NotificationManager {
     public notifiyCustomersOfDispatchedDocuments() {
@@ -11,12 +12,14 @@ class NotificationManager {
         mm.getPassedToProviderButNotDispatchedLetters(function (letters: Array<Letter>) {
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
-                mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function(dispatchDate: Date) {
-                    // TODO: Save the letter
-                    letter.printInformation.dispatchedByPrintingProvider = true;
-                    letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;
-                    NotificationManager.notifyCustomerViaEmail(letter);
-                    NotificationManager.notifyCustomerViaPushNotification(letter);
+                mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function(error: Error, dispatchDate: Date) {
+                    if (typeof error === 'undefined') {
+                        // TODO: Save the letter
+                        letter.printInformation.dispatchedByPrintingProvider = true;
+                        letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;
+                        NotificationManager.notifyCustomerViaEmail(letter);
+                        NotificationManager.notifyCustomerViaPushNotification(letter);
+                    }
                 });
             }
         });
@@ -63,22 +66,24 @@ class NotificationManager {
     public static notifyCustomerViaPushNotification(letter: Letter) {
         for (var i = 0; i < letter.devices.length; i++) {
             var device = letter.devices[i];
-            var wns = require('wns');
+            if (device.type == ClientType.ClientType.Windows81) {
+                var wns = require('wns');
 
-            var channelUrl = device.uri;
-            var options = {
-                client_id: 'ms-app://s-1-15-2-1797842556-2978483067-2652608984-700972092-662318483-3541751713-3387607526',
-                client_secret: 'OG53FJdqtCkjKt0dtNZyuMrUt2wWhNE6'
-            };
+                var channelUrl = device.uri;
+                var options = {
+                    client_id: 'ms-app://s-1-15-2-1797842556-2978483067-2652608984-700972092-662318483-3541751713-3387607526',
+                    client_secret: 'OG53FJdqtCkjKt0dtNZyuMrUt2wWhNE6'
+                };
 
-            wns.sendToastText01(channelUrl, {
+                wns.sendToastText01(channelUrl, {
                     text1: 'Your letter was successfully dispatched'
                 }, options, function (error, result) {
-                if (error)
-                    console.error(error);
-                else
-                    console.log(result);
-            });
+                    if (error)
+                        console.error(error);
+                    else
+                        console.log(result);
+                });
+            }
         }
     }
 }

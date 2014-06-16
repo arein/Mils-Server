@@ -1,5 +1,6 @@
 var MailManager = require("./MailManager");
 var Config = require("./../config");
+var ClientType = require("./../model/ClientType");
 
 var NotificationManager = (function () {
     function NotificationManager() {
@@ -9,12 +10,14 @@ var NotificationManager = (function () {
         mm.getPassedToProviderButNotDispatchedLetters(function (letters) {
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
-                mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function (dispatchDate) {
-                    // TODO: Save the letter
-                    letter.printInformation.dispatchedByPrintingProvider = true;
-                    letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;
-                    NotificationManager.notifyCustomerViaEmail(letter);
-                    NotificationManager.notifyCustomerViaPushNotification(letter);
+                mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function (error, dispatchDate) {
+                    if (typeof error === 'undefined') {
+                        // TODO: Save the letter
+                        letter.printInformation.dispatchedByPrintingProvider = true;
+                        letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;
+                        NotificationManager.notifyCustomerViaEmail(letter);
+                        NotificationManager.notifyCustomerViaPushNotification(letter);
+                    }
                 });
             }
         });
@@ -66,22 +69,24 @@ var NotificationManager = (function () {
     NotificationManager.notifyCustomerViaPushNotification = function (letter) {
         for (var i = 0; i < letter.devices.length; i++) {
             var device = letter.devices[i];
-            var wns = require('wns');
+            if (device.type == 0 /* Windows81 */) {
+                var wns = require('wns');
 
-            var channelUrl = device.uri;
-            var options = {
-                client_id: 'ms-app://s-1-15-2-1797842556-2978483067-2652608984-700972092-662318483-3541751713-3387607526',
-                client_secret: 'OG53FJdqtCkjKt0dtNZyuMrUt2wWhNE6'
-            };
+                var channelUrl = device.uri;
+                var options = {
+                    client_id: 'ms-app://s-1-15-2-1797842556-2978483067-2652608984-700972092-662318483-3541751713-3387607526',
+                    client_secret: 'OG53FJdqtCkjKt0dtNZyuMrUt2wWhNE6'
+                };
 
-            wns.sendToastText01(channelUrl, {
-                text1: 'Your letter was successfully dispatched'
-            }, options, function (error, result) {
-                if (error)
-                    console.error(error);
-                else
-                    console.log(result);
-            });
+                wns.sendToastText01(channelUrl, {
+                    text1: 'Your letter was successfully dispatched'
+                }, options, function (error, result) {
+                    if (error)
+                        console.error(error);
+                    else
+                        console.log(result);
+                });
+            }
         }
     };
     return NotificationManager;
