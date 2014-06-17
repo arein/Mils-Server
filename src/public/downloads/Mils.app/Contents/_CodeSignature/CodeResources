@@ -30,7 +30,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		aWoFKQQSyqdy2UtvqdF48vXJuyw=
+		7l2Y1QQHeSVcxXxq33q7ZIETKYc=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
@@ -67,7 +67,7 @@
 		</data>
 		<key>Resources/CSOverviewViewController.nib</key>
 		<data>
-		q2tPW0ROVv48FnlAnuAYJoBC7NU=
+		OXBFPJOBr8yBm0yL5ssSqx+Idm0=
 		</data>
 		<key>Resources/CSPayWindowController.nib</key>
 		<data>
@@ -477,7 +477,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			9e5TnCSrpU4/9QLdldZgNSJ4X7o=
+			eI8YHBsafRJ9CQDPoG7qzaRnq2Q=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "net.hockeyapp.sdk.mac" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MRZBB58H5U)</string>
@@ -486,7 +486,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			aSR+HqaVCvVLnwB0mXUGNzJqvcE=
+			2HK/t+1rcSHS8f4CQGhKKTlVSTc=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.restkit.RestKit" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MRZBB58H5U)</string>
@@ -517,7 +517,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		aWoFKQQSyqdy2UtvqdF48vXJuyw=
+		7l2Y1QQHeSVcxXxq33q7ZIETKYc=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
@@ -554,7 +554,7 @@
 		</data>
 		<key>Resources/CSOverviewViewController.nib</key>
 		<data>
-		q2tPW0ROVv48FnlAnuAYJoBC7NU=
+		OXBFPJOBr8yBm0yL5ssSqx+Idm0=
 		</data>
 		<key>Resources/CSPayWindowController.nib</key>
 		<data>
@@ -957,6 +957,10 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>embedded.provisionprofile</key>
+		<data>
+		HqlxKh8rJLTAlQWgbRpbEHk7ASw=
+		</data>
 	</dict>
 	<key>rules</key>
 	<dict>
