@@ -212,6 +212,10 @@ exports.pushNotification = function (req, res) {
 
                 var client;
                 switch (req.query.device) {
+                    case "OSX1010":
+                        client = new Client(1 /* MacOS1010 */, req.query.uri);
+                        letter.devices.push(client);
+                        break;
                     default:
                         client = new Client(0 /* Windows81 */, req.query.uri);
                         letter.devices.push(client);
