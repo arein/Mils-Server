@@ -99,7 +99,7 @@ class NotificationManager {
                 note.expiry = Math.floor(Date.now() / 1000) + 3600 * 24; // Expires 24 hour from now.
                 note.badge = 1;
                 note.alert = "Your letter was dispatched";
-                note.payload = {'messageFrom': 'Caroline'};
+                note.payload = {'remoteLetterId': letter._id};
 
                 apnConnection.pushNotification(note, myDevice);
             }
