@@ -83,6 +83,25 @@ class NotificationManager {
                     else
                         console.log(result);
                 });
+            } else if (device.type == ClientType.ClientType.MacOS1010) {
+                var apn = require('apn');
+                var prefix = Config.isProd() ? "production" : "sandbox";
+                var opt = {
+                    production: Config.isProd(),
+                    cert: Config.getBasePath() + "/private/encryption/" + prefix + ".cert.pem",
+                    key: Config.getBasePath() + "/private/encryption/" + prefix + ".key.pem"
+                };
+
+                var apnConnection = new apn.Connection(opt);
+                var myDevice = new apn.Device(device.uri);
+                var note = new apn.Notification();
+
+                note.expiry = Math.floor(Date.now() / 1000) + 3600 * 24; // Expires 24 hour from now.
+                note.badge = 1;
+                note.alert = "Your letter was dispatched";
+                note.payload = {'messageFrom': 'Caroline'};
+
+                apnConnection.pushNotification(note, myDevice);
             }
         }
     }

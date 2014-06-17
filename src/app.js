@@ -106,7 +106,7 @@ app.get('/contact', index.contact);
 app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);
-app.post('/letters/pn/:id', letter.pushNotification);
+app.get('/letters/pn/:id', letter.pushNotification);
 app.post('/letters', letter.uploadLetter);
 app.get('/downloads/osx', index.osxDownload);
 
