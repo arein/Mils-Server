@@ -7,32 +7,51 @@ var ClientType = require("./../model/ClientType");
 var NotificationManager = (function () {
     function NotificationManager() {
     }
-    NotificationManager.prototype.notifiyCustomersOfDispatchedDocuments = function () {
+    NotificationManager.prototype.notifiyCustomersOfDispatchedDocuments = function (callback) {
         var mm = new MailManager();
+        var dispatchedLetters = 0;
+        var dispatchErrors = 0;
+        var lettersToDispatch = 0;
         mm.getPassedToProviderButNotDispatchedLetters(function (letters) {
+            lettersToDispatch = letters.length;
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
                 mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function (error, dispatchDate) {
                     if (typeof error === 'undefined') {
-                        // TODO: Save the letter
                         letter.printInformation.dispatchedByPrintingProvider = true;
                         letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;
 
                         NotificationManager.notifyCustomerViaEmail(letter, function (error) {
                             if (!error) {
-                                NotificationManager.notifyCustomerViaPushNotification(letter);
-
-                                MongoManager.getDb(function (db) {
-                                    db.collection('letter', function (err, collection) {
-                                        collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
-                                            if (err) {
-                                                console.log(err);
-                                            }
+                                NotificationManager.notifyCustomerViaPushNotification(letter, function (error) {
+                                    MongoManager.getDb(function (db) {
+                                        db.collection('letter', function (err, collection) {
+                                            collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
+                                                if (err) {
+                                                    dispatchErrors++;
+                                                    console.log(err);
+                                                } else {
+                                                    dispatchedLetters++;
+                                                }
+                                                if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
+                                                    callback(dispatchedLetters, dispatchErrors);
+                                                }
+                                            });
                                         });
                                     });
                                 });
+                            } else {
+                                dispatchErrors++;
+                                if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
+                                    callback(dispatchedLetters, dispatchErrors);
+                                }
                             }
                         });
+                    } else {
+                        dispatchErrors++;
+                        if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
+                            callback(dispatchedLetters, dispatchErrors);
+                        }
                     }
                 });
             }
@@ -81,7 +100,11 @@ var NotificationManager = (function () {
         });
     };
 
-    NotificationManager.notifyCustomerViaPushNotification = function (letter) {
+    /**
+    * Currently works with 1 device only due to callback
+    * @param letter
+    */
+    NotificationManager.notifyCustomerViaPushNotification = function (letter, callback) {
         if (typeof letter.devices !== "undefined") {
             for (var i = 0; i < letter.devices.length; i++) {
                 var device = letter.devices[i];
@@ -97,10 +120,11 @@ var NotificationManager = (function () {
                     wns.sendToastText01(channelUrl, {
                         text1: 'Your letter was successfully dispatched'
                     }, options, function (error, result) {
-                        if (error)
-                            console.error(error);
-                        else
-                            console.log(result);
+                        if (error) {
+                            callback(error);
+                        } else {
+                            callback();
+                        }
                     });
                 } else if (device.type == 1 /* MacOS1010 */) {
                     var apn = require('apn');

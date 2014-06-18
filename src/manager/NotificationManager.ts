@@ -7,33 +7,52 @@ import Config = require("./../config")
 import ClientType = require("./../model/ClientType")
 
 class NotificationManager {
-    public notifiyCustomersOfDispatchedDocuments() {
+    public notifiyCustomersOfDispatchedDocuments(callback: (numberOfDispatchedLetters: number, numberOfDispatchErrors: number) => void) {
         var mm: MailManager = new MailManager();
+        var dispatchedLetters = 0;
+        var dispatchErrors = 0;
+        var lettersToDispatch = 0;
         mm.getPassedToProviderButNotDispatchedLetters(function (letters: Array<Letter>) {
+            lettersToDispatch = letters.length;
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
                 mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function(error: Error, dispatchDate: Date) {
                     if (typeof error === 'undefined') {
-                        // TODO: Save the letter
                         letter.printInformation.dispatchedByPrintingProvider = true;
                         letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;
 
                         NotificationManager.notifyCustomerViaEmail(letter, function(error: Error) {
                             if (!error) {
-                                NotificationManager.notifyCustomerViaPushNotification(letter);
-
-                                MongoManager.getDb(function (db:mongo.Db) {
-                                    db.collection('letter', function (err:Error, collection) {
-                                        collection.update({'_id': letter._id}, letter, {safe: true}, function (err:Error, result:number) {
-                                            if (err) {
-                                                console.log(err);
-                                            }
+                                NotificationManager.notifyCustomerViaPushNotification(letter, function (error: Error) {
+                                    MongoManager.getDb(function (db:mongo.Db) {
+                                        db.collection('letter', function (err:Error, collection) {
+                                            collection.update({'_id': letter._id}, letter, {safe: true}, function (err:Error, result:number) {
+                                                if (err) {
+                                                    dispatchErrors++;
+                                                    console.log(err);
+                                                } else {
+                                                    dispatchedLetters++;
+                                                }
+                                                if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
+                                                    callback(dispatchedLetters, dispatchErrors);
+                                                }
+                                            });
                                         });
                                     });
                                 });
+                            } else {
+                                dispatchErrors++;
+                                if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
+                                    callback(dispatchedLetters, dispatchErrors);
+                                }
                             }
                         });
 
+                    } else {
+                        dispatchErrors++;
+                        if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
+                            callback(dispatchedLetters, dispatchErrors);
+                        }
                     }
                 });
             }
@@ -78,7 +97,11 @@ class NotificationManager {
         });
     }
 
-    public static notifyCustomerViaPushNotification(letter: Letter) {
+    /**
+     * Currently works with 1 device only due to callback
+     * @param letter
+     */
+    public static notifyCustomerViaPushNotification(letter: Letter, callback: (err?: Error) => void) {
         if (typeof letter.devices !== "undefined") {
             for (var i = 0; i < letter.devices.length; i++) {
                 var device = letter.devices[i];
@@ -94,10 +117,11 @@ class NotificationManager {
                     wns.sendToastText01(channelUrl, {
                         text1: 'Your letter was successfully dispatched'
                     }, options, function (error, result) {
-                        if (error)
-                            console.error(error);
-                        else
-                            console.log(result);
+                        if (error) {
+                            callback(error);
+                        } else {
+                            callback();
+                        }
                     });
                 } else if (device.type == ClientType.ClientType.MacOS1010) {
                     var apn = require('apn');
