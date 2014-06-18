@@ -1,1 +1,1 @@
-{"version":3,"file":"Currencies.js","sourceRoot":"","sources":["Currencies.ts"],"names":[],"mappings":""}
+{"version":3,"file":"Currencies.js","sourceRoot":"","sources":["Currencies.ts"],"names":["Currency"],"mappings":"AAAA,CAAA,UAAY,QAAQ;IAChBA,2BAAMA,CAACA,SAAAA;IACPA,2BAAMA,CAACA,SAAAA;IACPA,2BAAMA,CAACA,SAAAA;IACPA,2BAAMA,CAACA,SAAAA;gDACV;gCAAA;AAAA"}

@@ -19,6 +19,7 @@ var LetterFactory = require('./../model/LetterFactory');
 var BillHelper = require('./../util/BillHelper');
 var Client = require('./../model/Client');
 var ClientType = require('./../model/ClientType');
+var CurrencyConverter = require('./../util/CurrencyConverter');
 
 exports.purchaseLetter = function (req, res) {
     PurchaseValidator.validate(req); // Validate Input
@@ -179,6 +180,11 @@ exports.calculatePrice = function (req, res) {
     var check = require('validator').check;
     var pages = req.query.pages, destination = req.query.destination, preferredCurrency = req.query.preferred_currency;
 
+    if (!["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency)) {
+        res.send(502, { 'error': "Your preferred currency is not supported" });
+        return;
+    }
+
     check(pages).notNull().isInt();
     check(destination).notNull();
     check(preferredCurrency).notNull().len(1, 6);
@@ -191,7 +197,14 @@ exports.calculatePrice = function (req, res) {
             var finalPrice = (digest.priceInEur + 0.15 + 0.35) * 1.19;
             var finalPriceShorted = finalPrice.toFixed(2);
 
-            res.send({ 'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': finalPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier });
+            if (preferredCurrency === "EUR") {
+                res.send({ 'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': finalPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier });
+            } else {
+                CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("EUR"), CurrencyConverter.convertStringToCurrencyType(preferredCurrency), finalPrice, function (result) {
+                    var preferredPriceShorted = result.toFixed(2);
+                    res.send({ 'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': preferredPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier });
+                });
+            }
         }
     });
 };
