@@ -14,6 +14,11 @@ class NotificationManager {
         var lettersToDispatch = 0;
         mm.getPassedToProviderButNotDispatchedLetters(function (letters: Array<Letter>) {
             lettersToDispatch = letters.length;
+
+            if (letters.length === 0) {
+                callback(0,0);
+            }
+
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
                 mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function(error: Error, dispatchDate: Date) {
