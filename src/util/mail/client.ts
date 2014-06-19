@@ -12,9 +12,9 @@ class MailClient {
         this.policy = new Policy(this.context);
     }
 
-    sendMail(filepath: string, recipient: Recipient, callback: (error: Error, digest?: SendMailDigest) => void) {
+    sendMail(filepath: string, recipient: Recipient, printBlackWhite: boolean, callback: (error: Error, digest?: SendMailDigest) => void) {
         this.policy.configure(recipient.country);
-        this.context.sendMail(filepath, recipient, callback);
+        this.context.sendMail(filepath, recipient, printBlackWhite, callback);
     }
 
     calculatePrice(pages:number, destination:string, callback:(error:Error, digest?:CalculatePriceDigest) => void) {

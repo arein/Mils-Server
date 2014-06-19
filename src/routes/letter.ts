@@ -7,6 +7,7 @@ import mongo = require("mongodb")
 import ObjectId = mongo.ObjectID
 import MailClient = require("./../util/mail/client")
 import Recipient = require("./../util/mail/model/Recipient")
+import SendMailDigest = require("./../util/mail/model/SendMailDigest")
 import CalculatePriceDigest = require("./../util/mail/model/CalculatePriceDigest")
 import BraintreeClient = require("./../util/Braintree/BraintreeClient")
 import CreditCard = require('./../util/Braintree/Model/CreditCard')
@@ -42,8 +43,8 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                     res.json(500, "The letter could not be found");
                     return;
                 }
-                var braintreeClient = new BraintreeClient(!Config.isProd(), Currency.EUR);
-                braintreeClient.pay(letter.financialInformation.price, creditCard, function (result) {
+                var braintreeClient = new BraintreeClient(!Config.isProd());
+                braintreeClient.pay(letter.financialInformation.price, Currency.EUR, creditCard, function (result) {
                     letter.payed = true;
                     letter.transactionInformation.sandboxTransaction = braintreeClient.isSandbox();
                     letter.transactionInformation.transactionDate = new Date();
@@ -140,15 +141,14 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
                 res.send(502, {'error': error.message});
                 return;
             }
-
-            // TODO: Make sure this is recalculated after sending the mail because changes to price and printing station might occur
             // Update Letter with Price and Digest Information
-            var finalPrice = (digest.priceInEur + 0.15 + 0.35) * 1.19;
+            var guessedCreditCardCost = BraintreeClient.guessTransactionCost(digest.priceInEur + 0.15);
+            var finalPrice = (digest.priceInEur + 0.15 + guessedCreditCardCost) * 1.19;
             finalPrice = parseFloat(finalPrice.toFixed(2));
             letter.printInformation.courier = digest.courier;
             letter.printInformation.city = digest.city;
             letter.printInformation.country = digest.country;
-            letter.financialInformation.creditCardCost = 0.35;
+            letter.financialInformation.creditCardCost = guessedCreditCardCost;
             letter.financialInformation.price = finalPrice;
 
             MongoManager.getDb(function (db : mongo.Db) {
@@ -205,7 +205,7 @@ exports.calculatePrice = function(req: express.Request, res: express.Response) {
         if (error) {
             res.send(502, {'error': error.message});
         } else {
-            var finalPrice : number = (digest.priceInEur + 0.15 + 0.35) * 1.19;
+            var finalPrice : number = (digest.priceInEur + 0.15 + BraintreeClient.guessTransactionCost(digest.priceInEur + 0.15)) * 1.19;
             var finalPriceShorted : string = finalPrice.toFixed(2);
 
             if (preferredCurrency === "EUR") {

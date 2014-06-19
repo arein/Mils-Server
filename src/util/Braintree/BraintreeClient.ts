@@ -64,6 +64,10 @@ class BraintreeHelper {
             }
         });
     }
+
+    public static guessTransactionCost(price: number): number {
+        return parseFloat((price * 0.04641 + 0.325).toFixed());
+    }
 }
 
 // export the class

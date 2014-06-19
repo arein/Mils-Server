@@ -6,9 +6,9 @@ var MailClient = (function () {
         this.context = new Context();
         this.policy = new Policy(this.context);
     }
-    MailClient.prototype.sendMail = function (filepath, recipient, callback) {
+    MailClient.prototype.sendMail = function (filepath, recipient, printBlackWhite, callback) {
         this.policy.configure(recipient.country);
-        this.context.sendMail(filepath, recipient, callback);
+        this.context.sendMail(filepath, recipient, printBlackWhite, callback);
     };
 
     MailClient.prototype.calculatePrice = function (pages, destination, callback) {
