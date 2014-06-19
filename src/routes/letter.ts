@@ -23,6 +23,7 @@ import Client = require('./../model/Client')
 import ClientType = require('./../model/ClientType')
 import CurrencyConverter = require('./../util/CurrencyConverter')
 import Currency = require('./../util/Braintree/Model/Currency')
+import PdfColorInspector = require('./../util/colorinspector/PdfColorInspector')
 
 exports.purchaseLetter = function(req : express.Request, res : express.Response) {
     PurchaseValidator.validate(req); // Validate Input
@@ -76,22 +77,26 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                             });
                         };
 
-                        var mailClient = new MailClient();
                         var prefix = Config.getBasePath() + '/public/pdf/';
-                        mailClient.sendMail(prefix + letter.pdf, recipient, function (err, digest) {
-                            status.pdfProcessed = true;
+                        var ci = new PdfColorInspector();
+                        ci.canApplyGrayscale(prefix + letter.pdf, function(isGreyscale) {
+                            letter.printInformation.colored = !isGreyscale; // Store whether the letter was printed in greyscale
+                            var mailClient = new MailClient();
+                            mailClient.sendMail(prefix + letter.pdf, recipient, isGreyscale, function (err, digest) {
+                                status.pdfProcessed = true;
+                                if (err) {
+                                    letter.printInformation.passedToPrintingProvider = false;
+                                } else {
+                                    letter.printInformation.passedToPrintingProvider= true;
+                                    letter.printInformation.passedToPrintingProviderAt = new Date();
+                                    letter.printInformation.printJobReference = digest.reference;
+                                    letter.printInformation.provider = digest.provider;
+                                }
 
-                            if (err) {
-                                letter.printInformation.passedToPrintingProvider = false;
-                            } else {
-                                letter.printInformation.passedToPrintingProvider= true;
-                                letter.printInformation.passedToPrintingProviderAt = new Date();
-                                letter.printInformation.printJobReference = digest.reference;
-                                letter.printInformation.provider = digest.provider;
-                            }
-
-                            conclude(status, letter, res);
+                                conclude(status, letter, res);
+                            });
                         });
+
 
                         // Send Email
                         BillHelper.sendBill(letter, 'invoice-' + letter.pdf, function (err:Error) {

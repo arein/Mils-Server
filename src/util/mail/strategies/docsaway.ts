@@ -6,7 +6,7 @@ import IMailStrategy = require('./IMailStrategy');
 import Recipient = require('./../model/Recipient');
 import Config = require('./../../../config');
 class Docsaway implements IMailStrategy {
-    sendMail(filepath:string, recipient:Recipient, callback:(error:Error, digest?:SendMailDigest) => void) {
+    sendMail(filepath:string, recipient:Recipient, printBlackWhite: boolean, callback:(error:Error, digest?:SendMailDigest) => void) {
         var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
         var email = 'adr@ceseros.de';
         // /Users/arein/node/letterapp
@@ -27,7 +27,7 @@ class Docsaway implements IMailStrategy {
             data.file = pdf.toString('base64');
             var mode : String = Config.isProd() ? "LIVE" : "TEST";
             var client = new docsaway.Client(email, installationKey, mode);
-            client.sendMail(data.recipient, data.file, function (error, result) {
+            client.sendMail(data.recipient, data.file, printBlackWhite, function (error, result) {
                 if (error) {
                     return callback(error, undefined);
                 }

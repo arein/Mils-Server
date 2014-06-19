@@ -374,7 +374,7 @@ function Client(email, installationKey, mode) {
 }
 
 // class methods
-Client.prototype.sendMail = function(recipient, file, callback) {
+Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback) {
 
     // The docsaway library requires NO instead of undefined
     recipient.address2 = (typeof recipient.address2 === 'undefined') ? false : recipient.address2;
@@ -407,6 +407,7 @@ Client.prototype.sendMail = function(recipient, file, callback) {
 		var fs = require('fs');
 		fs.writeFile(path, file, function (err) {
 		  if (err) throw err;
+            var mode = printBlackWhite ? "BW" : "CL";
 		    var docsaway = {
 				credentials: {
 					email: that.email,
@@ -414,7 +415,8 @@ Client.prototype.sendMail = function(recipient, file, callback) {
 					mode: that.mode
 				},
 				recipient: recipient,
-				file: path
+				file: path,
+                printMode: mode
 			};
 
 			var json = JSON.stringify(docsaway);

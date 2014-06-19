@@ -7,7 +7,7 @@ var Config = require('./../../../config');
 var Docsaway = (function () {
     function Docsaway() {
     }
-    Docsaway.prototype.sendMail = function (filepath, recipient, callback) {
+    Docsaway.prototype.sendMail = function (filepath, recipient, printBlackWhite, callback) {
         var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
         var email = 'adr@ceseros.de';
 
@@ -28,7 +28,7 @@ var Docsaway = (function () {
             data.file = pdf.toString('base64');
             var mode = Config.isProd() ? "LIVE" : "TEST";
             var client = new docsaway.Client(email, installationKey, mode);
-            client.sendMail(data.recipient, data.file, function (error, result) {
+            client.sendMail(data.recipient, data.file, printBlackWhite, function (error, result) {
                 if (error) {
                     return callback(error, undefined);
                 }

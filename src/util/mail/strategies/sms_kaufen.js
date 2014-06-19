@@ -5,7 +5,7 @@ var ProviderType = require('./../model/ProviderType');
 var SmsKaufen = (function () {
     function SmsKaufen() {
     }
-    SmsKaufen.prototype.sendMail = function (filepath, recipient, callback) {
+    SmsKaufen.prototype.sendMail = function (filepath, recipient, printBlackWhite, callback) {
         var FormData = require('form-data');
         var fs = require('fs');
 

@@ -21,6 +21,7 @@ var Client = require('./../model/Client');
 var ClientType = require('./../model/ClientType');
 var CurrencyConverter = require('./../util/CurrencyConverter');
 var Currency = require('./../util/Braintree/Model/Currency');
+var PdfColorInspector = require('./../util/colorinspector/PdfColorInspector');
 
 exports.purchaseLetter = function (req, res) {
     PurchaseValidator.validate(req); // Validate Input
@@ -75,21 +76,24 @@ exports.purchaseLetter = function (req, res) {
                             });
                         };
 
-                        var mailClient = new MailClient();
                         var prefix = Config.getBasePath() + '/public/pdf/';
-                        mailClient.sendMail(prefix + letter.pdf, recipient, function (err, digest) {
-                            status.pdfProcessed = true;
+                        var ci = new PdfColorInspector();
+                        ci.canApplyGrayscale(prefix + letter.pdf, function (isGreyscale) {
+                            letter.printInformation.colored = !isGreyscale; // Store whether the letter was printed in greyscale
+                            var mailClient = new MailClient();
+                            mailClient.sendMail(prefix + letter.pdf, recipient, isGreyscale, function (err, digest) {
+                                status.pdfProcessed = true;
+                                if (err) {
+                                    letter.printInformation.passedToPrintingProvider = false;
+                                } else {
+                                    letter.printInformation.passedToPrintingProvider = true;
+                                    letter.printInformation.passedToPrintingProviderAt = new Date();
+                                    letter.printInformation.printJobReference = digest.reference;
+                                    letter.printInformation.provider = digest.provider;
+                                }
 
-                            if (err) {
-                                letter.printInformation.passedToPrintingProvider = false;
-                            } else {
-                                letter.printInformation.passedToPrintingProvider = true;
-                                letter.printInformation.passedToPrintingProviderAt = new Date();
-                                letter.printInformation.printJobReference = digest.reference;
-                                letter.printInformation.provider = digest.provider;
-                            }
-
-                            conclude(status, letter, res);
+                                conclude(status, letter, res);
+                            });
                         });
 
                         // Send Email

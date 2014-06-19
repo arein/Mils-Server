@@ -5,7 +5,7 @@ import CalculatePriceDigest = require('./../model/CalculatePriceDigest');
 import IMailStrategy = require('./IMailStrategy');
 import ProviderType = require('./../model/ProviderType');
 class SmsKaufen implements IMailStrategy {
-    sendMail(filepath:string, recipient:Recipient, callback:(error:Error, digest?:SendMailDigest) => void) {
+    sendMail(filepath:string, recipient:Recipient, printBlackWhite: boolean, callback:(error:Error, digest?:SendMailDigest) => void) {
         var FormData = require('form-data');
         var fs = require('fs');
 
