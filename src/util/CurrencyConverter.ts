@@ -1,5 +1,5 @@
 /// <reference path='./../../vendor/typescript-node-definitions/node.d.ts'/>
-import Currency = require('./braintree/Model/Currency')
+import Currency = require('./Braintree/Model/Currency')
 class CurrencyConverter {
     public static convert(from: Currency, to: Currency, amount: number, callback: (result: number) => void) {
         var oxr = require('open-exchange-rates'),

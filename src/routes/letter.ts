@@ -8,8 +8,8 @@ import ObjectId = mongo.ObjectID
 import MailClient = require("./../util/mail/client")
 import Recipient = require("./../util/mail/model/Recipient")
 import CalculatePriceDigest = require("./../util/mail/model/CalculatePriceDigest")
-import BraintreeClient = require("./../util/braintree/BraintreeClient")
-import CreditCard = require('./../util/braintree/Model/CreditCard')
+import BraintreeClient = require("./../util/Braintree/BraintreeClient")
+import CreditCard = require('./../util/Braintree/Model/CreditCard')
 import TaxationHelper = require('./../util/TaxationHelper')
 import Letter = require('./../model/Letter')
 import PdfWriter = require('./../util/pdf/PdfWriter')
@@ -22,7 +22,7 @@ import BillHelper = require('./../util/BillHelper')
 import Client = require('./../model/Client')
 import ClientType = require('./../model/ClientType')
 import CurrencyConverter = require('./../util/CurrencyConverter')
-import Currency = require('./../util/braintree/Model/Currency')
+import Currency = require('./../util/Braintree/Model/Currency')
 
 exports.purchaseLetter = function(req : express.Request, res : express.Response) {
     PurchaseValidator.validate(req); // Validate Input

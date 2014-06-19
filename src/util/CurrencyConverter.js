@@ -1,5 +1,5 @@
 /// <reference path='./../../vendor/typescript-node-definitions/node.d.ts'/>
-var Currency = require('./braintree/Model/Currency');
+var Currency = require('./Braintree/Model/Currency');
 var CurrencyConverter = (function () {
     function CurrencyConverter() {
     }

@@ -6,8 +6,8 @@ var mongo = require("mongodb");
 var MailClient = require("./../util/mail/client");
 var Recipient = require("./../util/mail/model/Recipient");
 
-var BraintreeClient = require("./../util/braintree/BraintreeClient");
-var CreditCard = require('./../util/braintree/Model/CreditCard');
+var BraintreeClient = require("./../util/Braintree/BraintreeClient");
+var CreditCard = require('./../util/Braintree/Model/CreditCard');
 var TaxationHelper = require('./../util/TaxationHelper');
 
 var PdfWriter = require('./../util/pdf/PdfWriter');
@@ -20,7 +20,7 @@ var BillHelper = require('./../util/BillHelper');
 var Client = require('./../model/Client');
 var ClientType = require('./../model/ClientType');
 var CurrencyConverter = require('./../util/CurrencyConverter');
-var Currency = require('./../util/braintree/Model/Currency');
+var Currency = require('./../util/Braintree/Model/Currency');
 
 exports.purchaseLetter = function (req, res) {
     PurchaseValidator.validate(req); // Validate Input
