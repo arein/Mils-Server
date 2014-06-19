@@ -32,8 +32,10 @@ class BraintreeHelper {
     }
 
     pay(amount : number, currency: Currency, creditCard : CreditCard, success : (result : any) => void, failure : (error : Error) => void) {
+
         var saleRequest = {
             amount: amount,
+            merchantAccountId: BraintreeClient.getMerchantAccountIdForCurrency(currency),l
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,
@@ -69,7 +71,7 @@ class BraintreeHelper {
         return parseFloat((price * 0.04641 + 0.325).toFixed());
     }
 
-    private static getMerchantAccountIdForCurrency(currency: Currency): string {
+    public static getMerchantAccountIdForCurrency(currency: Currency): string {
         switch (currency) {
             case Currency.AUD:
                 return "milsAUD";

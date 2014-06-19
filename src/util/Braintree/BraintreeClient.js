@@ -28,6 +28,7 @@ var BraintreeHelper = (function () {
     BraintreeHelper.prototype.pay = function (amount, currency, creditCard, success, failure) {
         var saleRequest = {
             amount: amount,
+            merchantAccountId: BraintreeClient.getMerchantAccountIdForCurrency(currency),
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,
@@ -67,9 +68,9 @@ var BraintreeHelper = (function () {
             case 2 /* AUD */:
                 return "milsAUD";
             case 3 /* GBP */:
-                return "milsAUD";
-            case 2 /* AUD */:
-                return "milsAUD";
+                return "milsGBP";
+            case 1 /* USD */:
+                return "milsUSD";
             default:
                 return "milsEUR";
         }
