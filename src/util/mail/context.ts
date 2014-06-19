@@ -8,8 +8,8 @@ class Context {
         this._mailStrategy = newMailStrategy;
     }
 
-    sendMail(filepath:string, recipient:Recipient, callback:(error:Error, digest?:SendMailDigest) => void) {
-        this._mailStrategy.sendMail(filepath, recipient, callback);
+    sendMail(filepath:string, recipient:Recipient, printBlackWhite: boolean, callback:(error:Error, digest?:SendMailDigest) => void) {
+        this._mailStrategy.sendMail(filepath, recipient, printBlackWhite, callback);
     }
 
     calculatePrice(pages:number, destination:string, callback:(error:Error, digest?:CalculatePriceDigest) => void) {

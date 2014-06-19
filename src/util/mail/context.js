@@ -9,8 +9,8 @@ var Context = (function () {
         configurable: true
     });
 
-    Context.prototype.sendMail = function (filepath, recipient, callback) {
-        this._mailStrategy.sendMail(filepath, recipient, callback);
+    Context.prototype.sendMail = function (filepath, recipient, printBlackWhite, callback) {
+        this._mailStrategy.sendMail(filepath, recipient, printBlackWhite, callback);
     };
 
     Context.prototype.calculatePrice = function (pages, destination, callback) {

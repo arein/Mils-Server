@@ -9,7 +9,7 @@ class PrintInformation {
     passedToPrintingProviderAt: Date;
     dispatchedByPrintingProvider: boolean;
     dispatchedByPrintingProviderAt: Date;
-    colored: boolean;
+    printedInBlackWhite: boolean;
 
     constructor() {
         this.dispatchedByPrintingProvider = false;

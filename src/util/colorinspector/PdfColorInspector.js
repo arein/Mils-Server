@@ -39,7 +39,7 @@ var PdfColorInspector = (function () {
     PdfColorInspector.prototype.determineGreyscaleForPage = function (pathToPdf, pageNumber, callback) {
         var exec = require('child_process').exec;
 
-        var filename = pathToPdf.match(/([a-zA-Z0-9]*)\.pdf/)[1];
+        var filename = pathToPdf.match(/([a-zA-Z0-9-_]*)\.pdf/)[1];
         var pathToGhostScript = Config.isProd() ? "/usr/bin/gs" : "/usr/local/bin/gs";
         var pathToPng = Config.getBasePath() + '/util/colorinspector/tmp/' + filename + '[page].png';
 

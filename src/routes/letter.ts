@@ -80,9 +80,11 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                         var prefix = Config.getBasePath() + '/public/pdf/';
                         var ci = new PdfColorInspector();
                         ci.canApplyGrayscale(prefix + letter.pdf, function(isGreyscale) {
-                            letter.printInformation.colored = !isGreyscale; // Store whether the letter was printed in greyscale
+                            letter.printInformation.printedInBlackWhite = isGreyscale; // Store whether the letter was printed in greyscale
                             var mailClient = new MailClient();
-                            mailClient.sendMail(prefix + letter.pdf, recipient, isGreyscale, function (err, digest) {
+                            mailClient.sendMail(prefix + letter.pdf, recipient, isGreyscale, function (err: Error, digest?: SendMailDigest) {
+                                letter.financialInformation.printingCost = digest.price;
+                                letter.financialInformation.margin = letter.financialInformation.price - letter.financialInformation.creditCardCost - letter.financialInformation.vat;
                                 status.pdfProcessed = true;
                                 if (err) {
                                     letter.printInformation.passedToPrintingProvider = false;
@@ -146,8 +148,6 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
             letter.printInformation.courier = digest.courier;
             letter.printInformation.city = digest.city;
             letter.printInformation.country = digest.country;
-            letter.financialInformation.printingCost = digest.priceInEur;
-            letter.financialInformation.margin = 0.15;
             letter.financialInformation.creditCardCost = 0.35;
             letter.financialInformation.price = finalPrice;
 
