@@ -12,8 +12,8 @@ function getOsInformation(req) {
         isMacOsX: false,
         isWindows8: false
     };
-    console.log(ua);
-    if (/Mac OS X/.test(ua)) {
+
+    if (/Mac OS X 10_[9|10|11|12|13|14|15]/.test(ua)) {
         info.isMacOsX = true;
     }
 

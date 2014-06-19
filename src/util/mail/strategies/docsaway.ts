@@ -31,8 +31,7 @@ class Docsaway implements IMailStrategy {
                 if (error) {
                     return callback(error, undefined);
                 }
-                console.log("Provider: " + ProviderType.ProviderType.Docsaway);
-                var digest = new SendMailDigest(ProviderType.ProviderType.Docsaway, result.transaction.reference);
+                var digest = new SendMailDigest(ProviderType.ProviderType.Docsaway, result.transaction.reference, parseFloat(result.transaction.price));
                 callback(undefined, digest);
             });
         });

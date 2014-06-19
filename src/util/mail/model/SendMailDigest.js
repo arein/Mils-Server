@@ -1,7 +1,8 @@
 var SendMailDigest = (function () {
-    function SendMailDigest(provider, reference) {
+    function SendMailDigest(provider, reference, price) {
         this.provider = provider;
         this.reference = reference;
+        this.price = price;
     }
     return SendMailDigest;
 })();

@@ -131,6 +131,7 @@ exports.uploadLetter = function (req, res) {
                 return;
             }
 
+            // TODO: Make sure this is recalculated after sending the mail because changes to price and printing station might occur
             // Update Letter with Price and Digest Information
             var finalPrice = (digest.priceInEur + 0.15 + 0.35) * 1.19;
             finalPrice = parseFloat(finalPrice.toFixed(2));

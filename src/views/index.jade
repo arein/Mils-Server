@@ -15,7 +15,10 @@ block content
                 .col-lg-4
                     img(src='/images/mac-os.png', alt='Mac OS X')
                     p
-                        a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X
+                        if osInfo.isMacOsX
+                            a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X
+                        else
+                            a.btn.btn-default(href='/downloads/osx', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X
                 .col-lg-4
                     a(href="https://www.youtube.com/watch?v=z-Ag0xRoDms?autoplay=1", class='fancybox-media')
                         img(src='/images/Play-Button.png', alt='Play Video', style='width:300px;margin-top:5px;')
@@ -145,3 +148,19 @@ block content
                 div.spinner-wrap
                     div.sprite-spinner
                         img(src="/images/progressindicator.png")
+    if osInfo.isMacOsX || osInfo.isWindows8
+        //
+         Google Code for Mac OS X or Windows 8 User Conversion Page
+        script(type='text/javascript')
+            /* <![CDATA[ */
+            var google_conversion_id = 1025854613;
+            var google_conversion_language = "en";
+            var google_conversion_format = "3";
+            var google_conversion_color = "ffffff";
+            var google_conversion_label = "0KlDCOWWnAkQlZmV6QM";
+            var google_remarketing_only = false;
+            /* ]]> */
+        script(type='text/javascript', src='//www.googleadservices.com/pagead/conversion.js')
+        noscript
+            div(style='display: inline;')
+                img(height='1', width='1', style='border-style: none;', alt='', src='//www.googleadservices.com/pagead/conversion/1025854613/?label=0KlDCOWWnAkQlZmV6QM&guid=ON&script=0')
