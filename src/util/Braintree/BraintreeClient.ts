@@ -68,6 +68,19 @@ class BraintreeHelper {
     public static guessTransactionCost(price: number): number {
         return parseFloat((price * 0.04641 + 0.325).toFixed());
     }
+
+    private static getMerchantAccountIdForCurrency(currency: Currency): string {
+        switch (currency) {
+            case Currency.AUD:
+                return "milsAUD";
+            case Currency.GBP:
+                return "milsGBP";
+            case Currency.USD:
+                return "milsUSD";
+            default:
+                return "milsEUR";
+        }
+    }
 }
 
 // export the class

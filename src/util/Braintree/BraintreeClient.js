@@ -1,3 +1,5 @@
+var Currency = require('./Model/Currency');
+
 var BraintreeHelper = (function () {
     function BraintreeHelper(sandboxed) {
         this.braintree = require("braintree");
@@ -58,6 +60,19 @@ var BraintreeHelper = (function () {
 
     BraintreeHelper.guessTransactionCost = function (price) {
         return parseFloat((price * 0.04641 + 0.325).toFixed());
+    };
+
+    BraintreeHelper.getMerchantAccountIdForCurrency = function (currency) {
+        switch (currency) {
+            case 2 /* AUD */:
+                return "milsAUD";
+            case 3 /* GBP */:
+                return "milsAUD";
+            case 2 /* AUD */:
+                return "milsAUD";
+            default:
+                return "milsEUR";
+        }
     };
     return BraintreeHelper;
 })();
