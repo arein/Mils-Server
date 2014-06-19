@@ -12,6 +12,13 @@ var Config = (function () {
 
         return "/Users/arein/node/letterapp/src";
     };
+    Config.getBaseTestPath = function () {
+        if (Config.isProd()) {
+            return "/var/www/letterapp/test";
+        }
+
+        return "/Users/arein/node/letterapp/test";
+    };
 
     Config.isProd = function () {
         if (process.env.NODE_ENV != undefined && process.env.NODE_ENV.toLowerCase() == 'production') {

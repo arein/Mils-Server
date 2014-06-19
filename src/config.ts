@@ -10,6 +10,13 @@ class Config {
 
         return "/Users/arein/node/letterapp/src";
     }
+    public static getBaseTestPath() {
+        if (Config.isProd()) {
+            return "/var/www/letterapp/test";
+        }
+
+        return "/Users/arein/node/letterapp/test";
+    }
 
     public static isProd() {
         if (process.env.NODE_ENV != undefined && process.env.NODE_ENV.toLowerCase() == 'production') {
