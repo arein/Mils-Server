@@ -6,7 +6,7 @@ class BraintreeHelper {
     braintree : any;
     sandboxed : boolean;
     gateway : any;
-    constructor(sandboxed: boolean, currency: Currency.Currency) {
+    constructor(sandboxed: boolean, currency: Currency) {
         this.braintree = require("braintree");
         this.sandboxed = sandboxed;
 
