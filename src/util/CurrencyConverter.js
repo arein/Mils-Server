@@ -1,5 +1,5 @@
 /// <reference path='./../../vendor/typescript-node-definitions/node.d.ts'/>
-var Currencies = require('./braintree/Model/Currencies');
+var Currency = require('./braintree/Model/Currency');
 var CurrencyConverter = (function () {
     function CurrencyConverter() {
     }
@@ -21,13 +21,13 @@ var CurrencyConverter = (function () {
 
     CurrencyConverter.convertCurrencyTypeToString = function (currency) {
         switch (currency) {
-            case Currencies.Currency.AUD:
+            case 2 /* AUD */:
                 return "AUD";
-            case Currencies.Currency.EUR:
+            case 0 /* EUR */:
                 return "EUR";
-            case Currencies.Currency.GBP:
+            case 3 /* GBP */:
                 return "GBP";
-            case Currencies.Currency.USD:
+            case 1 /* USD */:
                 return "USD";
         }
     };
@@ -35,13 +35,13 @@ var CurrencyConverter = (function () {
     CurrencyConverter.convertStringToCurrencyType = function (currency) {
         switch (currency) {
             case "AUD":
-                return Currencies.Currency.AUD;
+                return 2 /* AUD */;
             case "EUR":
-                return Currencies.Currency.EUR;
+                return 0 /* EUR */;
             case "GBP":
-                return Currencies.Currency.GBP;
+                return 3 /* GBP */;
             case "USD":
-                return Currencies.Currency.USD;
+                return 1 /* USD */;
         }
     };
     return CurrencyConverter;

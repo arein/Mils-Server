@@ -1,6 +1,6 @@
 /// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
 import CreditCard = require('./Model/CreditCard');
-import Currency = require('./Model/Currencies')
+import Currency = require('./Model/Currency')
 
 class BraintreeHelper {
     braintree : any;

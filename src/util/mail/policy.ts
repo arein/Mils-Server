@@ -2,9 +2,6 @@
 import Context = require('./context')
 import Docsaway = require('./strategies/docsaway')
 import SmsKaufen = require('./strategies/sms_kaufen')
-import Lob = require('./strategies/lob')
-import Ezgram = require('./strategies/ezgram')
-import Postful = require('./strategies/postful')
 class Policy {
     context: Context;
 

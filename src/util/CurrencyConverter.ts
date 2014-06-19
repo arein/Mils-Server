@@ -1,7 +1,7 @@
 /// <reference path='./../../vendor/typescript-node-definitions/node.d.ts'/>
-import Currencies = require('./braintree/Model/Currencies')
+import Currency = require('./braintree/Model/Currency')
 class CurrencyConverter {
-    public static convert(from: Currencies.Currency, to: Currencies.Currency, amount: number, callback: (result: number) => void) {
+    public static convert(from: Currency, to: Currency, amount: number, callback: (result: number) => void) {
         var oxr = require('open-exchange-rates'),
             fx = require('money');
 
@@ -18,15 +18,15 @@ class CurrencyConverter {
         });
     }
 
-    public static convertCurrencyTypeToString(currency: Currencies.Currency) {
+    public static convertCurrencyTypeToString(currency: Currency) {
         switch (currency) {
-            case Currencies.Currency.AUD:
+            case Currency.AUD:
                 return "AUD";
-            case Currencies.Currency.EUR:
+            case Currency.EUR:
                 return "EUR";
-            case Currencies.Currency.GBP:
+            case Currency.GBP:
                 return "GBP";
-            case Currencies.Currency.USD:
+            case Currency.USD:
                 return "USD";
         }
     }
@@ -34,13 +34,13 @@ class CurrencyConverter {
     public static convertStringToCurrencyType(currency: string) {
         switch (currency) {
             case "AUD":
-                return Currencies.Currency.AUD;
+                return Currency.AUD;
             case "EUR":
-                return Currencies.Currency.EUR;
+                return Currency.EUR;
             case "GBP":
-                return Currencies.Currency.GBP;
+                return Currency.GBP;
             case "USD":
-                return Currencies.Currency.USD;
+                return Currency.USD;
         }
     }
 }
