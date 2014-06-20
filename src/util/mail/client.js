@@ -21,7 +21,7 @@ var MailClient = (function () {
                 return;
             }
 
-            //if (preferredCurrency.toLowerCase() == 'eur') {
+            //if (settlementCurrency.toLowerCase() == 'eur') {
             if (true) {
                 callback(error, digest);
             } else {

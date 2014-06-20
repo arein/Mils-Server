@@ -69,7 +69,7 @@ class BraintreeHelper {
     }
 
     public static guessTransactionCost(price: number): number {
-        return parseFloat((price * 0.04641 + 0.325).toFixed());
+        return parseFloat((price * 0.04641 + 0.325).toFixed(2));
     }
 
     public static getMerchantAccountIdForCurrency(currency: Currency): string {

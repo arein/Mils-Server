@@ -26,7 +26,7 @@ class MailClient {
                 callback(error);
                 return;
             }
-            //if (preferredCurrency.toLowerCase() == 'eur') {
+            //if (settlementCurrency.toLowerCase() == 'eur') {
             if (true) {
                 callback(error, digest);
             } else {

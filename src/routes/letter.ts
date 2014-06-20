@@ -44,7 +44,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                     return;
                 }
                 var braintreeClient = new BraintreeClient(!Config.isProd());
-                braintreeClient.pay(letter.financialInformation.price, Currency.EUR, creditCard, function (result) {
+                braintreeClient.pay(letter.financialInformation.priceInSettlementCurrency, letter.financialInformation.settlementCurrency, creditCard, function (result) {
                     letter.payed = true;
                     letter.transactionInformation.sandboxTransaction = braintreeClient.isSandbox();
                     letter.transactionInformation.transactionDate = new Date();
@@ -84,12 +84,12 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                             letter.printInformation.printedInBlackWhite = isGreyscale; // Store whether the letter was printed in greyscale
                             var mailClient = new MailClient();
                             mailClient.sendMail(prefix + letter.pdf, recipient, isGreyscale, function (err: Error, digest?: SendMailDigest) {
-                                letter.financialInformation.printingCost = digest.price;
-                                letter.financialInformation.margin = letter.financialInformation.price - letter.financialInformation.creditCardCost - letter.financialInformation.vat;
                                 status.pdfProcessed = true;
                                 if (err) {
                                     letter.printInformation.passedToPrintingProvider = false;
                                 } else {
+                                    letter.financialInformation.printingCost = digest.price;
+                                    letter.financialInformation.margin = letter.financialInformation.price - letter.financialInformation.creditCardCost - letter.financialInformation.vat;
                                     letter.printInformation.passedToPrintingProvider= true;
                                     letter.printInformation.passedToPrintingProviderAt = new Date();
                                     letter.printInformation.printJobReference = digest.reference;
@@ -126,6 +126,11 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
     var shouldDownload = req.query.download == 'true'; // Determine whether the pdf should be downloaded
     UploadValidator.validate(req); // Validation
     var letter = LetterFactory.createLetterFromRequest(req); // Letter Creation
+    var preferredCurrency = req.query.preferred_currency;
+
+    if (!["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency)) {
+        preferredCurrency = "EUR"; // Windows 8 Backward Compability
+    }
 
     var pdfWriter = new PdfWriter();
     pdfWriter.writePdf(req.body, letter, function (fileSizeInMegabytes: number) {
@@ -141,43 +146,50 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
                 res.send(502, {'error': error.message});
                 return;
             }
+
+            var preferredPriceShorted : string = digest.priceInEur.toFixed(2);
             // Update Letter with Price and Digest Information
             var guessedCreditCardCost = BraintreeClient.guessTransactionCost(digest.priceInEur + 0.15);
             var finalPrice = (digest.priceInEur + 0.15 + guessedCreditCardCost) * 1.19;
             finalPrice = parseFloat(finalPrice.toFixed(2));
-            letter.printInformation.courier = digest.courier;
-            letter.printInformation.city = digest.city;
-            letter.printInformation.country = digest.country;
-            letter.financialInformation.creditCardCost = guessedCreditCardCost;
-            letter.financialInformation.price = finalPrice;
 
-            MongoManager.getDb(function (db : mongo.Db) {
-                db.collection('letter', function (err, collection) {
-                    if (err) {
-                        res.send(500, "An error occurred on the server side");
-                        return;
-                    }
-                    collection.insert(letter, {safe: true}, function (err, result) {
+            CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("EUR"), CurrencyConverter.convertStringToCurrencyType(preferredCurrency), finalPrice, function (result: number) {
+                letter.printInformation.courier = digest.courier;
+                letter.printInformation.city = digest.city;
+                letter.printInformation.country = digest.country;
+                letter.financialInformation.creditCardCost = guessedCreditCardCost;
+                letter.financialInformation.price = finalPrice;
+                letter.financialInformation.priceInSettlementCurrency = parseFloat(result.toFixed(2));
+                letter.financialInformation.settlementCurrency = preferredCurrency;
+
+                MongoManager.getDb(function (db : mongo.Db) {
+                    db.collection('letter', function (err, collection) {
                         if (err) {
                             res.send(500, "An error occurred on the server side");
-                        } else {
-                            var responseObject: any = result[0];
-                            responseObject.price = result[0].financialInformation.price;
-                            responseObject.pages = result[0].pages;
-                            if (shouldDownload) {
-                                var fs = require('fs');
-                                fs.readFile(Config.getBasePath() + '/public/pdf/' + letter.pdf, function (err, data) {
-                                    if (err) {
-                                        res.send(500, "An error occurred on the server side:" + err);
-                                    } else {
-                                        responseObject.pdf = data.toString("base64");
-                                        res.send(responseObject);
-                                    }
-                                });
-                            } else {
-                                res.send(responseObject);
-                            }
+                            return;
                         }
+                        collection.insert(letter, {safe: true}, function (err, result) {
+                            if (err) {
+                                res.send(500, "An error occurred on the server side");
+                            } else {
+                                var responseObject: any = result[0];
+                                responseObject.price = result[0].financialInformation.priceInSettlementCurrency; // Backward compability
+                                responseObject.pages = result[0].pages;
+                                if (shouldDownload) {
+                                    var fs = require('fs');
+                                    fs.readFile(Config.getBasePath() + '/public/pdf/' + letter.pdf, function (err, data) {
+                                        if (err) {
+                                            res.send(500, "An error occurred on the server side:" + err);
+                                        } else {
+                                            responseObject.pdf = data.toString("base64");
+                                            res.send(responseObject);
+                                        }
+                                    });
+                                } else {
+                                    res.send(responseObject);
+                                }
+                            }
+                        });
                     });
                 });
             });
@@ -208,14 +220,10 @@ exports.calculatePrice = function(req: express.Request, res: express.Response) {
             var finalPrice : number = (digest.priceInEur + 0.15 + BraintreeClient.guessTransactionCost(digest.priceInEur + 0.15)) * 1.19;
             var finalPriceShorted : string = finalPrice.toFixed(2);
 
-            if (preferredCurrency === "EUR") {
-                res.send({'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': finalPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier});
-            } else {
-                CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("EUR"), CurrencyConverter.convertStringToCurrencyType(preferredCurrency), finalPrice, function (result: number) {
-                    var preferredPriceShorted : string = result.toFixed(2);
-                    res.send({'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': preferredPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier});
-                });
-            }
+            CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("EUR"), CurrencyConverter.convertStringToCurrencyType(preferredCurrency), finalPrice, function (result: number) {
+                var preferredPriceShorted : string = result.toFixed(2);
+                res.send({'preferredCurrency': preferredCurrency, 'priceInEur': finalPriceShorted, 'priceInPreferredCurrency': preferredPriceShorted, 'printingCity': digest.city, 'printingCountry': digest.country, 'courier': digest.courier});
+            });
         }
     });
 };

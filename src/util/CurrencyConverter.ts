@@ -2,6 +2,7 @@
 import Currency = require('./Braintree/Model/Currency')
 class CurrencyConverter {
     public static convert(from: Currency, to: Currency, amount: number, callback: (result: number) => void) {
+        if (from === to) return callback(amount);
         var oxr = require('open-exchange-rates'),
             fx = require('money');
 
@@ -31,7 +32,7 @@ class CurrencyConverter {
         }
     }
 
-    public static convertStringToCurrencyType(currency: string) {
+    public static convertStringToCurrencyType(currency: string): Currency {
         switch (currency) {
             case "AUD":
                 return Currency.AUD;

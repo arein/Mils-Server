@@ -61,7 +61,7 @@ var BraintreeHelper = (function () {
     };
 
     BraintreeHelper.guessTransactionCost = function (price) {
-        return parseFloat((price * 0.04641 + 0.325).toFixed());
+        return parseFloat((price * 0.04641 + 0.325).toFixed(2));
     };
 
     BraintreeHelper.getMerchantAccountIdForCurrency = function (currency) {
