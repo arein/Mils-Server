@@ -325,8 +325,6 @@ var COURIERS = {
     'US1_1': 'USPS'
 };
 
-
-
 var ACCOUNT_ERROR_MESSAGES = {
     '001': {
         key: 'errStringEmpty',
@@ -503,7 +501,7 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 				return;
 			}
 			if (typeof response.debug !== 'undefined' && typeof response.debug.errno !== 'undefined' && response.debug.errno != '0') {
-				callback(new Error(errorKeyToAccountErrorMessage(response.debug.errno)), undefined);
+				callback(new Error(errorKeyToPricingErrorMessage(response.debug.errno)), undefined);
 				return;
 			}
             if (typeof response.error !== 'undefined' && response.error != '') {
@@ -581,7 +579,7 @@ Client.prototype.getAccountInfo = function(reference, callback) {
             return;
         }
         if (typeof response.debug !== 'undefined' && typeof response.debug.errno !== 'undefined' && response.debug.errno != '0') {
-            callback(new Error(errorKeyToFindStationErrorMessage(response.debug.errno)), undefined);
+            callback(new Error(errorKeyToAccountErrorMessage(response.debug.errno)), undefined);
             return;
         }
         if (response.error != undefined && response.error != '') {

@@ -21,31 +21,40 @@ var NotificationManager = (function () {
 
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
-                mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function (error, dispatchDate) {
-                    if (typeof error === 'undefined') {
+                mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function (error1, dispatchDate) {
+                    if (typeof error1 === 'undefined') {
                         letter.printInformation.dispatchedByPrintingProvider = true;
                         letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;
 
-                        NotificationManager.notifyCustomerViaEmail(letter, function (error) {
-                            if (!error) {
-                                NotificationManager.notifyCustomerViaPushNotification(letter, function (error) {
-                                    MongoManager.getDb(function (db) {
-                                        db.collection('letter', function (err, collection) {
-                                            collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
-                                                if (err) {
-                                                    dispatchErrors++;
-                                                    console.log(err);
-                                                } else {
-                                                    dispatchedLetters++;
-                                                }
-                                                if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
-                                                    callback(dispatchedLetters, dispatchErrors);
-                                                }
+                        NotificationManager.notifyCustomerViaEmail(letter, function (error2) {
+                            if (!error2) {
+                                NotificationManager.notifyCustomerViaPushNotification(letter, function (error3) {
+                                    if (typeof error3 === 'undefined') {
+                                        MongoManager.getDb(function (db) {
+                                            db.collection('letter', function (err, collection) {
+                                                collection.update({ '_id': letter._id }, letter, { safe: true }, function (error4, result) {
+                                                    if (err) {
+                                                        dispatchErrors++;
+                                                        console.log("Error4: " + error4);
+                                                    } else {
+                                                        dispatchedLetters++;
+                                                    }
+                                                    if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
+                                                        callback(dispatchedLetters, dispatchErrors);
+                                                    }
+                                                });
                                             });
                                         });
-                                    });
+                                    } else {
+                                        console.log("Error3: " + error3);
+                                        dispatchErrors++;
+                                        if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
+                                            callback(dispatchedLetters, dispatchErrors);
+                                        }
+                                    }
                                 });
                             } else {
+                                console.log("Error2: " + error2);
                                 dispatchErrors++;
                                 if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
                                     callback(dispatchedLetters, dispatchErrors);
@@ -53,6 +62,7 @@ var NotificationManager = (function () {
                             }
                         });
                     } else {
+                        console.log("Error1: " + error1);
                         dispatchErrors++;
                         if (dispatchedLetters + dispatchErrors === lettersToDispatch) {
                             callback(dispatchedLetters, dispatchErrors);

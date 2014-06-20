@@ -1,4 +1,5 @@
 var Currency = require('./Model/Currency');
+var Config = require('./../../config');
 
 var BraintreeHelper = (function () {
     function BraintreeHelper(sandboxed) {
@@ -28,7 +29,7 @@ var BraintreeHelper = (function () {
     BraintreeHelper.prototype.pay = function (amount, currency, creditCard, success, failure) {
         var saleRequest = {
             amount: amount,
-            //merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
+            merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,
@@ -64,6 +65,8 @@ var BraintreeHelper = (function () {
     };
 
     BraintreeHelper.getMerchantAccountIdForCurrency = function (currency) {
+        if (!Config.isProd())
+            return "qw5w86564jkpbnkn";
         switch (currency) {
             case 2 /* AUD */:
                 return "milsAUD";

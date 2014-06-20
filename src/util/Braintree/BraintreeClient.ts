@@ -1,6 +1,7 @@
 /// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
 import CreditCard = require('./Model/CreditCard');
 import Currency = require('./Model/Currency')
+import Config = require('./../../config')
 
 class BraintreeHelper {
     braintree : any;
@@ -35,7 +36,7 @@ class BraintreeHelper {
 
         var saleRequest = {
             amount: amount,
-            //merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
+            merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,
@@ -72,6 +73,7 @@ class BraintreeHelper {
     }
 
     public static getMerchantAccountIdForCurrency(currency: Currency): string {
+        if (!Config.isProd()) return "qw5w86564jkpbnkn"; // Sandbox merchant id
         switch (currency) {
             case Currency.AUD:
                 return "milsAUD";
