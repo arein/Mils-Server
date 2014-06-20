@@ -125,7 +125,7 @@ exports.uploadLetter = function (req, res) {
     var letter = LetterFactory.createLetterFromRequest(req);
     var preferredCurrency = req.query.preferred_currency;
 
-    if (!["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency)) {
+    if (typeof preferredCurrency === 'undefined' || ["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency) < 0) {
         preferredCurrency = "EUR"; // Windows 8 Backward Compability
     }
 
