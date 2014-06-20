@@ -30,13 +30,13 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		7l2Y1QQHeSVcxXxq33q7ZIETKYc=
+		W00AUxbqvQmjfr5ToGsf4X8+I2w=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			RRjYLq7eeQcyF6mMkJKmszk4eUQ=
+			NXmLeHp+jZEzK2TyIQ6yo7nhQbc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -47,7 +47,7 @@
 		</data>
 		<key>Resources/CSAboutViewController.nib</key>
 		<data>
-		3jdjj4jcg/ta3A9csneL5lfASxY=
+		WHv+eon2K2FtNEia8tHl0Bp/yGA=
 		</data>
 		<key>Resources/CSAddressWindowController.nib</key>
 		<data>
@@ -63,11 +63,11 @@
 		</data>
 		<key>Resources/CSNewLetterViewController.nib</key>
 		<data>
-		Q/Ye4oY4EpSz/SOVJ8GVy0tCm1o=
+		puPua74MpYDi0DKUAfu1rFLBZQ0=
 		</data>
 		<key>Resources/CSOverviewViewController.nib</key>
 		<data>
-		OXBFPJOBr8yBm0yL5ssSqx+Idm0=
+		+UFc3hHjZEib30H+z7m+V0mQuJs=
 		</data>
 		<key>Resources/CSPayWindowController.nib</key>
 		<data>
@@ -79,7 +79,7 @@
 		</data>
 		<key>Resources/CSRatingWindowController.nib</key>
 		<data>
-		GnaA/zw81yWHBdczBWYTxptNsBE=
+		Y5oybSrM2z5e1etkeNbCgejBKYE=
 		</data>
 		<key>Resources/CSSignWindowController.nib</key>
 		<data>
@@ -319,7 +319,7 @@
 		</data>
 		<key>Resources/README.md</key>
 		<data>
-		8UI49jES7/pd67dsxtWLkdfGZ5k=
+		zpPOL8zxIWxY1i9NEVuBUrVtEzE=
 		</data>
 		<key>Resources/SampleUsage.png</key>
 		<data>
@@ -486,7 +486,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			2HK/t+1rcSHS8f4CQGhKKTlVSTc=
+			dUdrQozpgOSAXIgVHZA00youRU4=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.restkit.RestKit" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MRZBB58H5U)</string>
@@ -517,13 +517,13 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		7l2Y1QQHeSVcxXxq33q7ZIETKYc=
+		W00AUxbqvQmjfr5ToGsf4X8+I2w=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			RRjYLq7eeQcyF6mMkJKmszk4eUQ=
+			NXmLeHp+jZEzK2TyIQ6yo7nhQbc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -534,7 +534,7 @@
 		</data>
 		<key>Resources/CSAboutViewController.nib</key>
 		<data>
-		3jdjj4jcg/ta3A9csneL5lfASxY=
+		WHv+eon2K2FtNEia8tHl0Bp/yGA=
 		</data>
 		<key>Resources/CSAddressWindowController.nib</key>
 		<data>
@@ -550,11 +550,11 @@
 		</data>
 		<key>Resources/CSNewLetterViewController.nib</key>
 		<data>
-		Q/Ye4oY4EpSz/SOVJ8GVy0tCm1o=
+		puPua74MpYDi0DKUAfu1rFLBZQ0=
 		</data>
 		<key>Resources/CSOverviewViewController.nib</key>
 		<data>
-		OXBFPJOBr8yBm0yL5ssSqx+Idm0=
+		+UFc3hHjZEib30H+z7m+V0mQuJs=
 		</data>
 		<key>Resources/CSPayWindowController.nib</key>
 		<data>
@@ -566,7 +566,7 @@
 		</data>
 		<key>Resources/CSRatingWindowController.nib</key>
 		<data>
-		GnaA/zw81yWHBdczBWYTxptNsBE=
+		Y5oybSrM2z5e1etkeNbCgejBKYE=
 		</data>
 		<key>Resources/CSSignWindowController.nib</key>
 		<data>
@@ -806,7 +806,7 @@
 		</data>
 		<key>Resources/README.md</key>
 		<data>
-		8UI49jES7/pd67dsxtWLkdfGZ5k=
+		zpPOL8zxIWxY1i9NEVuBUrVtEzE=
 		</data>
 		<key>Resources/SampleUsage.png</key>
 		<data>

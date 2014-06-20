@@ -35,7 +35,7 @@ class BraintreeHelper {
 
         var saleRequest = {
             amount: amount,
-            merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
+            //merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,

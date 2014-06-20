@@ -28,7 +28,7 @@ var BraintreeHelper = (function () {
     BraintreeHelper.prototype.pay = function (amount, currency, creditCard, success, failure) {
         var saleRequest = {
             amount: amount,
-            merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
+            //merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,

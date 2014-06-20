@@ -18,7 +18,7 @@ try
     $client->setRecipientZip($json->recipient->zip);
     $client->setRecipientCountry($json->recipient->country);
     $client->setPDFFile(base64_decode(file_get_contents($json->file)));
-    $client->setPrintingStation('AUTO', false, $json->mode, 80);
+    $client->setPrintingStation('AUTO', false, $json->printMode, 80);
     $client->execute();
 
     // GET METHODS: Transaction //

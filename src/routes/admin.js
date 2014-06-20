@@ -35,12 +35,12 @@ exports.index = function(req, res) {
         respond(res, monthly, recipientCountry, billingCountry);
     });
 
-    getCountryReportData("$recipientCountryIso", function(err, result) {
+    getCountryReportData("$recipient.countryIso", function(err, result) {
         recipientCountry = result;
         respond(res, monthly, recipientCountry, billingCountry);
     });
 
-    getCountryReportData("$billingCountry", function(err, result) {
+    getCountryReportData("$issuer.country", function(err, result) {
         billingCountry = result;
         respond(res, monthly, recipientCountry, billingCountry);
     });
@@ -58,28 +58,33 @@ function respond(res, monthly, recipientCountry, billingCountry) {
 function getMonthlyReportData(callback) {
     db.collection('letter', function(err, collection) {
         collection.aggregate(
-            { $sort: { "createdAt": -1 }},
+            [{
+                $match: { "payed": true }
+            },
+            {
+                $sort: { "createdAt": -1 }
+            },
             { $group : {
                 _id: {
                     year : { $year : "$createdAt" },
                     month : { $month : "$createdAt" }
                 },
                 count: { $sum: 1 },
-                priceTotal: { $sum: "$price" },
-                priceAvg: { $avg: "$price" },
+                priceTotal: { $sum: "$financialInformation.price" },
+                priceAvg: { $avg: "$financialInformation.price" },
                 pagesTotal: { $sum: "$pageCount" },
                 pagesAvg: { $avg: "$pageCount" },
-                netTotal: { $sum: "$net" },
-                netAvg: { $avg: "$net" },
-                vatTotal: { $sum: "$vat" },
-                vatAvg: { $avg: "$vat" },
-                marginAppliedTotal: { $sum: "$margin" },
-                marginAppliedAvg: { $avg: "$margin" },
-                printingPriceTotal: { $sum: "$printingCost" },
-                printingPriceAvg: { $avg: "$printingPrice" },
-                vatIncomeTotal: { $sum: "$vatIncome" },
-                vatIncomeAvg: { $avg: "$vatIncome" }
-            }},
+                netTotal: { $sum: "$financialInformation.net" },
+                netAvg: { $avg: "$financialInformation.net" },
+                vatTotal: { $sum: "$financialInformation.vat" },
+                vatAvg: { $avg: "$financialInformation.vat" },
+                marginAppliedTotal: { $sum: "$financialInformation.margin" },
+                marginAppliedAvg: { $avg: "$financialInformation.margin" },
+                printingPriceTotal: { $sum: "$financialInformation.printingCost" },
+                printingPriceAvg: { $avg: "$financialInformation.printingCost" },
+                vatIncomeTotal: { $sum: "$financialInformation.vatIncome" },
+                vatIncomeAvg: { $avg: "$financialInformation.vatIncome" }
+            }}],
             callback);
     });
 }
@@ -87,13 +92,18 @@ function getMonthlyReportData(callback) {
 function getCountryReportData(value, callback) {
     db.collection('letter', function(err, collection) {
         collection.aggregate(
-            { $sort: { "createdAt": -1 }},
+            [{
+                $match: { "payed": true }
+            },
+            {
+                $sort: { "createdAt": -1 }
+            },
             { $group : {
                 _id: {
                     recipientCountry : value
                 },
                 count: { $sum: 1 }
-            }},
+            }}],
             callback);
     });
 }
