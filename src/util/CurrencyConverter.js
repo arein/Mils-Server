@@ -4,8 +4,11 @@ var CurrencyConverter = (function () {
     function CurrencyConverter() {
     }
     CurrencyConverter.convert = function (from, to, amount, callback) {
-        if (from === to)
-            return callback(amount);
+        if (from == to) {
+            console.log("From equals to");
+            callback(amount);
+            return;
+        }
         var oxr = require('open-exchange-rates'), fx = require('money');
 
         oxr.set({ app_id: 'c9b5a882d43146918ebe0afdd978fbe8' });
