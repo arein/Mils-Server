@@ -5,7 +5,6 @@ var CurrencyConverter = (function () {
     }
     CurrencyConverter.convert = function (from, to, amount, callback) {
         if (from == to) {
-            console.log("From equals to");
             callback(amount);
             return;
         }

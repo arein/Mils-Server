@@ -3,7 +3,6 @@ import Currency = require('./Braintree/Model/Currency')
 class CurrencyConverter {
     public static convert(from: Currency, to: Currency, amount: number, callback: (result: number) => void) {
         if (from == to) {
-            console.log("From equals to");
             callback(amount);
             return;
         }
