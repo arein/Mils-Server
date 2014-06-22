@@ -30,7 +30,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		W00AUxbqvQmjfr5ToGsf4X8+I2w=
+		IBFJTZvk0Z9beucq5/MOxKYkqRE=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
@@ -319,7 +319,7 @@
 		</data>
 		<key>Resources/README.md</key>
 		<data>
-		zpPOL8zxIWxY1i9NEVuBUrVtEzE=
+		8UI49jES7/pd67dsxtWLkdfGZ5k=
 		</data>
 		<key>Resources/SampleUsage.png</key>
 		<data>
@@ -482,11 +482,20 @@
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "net.hockeyapp.sdk.mac" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MRZBB58H5U)</string>
 		</dict>
+		<key>Frameworks/ParseOSX.framework</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			JCeGcV6Y7fch7hwSTs6OtEtmD94=
+			</data>
+			<key>requirement</key>
+			<string>anchor apple generic and identifier "com.parse.ParseOSX" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MRZBB58H5U)</string>
+		</dict>
 		<key>Frameworks/RestKit.framework</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			dUdrQozpgOSAXIgVHZA00youRU4=
+			0gqF+VEiJsxQIjIyyKM5syu47Eo=
 			</data>
 			<key>requirement</key>
 			<string>anchor apple generic and identifier "org.restkit.RestKit" and (certificate leaf[field.1.2.840.113635.100.6.1.9] /* exists */ or certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = MRZBB58H5U)</string>
@@ -517,7 +526,7 @@
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		W00AUxbqvQmjfr5ToGsf4X8+I2w=
+		IBFJTZvk0Z9beucq5/MOxKYkqRE=
 		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
@@ -806,7 +815,7 @@
 		</data>
 		<key>Resources/README.md</key>
 		<data>
-		zpPOL8zxIWxY1i9NEVuBUrVtEzE=
+		8UI49jES7/pd67dsxtWLkdfGZ5k=
 		</data>
 		<key>Resources/SampleUsage.png</key>
 		<data>
