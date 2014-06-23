@@ -4,7 +4,6 @@
 var mongo = require("mongodb");
 
 var MailClient = require("./../util/mail/client");
-var Recipient = require("./../util/mail/model/Recipient");
 
 var BraintreeClient = require("./../util/Braintree/BraintreeClient");
 var CreditCard = require('./../util/Braintree/Model/CreditCard');
@@ -13,16 +12,20 @@ var TaxationHelper = require('./../util/TaxationHelper');
 var PdfWriter = require('./../util/pdf/PdfWriter');
 var Config = require('./../config');
 var MongoManager = require('./../manager/MongoManager');
+var MailManager = require('./../manager/MailManager');
 var PurchaseValidator = require('./../validator/PurchaseValidator');
 var UploadValidator = require('./../validator/UploadValidator');
 var LetterFactory = require('./../model/LetterFactory');
-var BillHelper = require('./../util/BillHelper');
+var BillingManager = require('./../manager/BillingManager');
 var Client = require('./../model/Client');
 var ClientType = require('./../model/ClientType');
 var CurrencyConverter = require('./../util/CurrencyConverter');
 
-var PdfColorInspector = require('./../util/colorinspector/PdfColorInspector');
-
+/**
+* Endpoint to purchase a letter.
+* @param req
+* @param res
+*/
 exports.purchaseLetter = function (req, res) {
     PurchaseValidator.validate(req); // Validate Input
     var id = req.params.id;
@@ -37,7 +40,7 @@ exports.purchaseLetter = function (req, res) {
         db.collection('letter', function (err, collection) {
             collection.findOne({ '_id': new mongo.ObjectID(id) }, function (err, letter) {
                 if (err) {
-                    res.json(500, "The letter could not be found");
+                    res.json(404, "The letter could not be found");
                     return;
                 }
                 var braintreeClient = new BraintreeClient(!Config.isProd());
@@ -58,14 +61,13 @@ exports.purchaseLetter = function (req, res) {
                             letter.issuer.country = sanitize(req.body.address.country).escape();
                             letter.issuer.email = sanitize(req.body.emailAddress).escape();
 
-                            var recipient = new Recipient(letter.recipient.name, letter.recipient.address1, letter.recipient.city, letter.recipient.postalCode, letter.recipient.countryIso, letter.issuer.email, letter.recipient.company, letter.recipient.address2, letter.recipient.state);
-                            TaxationHelper.processTaxation(letter);
+                            TaxationHelper.processTaxation(letter); // Set Tax appropriately
 
                             var conclude = function (status, letter, res) {
+                                if (!status.pdfProcessed || !status.billProcessed)
+                                    return;
                                 letter.updatedAt = new Date();
                                 collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
-                                    if (!status.pdfProcessed || !status.billProcessed)
-                                        return;
                                     if (err) {
                                         res.send(500, { 'error': 'An error has occurred' });
                                     } else {
@@ -74,38 +76,15 @@ exports.purchaseLetter = function (req, res) {
                                 });
                             };
 
-                            var prefix = Config.getBasePath() + '/public/pdf/';
-                            var ci = new PdfColorInspector();
-                            ci.canApplyGrayscale(prefix + letter.pdf, function (isGreyscale) {
-                                letter.printInformation.printedInBlackWhite = isGreyscale; // Store whether the letter was printed in greyscale
-                                var mailClient = new MailClient();
-                                mailClient.sendMail(prefix + letter.pdf, recipient, isGreyscale, function (err, digest) {
-                                    status.pdfProcessed = true;
-                                    if (err) {
-                                        letter.printInformation.passedToPrintingProvider = false;
-                                    } else {
-                                        letter.financialInformation.printingCost = digest.price;
-                                        letter.financialInformation.margin = letter.financialInformation.price - letter.financialInformation.creditCardCost - letter.financialInformation.vat;
-                                        letter.printInformation.passedToPrintingProvider = true;
-                                        letter.printInformation.passedToPrintingProviderAt = new Date();
-                                        letter.printInformation.printJobReference = digest.reference;
-                                        letter.printInformation.provider = digest.provider;
-                                    }
-
-                                    conclude(status, letter, res);
-                                });
+                            // Try to Dispatch the letter
+                            MailManager.transferLetterToPrintProvider(letter, function (error) {
+                                status.pdfProcessed = true;
+                                conclude(status, letter, res);
                             });
 
-                            // Send Email
-                            BillHelper.sendBill(letter, 'invoice-' + letter.pdf, function (err) {
+                            // Try to send the bill
+                            BillingManager.generateAndSendBillForLetter(letter, function (err) {
                                 status.billProcessed = true;
-                                if (err) {
-                                    letter.billSent = false;
-                                } else {
-                                    letter.billSent = true;
-                                    letter.billSentAt = new Date();
-                                }
-
                                 conclude(status, letter, res);
                             });
                         });
@@ -118,6 +97,11 @@ exports.purchaseLetter = function (req, res) {
     });
 };
 
+/**
+* Endpoint to upload a letter.
+* @param req
+* @param res
+*/
 exports.uploadLetter = function (req, res) {
     var shouldDownload = req.query.download == 'true';
     UploadValidator.validate(req); // Validation
@@ -193,6 +177,11 @@ exports.uploadLetter = function (req, res) {
     });
 };
 
+/**
+* Calculates the price of the letter for a given number of pages.
+* @param req
+* @param res
+*/
 exports.calculatePrice = function (req, res) {
     var check = require('validator').check;
     var pages = req.query.pages, destination = req.query.destination, preferredCurrency = req.query.preferred_currency;
@@ -202,6 +191,7 @@ exports.calculatePrice = function (req, res) {
         return;
     }
 
+    // Check the input
     check(pages).notNull().isInt();
     check(destination).notNull();
     check(preferredCurrency).notNull().len(1, 6);
@@ -222,6 +212,11 @@ exports.calculatePrice = function (req, res) {
     });
 };
 
+/**
+* Subscribes a device to receive a Push Notification upon the dispatchment of the letter.
+* @param req
+* @param res
+*/
 exports.pushNotification = function (req, res) {
     var check = require('validator').check;
     check(req.query.device).notNull();
@@ -232,7 +227,7 @@ exports.pushNotification = function (req, res) {
         db.collection('letter', function (err, collection) {
             collection.findOne({ '_id': new mongo.ObjectID(req.params.id) }, function (err, letter) {
                 if (err) {
-                    res.json(500, "The letter could not be found");
+                    res.json(404, "The letter could not be found");
                     return;
                 }
 

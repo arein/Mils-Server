@@ -1,9 +1,8 @@
-var NotificationManager = require("./../manager/NotificationManager");
+var BillingManager = require("./../manager/BillingManager");
 
-var nm = new NotificationManager();
-nm.notifiyCustomersOfDispatchedDocuments(function (numberOfDispatchedLetters, numberOfDispatchErrors) {
-    console.log("%s letters dispatched, %s errors", numberOfDispatchedLetters, numberOfDispatchErrors);
-    if (numberOfDispatchErrors > 0) {
+BillingManager.generateAndSendUnsentBills(function (numberOfSuccesses, numberOfErrors) {
+    console.log("%s letters dispatched, %s errors", numberOfSuccesses, numberOfErrors);
+    if (numberOfErrors > 0) {
         process.exit(1);
     } else {
         process.exit(0);

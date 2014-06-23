@@ -8,8 +8,7 @@ import ClientType = require("./../model/ClientType")
 import LetterRepository = require("./../model/LetterRepository")
 
 class NotificationManager {
-    public notifiyCustomersOfDispatchedDocuments(callback: (numberOfDispatchedLetters: number, numberOfDispatchErrors: number) => void) {
-        var mm: MailManager = new MailManager();
+    public static notifiyCustomersOfDispatchedDocuments(callback: (numberOfDispatchedLetters: number, numberOfDispatchErrors: number) => void) {
         var dispatchedLetters = 0;
         var dispatchErrors = 0;
         var lettersToDispatch = 0;
@@ -22,7 +21,7 @@ class NotificationManager {
 
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
-                mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function(error1: Error, dispatchDate: Date) {
+                MailManager.getDispatchStatusForReference(letter.printInformation.printJobReference, function(error1: Error, dispatchDate: Date) {
                     if (typeof error1 === 'undefined') {
                         letter.printInformation.dispatchedByPrintingProvider = true;
                         letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;

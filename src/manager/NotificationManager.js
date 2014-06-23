@@ -8,8 +8,7 @@ var LetterRepository = require("./../model/LetterRepository");
 var NotificationManager = (function () {
     function NotificationManager() {
     }
-    NotificationManager.prototype.notifiyCustomersOfDispatchedDocuments = function (callback) {
-        var mm = new MailManager();
+    NotificationManager.notifiyCustomersOfDispatchedDocuments = function (callback) {
         var dispatchedLetters = 0;
         var dispatchErrors = 0;
         var lettersToDispatch = 0;
@@ -22,7 +21,7 @@ var NotificationManager = (function () {
 
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
-                mm.getDispatchStatusForReference(letter.printInformation.printJobReference, function (error1, dispatchDate) {
+                MailManager.getDispatchStatusForReference(letter.printInformation.printJobReference, function (error1, dispatchDate) {
                     if (typeof error1 === 'undefined') {
                         letter.printInformation.dispatchedByPrintingProvider = true;
                         letter.printInformation.dispatchedByPrintingProviderAt = dispatchDate;

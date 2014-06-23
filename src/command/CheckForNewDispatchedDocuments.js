@@ -1,7 +1,6 @@
 var NotificationManager = require("./../manager/NotificationManager");
 
-var nm = new NotificationManager();
-nm.notifiyCustomersOfDispatchedDocuments(function (numberOfDispatchedLetters, numberOfDispatchErrors) {
+NotificationManager.notifiyCustomersOfDispatchedDocuments(function (numberOfDispatchedLetters, numberOfDispatchErrors) {
     console.log("%s letters dispatched, %s errors", numberOfDispatchedLetters, numberOfDispatchErrors);
     if (numberOfDispatchErrors > 0) {
         process.exit(1);

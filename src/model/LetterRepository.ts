@@ -52,7 +52,7 @@ class LetterRepository {
      * Gets all letters that were payed for which the issuer did not receive a bill.
      * @param callback
      */
-    public static getPayedButIssuedABillForLetters(callback: (letters: Array<Letter>) => void) {
+    public static getLettersWithBillsToBeSent(callback: (letters: Array<Letter>) => void) {
         MongoManager.getDb(function (db : mongo.Db) {
             db.collection('letter', function (err, collection) {
                 if (err) throw err;

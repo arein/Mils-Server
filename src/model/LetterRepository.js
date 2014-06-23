@@ -55,7 +55,7 @@ var LetterRepository = (function () {
     * Gets all letters that were payed for which the issuer did not receive a bill.
     * @param callback
     */
-    LetterRepository.getPayedButIssuedABillForLetters = function (callback) {
+    LetterRepository.getLettersWithBillsToBeSent = function (callback) {
         MongoManager.getDb(function (db) {
             db.collection('letter', function (err, collection) {
                 if (err)
