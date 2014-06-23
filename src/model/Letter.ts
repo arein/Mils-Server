@@ -25,6 +25,8 @@ class Letter {
     devices: Array<Client>;
 
     constructor() {
+        this.payed = false;
+        this.billSent = false;
         this.issuer = new Issuer();
         this.recipient = new Recipient();
         this.printInformation = new PrintInformation();

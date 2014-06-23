@@ -3,6 +3,7 @@ var MongoManager = require("./MongoManager");
 var MailManager = require("./MailManager");
 var Config = require("./../config");
 var ClientType = require("./../model/ClientType");
+var LetterRepository = require("./../model/LetterRepository");
 
 var NotificationManager = (function () {
     function NotificationManager() {
@@ -12,7 +13,7 @@ var NotificationManager = (function () {
         var dispatchedLetters = 0;
         var dispatchErrors = 0;
         var lettersToDispatch = 0;
-        mm.getPassedToProviderButNotDispatchedLetters(function (letters) {
+        LetterRepository.getPassedToProviderButNotDispatchedLetters(function (letters) {
             lettersToDispatch = letters.length;
 
             if (letters.length === 0) {

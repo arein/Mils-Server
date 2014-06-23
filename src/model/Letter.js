@@ -6,6 +6,8 @@ var FinancialInformation = require("./FinancialInformation");
 
 var Letter = (function () {
     function Letter() {
+        this.payed = false;
+        this.billSent = false;
         this.issuer = new Issuer();
         this.recipient = new Recipient();
         this.printInformation = new PrintInformation();

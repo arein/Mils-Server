@@ -5,6 +5,7 @@ import Letter = require("./../model/Letter")
 import MailManager = require("./MailManager")
 import Config = require("./../config")
 import ClientType = require("./../model/ClientType")
+import LetterRepository = require("./../model/LetterRepository")
 
 class NotificationManager {
     public notifiyCustomersOfDispatchedDocuments(callback: (numberOfDispatchedLetters: number, numberOfDispatchErrors: number) => void) {
@@ -12,7 +13,7 @@ class NotificationManager {
         var dispatchedLetters = 0;
         var dispatchErrors = 0;
         var lettersToDispatch = 0;
-        mm.getPassedToProviderButNotDispatchedLetters(function (letters: Array<Letter>) {
+        LetterRepository.getPassedToProviderButNotDispatchedLetters(function (letters: Array<Letter>) {
             lettersToDispatch = letters.length;
 
             if (letters.length === 0) {

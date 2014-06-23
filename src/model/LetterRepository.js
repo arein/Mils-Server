@@ -30,20 +30,41 @@ var LetterRepository = (function () {
 
     /**
     * Gets all letters that were payed but not yet dispatched.
-    * TODO: Not yet im
     * @param callback
     */
-    LetterRepository.prototype.getPayedButNotDispatchedLetters = function (callback) {
+    LetterRepository.getPayedButNotTransferredToPrintingCompanyLetters = function (callback) {
         MongoManager.getDb(function (db) {
             db.collection('letter', function (err, collection) {
                 if (err)
                     throw err;
                 collection.find({
                     payed: true,
-                    "printInformation.passedToPrintingProvider": true,
                     '$or': [
-                        { "printInformation.dispatchedByPrintingProvider": false },
-                        { "printInformation.dispatchedByPrintingProvider": { '$exists': false } }]
+                        { "printInformation.passedToPrintingProvider": false },
+                        { "printInformation.passedToPrintingProvider": { '$exists': false } }]
+                }).toArray(function (err, letters) {
+                    if (err)
+                        throw err;
+                    callback(letters);
+                });
+            });
+        });
+    };
+
+    /**
+    * Gets all letters that were payed for which the issuer did not receive a bill.
+    * @param callback
+    */
+    LetterRepository.getPayedButIssuedABillForLetters = function (callback) {
+        MongoManager.getDb(function (db) {
+            db.collection('letter', function (err, collection) {
+                if (err)
+                    throw err;
+                collection.find({
+                    payed: true,
+                    '$or': [
+                        { "billSent": false },
+                        { "billSent": { '$exists': false } }]
                 }).toArray(function (err, letters) {
                     if (err)
                         throw err;
@@ -54,4 +75,6 @@ var LetterRepository = (function () {
     };
     return LetterRepository;
 })();
+
+module.exports = LetterRepository;
 //# sourceMappingURL=LetterRepository.js.map

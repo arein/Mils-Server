@@ -28,25 +28,47 @@ class LetterRepository {
 
     /**
      * Gets all letters that were payed but not yet dispatched.
-     * TODO: Not yet implemented
      * @param callback
      */
-    public getPayedButNotDispatchedLetters(callback: (letters: Array<Letter>) => void) {
+    public static getPayedButNotTransferredToPrintingCompanyLetters(callback: (letters: Array<Letter>) => void) {
         MongoManager.getDb(function (db : mongo.Db) {
             db.collection('letter', function (err, collection) {
                 if (err) throw err;
                 collection.find({
                     payed: true,
-                    "printInformation.passedToPrintingProvider": true,
-                    '$or': [{"printInformation.dispatchedByPrintingProvider": false},
-                        {"printInformation.dispatchedByPrintingProvider": {'$exists': false}}]
+                    '$or': [{"printInformation.passedToPrintingProvider": false},
+                        {"printInformation.passedToPrintingProvider": {'$exists': false}}]
 
                 })
-                    .toArray(function (err: Error, letters:Array<Letter>) {
-                        if (err) throw err;
-                        callback(letters);
-                    });
+                .toArray(function (err: Error, letters:Array<Letter>) {
+                    if (err) throw err;
+                    callback(letters);
+                });
+            });
+        });
+    }
+
+    /**
+     * Gets all letters that were payed for which the issuer did not receive a bill.
+     * @param callback
+     */
+    public static getPayedButIssuedABillForLetters(callback: (letters: Array<Letter>) => void) {
+        MongoManager.getDb(function (db : mongo.Db) {
+            db.collection('letter', function (err, collection) {
+                if (err) throw err;
+                collection.find({
+                    payed: true,
+                    '$or': [{"billSent": false},
+                            {"billSent": {'$exists': false}}]
+
+                })
+                .toArray(function (err: Error, letters:Array<Letter>) {
+                    if (err) throw err;
+                    callback(letters);
+                });
             });
         });
     }
 }
+
+export = LetterRepository;

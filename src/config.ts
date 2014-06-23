@@ -42,6 +42,12 @@ class Config {
 
         return smtpTransport;
     }
+
+    public static getBaseUri(): string {
+        if (Config.isProd()) return "https://milsapp.com";
+
+        return "http://localhost:3000";
+    }
 }
 
 export = Config;
