@@ -58,6 +58,7 @@ exports.purchaseLetter = function (req, res) {
                     TaxationHelper.processTaxation(letter); // Set Tax appropriately
 
                     // Important: Critical Path Begins
+                    // The user may not see an error in case of a successful payment
                     var braintreeClient = new BraintreeClient(!Config.isProd());
                     braintreeClient.pay(letter.financialInformation.priceInSettlementCurrency, letter.financialInformation.settlementCurrency, creditCard, function (error, result) {
                         if (error) {
@@ -74,11 +75,7 @@ exports.purchaseLetter = function (req, res) {
                                     return;
                                 letter.updatedAt = new Date();
                                 collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
-                                    if (err) {
-                                        res.send(500, { 'error': 'An error has occurred' });
-                                    } else {
-                                        res.send(letter);
-                                    }
+                                    res.send(letter);
                                 });
                             };
 
