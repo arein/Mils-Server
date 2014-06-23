@@ -5,25 +5,11 @@ import Letter = require("./../model/Letter")
 import Config = require("./../config")
 
 class MailManager {
-    public getPassedToProviderButNotDispatchedLetters(callback: (letters: Array<Letter>) => void) {
-        MongoManager.getDb(function (db : mongo.Db) {
-            db.collection('letter', function (err, collection) {
-                if (err) throw err;
-                collection.find({
-                    payed: true,
-                    "printInformation.passedToPrintingProvider": true,
-                    '$or': [{"printInformation.dispatchedByPrintingProvider": false},
-                        {"printInformation.dispatchedByPrintingProvider": {'$exists': false}}]
-
-                })
-                .toArray(function (err: Error, letters:Array<Letter>) {
-                    if (err) throw err;
-                    callback(letters);
-                });
-            });
-        });
-    }
-
+    /**
+     * Gets the dispatch status for a given letter.
+     * @param reference
+     * @param callback
+     */
     public getDispatchStatusForReference(reference: String, callback: (error: Error, dispatchDate?: Date) => void) {
         var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
         var email = 'adr@ceseros.de';
