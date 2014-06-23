@@ -26,7 +26,7 @@ var BraintreeHelper = (function () {
         return this.sandboxed;
     };
 
-    BraintreeHelper.prototype.pay = function (amount, currency, creditCard, success, failure) {
+    BraintreeHelper.prototype.pay = function (amount, currency, creditCard, callback) {
         var saleRequest = {
             amount: amount,
             merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
@@ -49,12 +49,12 @@ var BraintreeHelper = (function () {
         */
         this.gateway.transaction.sale(saleRequest, function (err, result) {
             if (result != null && typeof result !== 'undefined' && result.success) {
-                success(result);
+                callback(undefined, result);
             } else {
                 if (typeof err !== 'undefined' && err != null) {
-                    failure(err);
+                    callback(err);
                 } else {
-                    failure(result.message);
+                    callback(new Error(result.message));
                 }
             }
         });

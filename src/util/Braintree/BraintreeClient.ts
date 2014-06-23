@@ -32,7 +32,7 @@ class BraintreeHelper {
         return this.sandboxed;
     }
 
-    pay(amount : number, currency: Currency, creditCard : CreditCard, success : (result : any) => void, failure : (error : Error) => void) {
+    pay(amount : number, currency: Currency, creditCard : CreditCard, callback: (error: Error, result?: any) => void) {
 
         var saleRequest = {
             amount: amount,
@@ -55,14 +55,14 @@ class BraintreeHelper {
          }
          */
 
-        this.gateway.transaction.sale(saleRequest, function (err, result) {
+        this.gateway.transaction.sale(saleRequest, function (err: Error, result) {
             if (result != null && typeof result !== 'undefined' && result.success) {
-                success(result);
+                callback(undefined, result);
             } else {
                 if (typeof err !== 'undefined' && err != null) {
-                    failure(err);
+                    callback(err);
                 } else {
-                    failure(result.message);
+                    callback(new Error(result.message));
                 }
             }
         });

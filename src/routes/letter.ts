@@ -46,26 +46,32 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                     res.json(404, "The letter could not be found");
                     return;
                 }
-                var braintreeClient = new BraintreeClient(!Config.isProd());
-                braintreeClient.pay(letter.financialInformation.priceInSettlementCurrency, letter.financialInformation.settlementCurrency, creditCard, function (result) {
-                    letter.payed = true;
-                    letter.transactionInformation.sandboxTransaction = braintreeClient.isSandbox();
-                    letter.transactionInformation.transactionDate = new Date();
-                    letter.transactionInformation.transactionId = result.transaction.id;
-                    collection.update({'_id': letter._id}, letter, {safe: true}, function (err:Error, result:number) {
-                        MongoManager.getNextSequence("invoicenumber", function (invoiceNumber) {
-                            var sanitize = require('validator').sanitize;
-                            letter.invoiceNumber = invoiceNumber;
-                            letter.issuer.name = sanitize(req.body.address.name).escape();
-                            letter.issuer.address1 = sanitize(req.body.address.line1).escape();
-                            letter.issuer.address2 = (typeof req.body.address.line2 === 'undefined') ? undefined : sanitize(req.body.address.line2).escape();
-                            letter.issuer.postalCode = sanitize(req.body.address.postalCode).escape();
-                            letter.issuer.city = sanitize(req.body.address.city).escape();
-                            letter.issuer.country = sanitize(req.body.address.country).escape();
-                            letter.issuer.email = sanitize(req.body.emailAddress).escape();
 
-                            TaxationHelper.processTaxation(letter); // Set Tax appropriately
+                MongoManager.getNextSequence("invoicenumber", function (invoiceNumber) {
+                    var sanitize = require('validator').sanitize;
+                    letter.invoiceNumber = invoiceNumber;
+                    letter.issuer.name = sanitize(req.body.address.name).escape();
+                    letter.issuer.address1 = sanitize(req.body.address.line1).escape();
+                    letter.issuer.address2 = (typeof req.body.address.line2 === 'undefined') ? undefined : sanitize(req.body.address.line2).escape();
+                    letter.issuer.postalCode = sanitize(req.body.address.postalCode).escape();
+                    letter.issuer.city = sanitize(req.body.address.city).escape();
+                    letter.issuer.country = sanitize(req.body.address.country).escape();
+                    letter.issuer.email = sanitize(req.body.emailAddress).escape();
 
+                    TaxationHelper.processTaxation(letter); // Set Tax appropriately
+
+                    // Important: Critical Path Begins
+                    var braintreeClient = new BraintreeClient(!Config.isProd());
+                    braintreeClient.pay(letter.financialInformation.priceInSettlementCurrency, letter.financialInformation.settlementCurrency, creditCard, function (error: Error, result: any) {
+                        if (error) {
+                            res.json(500, error);
+                            return;
+                        }
+                        letter.payed = true;
+                        letter.transactionInformation.sandboxTransaction = braintreeClient.isSandbox();
+                        letter.transactionInformation.transactionDate = new Date();
+                        letter.transactionInformation.transactionId = result.transaction.id;
+                        collection.update({'_id': letter._id}, letter, {safe: true}, function (err:Error, result:number) {
                             var conclude = function (status, letter:Letter, res:express.Response) {
                                 if (!status.pdfProcessed || !status.billProcessed) return; // Todo: Refactor
                                 letter.updatedAt = new Date();
@@ -79,7 +85,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                             };
 
                             // Try to Dispatch the letter
-                            MailManager.transferLetterToPrintProvider(letter, function (error: Error) {
+                            MailManager.transferLetterToPrintProvider(letter, function (error:Error) {
                                 status.pdfProcessed = true;
                                 conclude(status, letter, res);
                             });
@@ -91,8 +97,6 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                             });
                         });
                     });
-                }, function (error) {
-                    res.json(500, error);
                 });
             });
         });
