@@ -1,5 +1,6 @@
 var MongoManager = require("./MongoManager");
 
+var LetterRepository = require("./../model/LetterRepository");
 var Config = require("./../config");
 var PdfColorInspector = require('./../util/colorinspector/PdfColorInspector');
 var MailClient = require("./../util/mail/client");
@@ -31,6 +32,38 @@ var MailManager = (function () {
         });
     };
 
+    /**
+    * Transfers untransferred Letters to the providers.
+    * @param callback
+    */
+    MailManager.transferUntransferredLettersToProviders = function (callback) {
+        var numberOfSuccesses = 0;
+        var numberOfErrors = 0;
+        LetterRepository.getPayedButNotTransferredToPrintingCompanyLetters(function (letters) {
+            var conclude = function () {
+                if (numberOfSuccesses + numberOfErrors === letters.length) {
+                    callback(numberOfSuccesses, numberOfErrors);
+                }
+            };
+            for (var i = 0; i < letters.length; i++) {
+                var letter = letters[i];
+                MailManager.transferLetterToPrintProvider(letter, function (error) {
+                    if (error) {
+                        numberOfErrors++;
+                    } else {
+                        numberOfSuccesses++;
+                    }
+                    conclude();
+                });
+            }
+        });
+    };
+
+    /**
+    * Transfers a letter to a provider.
+    * @param letter
+    * @param callback
+    */
     MailManager.transferLetterToPrintProvider = function (letter, callback) {
         var prefix = Config.getBasePath() + '/public/pdf/';
         var ci = new PdfColorInspector();

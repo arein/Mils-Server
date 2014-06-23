@@ -2,6 +2,7 @@
 import mongo = require("mongodb")
 import MongoManager = require("./MongoManager")
 import Letter = require("./../model/Letter")
+import LetterRepository = require("./../model/LetterRepository")
 import Config = require("./../config")
 import PdfColorInspector = require('./../util/colorinspector/PdfColorInspector')
 import MailClient = require("./../util/mail/client")
@@ -31,6 +32,38 @@ class MailManager {
         });
     }
 
+    /**
+     * Transfers untransferred Letters to the providers.
+     * @param callback
+     */
+    public static transferUntransferredLettersToProviders(callback: (numberOfSuccesses: number, numberOfErrors: number) => void) {
+        var numberOfSuccesses = 0;
+        var numberOfErrors = 0;
+        LetterRepository.getPayedButNotTransferredToPrintingCompanyLetters(function (letters: Array<Letter>) {
+            var conclude = function() {
+                if (numberOfSuccesses + numberOfErrors === letters.length) {
+                    callback(numberOfSuccesses, numberOfErrors);
+                }
+            };
+            for (var i = 0; i < letters.length; i++) {
+                var letter: Letter = letters[i];
+                MailManager.transferLetterToPrintProvider(letter, function (error: Error) {
+                    if (error) {
+                        numberOfErrors++;
+                    } else {
+                        numberOfSuccesses++;
+                    }
+                    conclude();
+                });
+            }
+        });
+    }
+
+    /**
+     * Transfers a letter to a provider.
+     * @param letter
+     * @param callback
+     */
     public static transferLetterToPrintProvider(letter: Letter, callback: (error: Error) => void) {
         var prefix = Config.getBasePath() + '/public/pdf/';
         var ci = new PdfColorInspector();
