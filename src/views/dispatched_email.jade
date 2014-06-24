@@ -5,109 +5,96 @@ head
     meta(name='viewport', content='width=743')
     meta(http-equiv='content-type', content='text/html;charset=utf-8')
     style.(type='text/css')
-        a, a:link, a:visited, a:active, a.mils-link, a.mils-link:link, a.mils-link:visited, a.mils-link:active {
-            color: #08C;
-            text-decoration: none
-        }
-
-        a:hover, a.mils-link:hover {
-            text-decoration: underline
-        }
-
-        a.span {
-            color: inherit !important;
-            text-decoration: inherit !important
-        }
-
-        body {
-            width: 100% !important
-        }
+      a,a:link,a:visited,a:active,a.mils-link,a.mils-link:link,a.mils-link:visited,a.mils-link:active { color: #08C; text-decoration:none }
+      a:hover,a.mils-link:hover { text-decoration:underline }
+      a.span { color: inherit !important; text-decoration: inherit !important }
+      body {width:100% !important}
     //if gte mso 9
       style.(type='text/css')
         table,td,div,p {font-family:Lucida Sans,Lucida Sans Unicode,Open Sans, Lucida Grande,Arial,Helvetica,Verdana,sans-serif !important;line-height:normal !important}
     //if lte mso 7
       style.(type='text/css')
         table,td,div,p {font-family:Open Sans, Lucida Grande,Lucida Sans,Lucida Sans Unicode,Arial,Helvetica,Verdana,sans-serif !important;line-height:normal}
-    body(bgcolor='#f2f2f2', style='margin: 0; padding: 0;')
-        table(width='100%', border='0', cellspacing='0', cellpadding='0', align='center', bgcolor='#f2f2f2')
-            tr
-                td(width='100%', style='padding: 20px 20px 40px 20px; background-color: #f2f2f2;', bgcolor='#f2f2f2')
-                    table#mils-eyebrow(width='700', border='0', cellspacing='0', cellpadding='0', align='center', style='margin: 0 auto;')
-                        tr
-                            td
-                                div(style='margin: 0px 0px 3px 0px;')
-                                    img(src='#{serverPath}/email/Logo.png', alt='Mils', width='30', height='30', border='0')
-                            td(align='right', style='padding: 7px 19px;')
-                                div(style='font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; color: #666666; font-size: 10px; line-height: 1em;')
-                                    a.mils-link(href='https://milsapp.com/blog', style='color: #666666; font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; font-size: 10px; white-space: nowrap;') Blog
-                                    | |
-                                    a.mils-link(href='https://www.twitter.com/Milsapp', style='color: #666666; font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; font-size: 10px; white-space: nowrap;') Twitter
-                                    | |
-                                    a.mils-link(href='https://www.facebook.com/Milsapp', style='color: #666666; font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; font-size: 10px; white-space: nowrap;') Facebook
-                    table#mils-main(width='700', border='0', cellspacing='0', cellpadding='0', align='center', style='margin: 0 auto;')
-                        tr
-                            td(width='700')
-                                table(width='700', border='0', cellspacing='0', cellpadding='0', bgcolor='#ffffff')
-                                    tr
-                                        td(width='1', height='60', bgcolor='#dadada', style='background-color: #dadada;')
-                                        td(width='698', align='left')
-                                            table(border='0', cellspacing='0', cellpadding='0')
-                                                tr
-                                                    td
-                                                        div(style='margin: 0px 0px 0px 0px;')
-                                                            img(src='#{serverPath}/email/Dispatched.jpg', alt='Dispatched.', width='698', height='437', border='0', style='display: block; margin: 0;')
-                                        td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
-                                    tr
-                                        td(width='1', height='0', bgcolor='#dadada', style='background-color: #dadada;')
-                                        td(width='698')
-                                        td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
-                                    tr
-                                        td(width='1', height='34', bgcolor='#dadada', style='background-color: #dadada;')
-                                        td.headershadow(width='698')
-                                            div(style='margin: -5px 0px 0px 0px;')
-                                                img(src='#{serverPath}/email/header_shadow.jpg', width='698', height='34', alt='headershadow ')
-                                        td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
-                                    tr
-                                        td(width='1', height='96', bgcolor='#dadada', style='background-color: #dadada;')
-                                        td(width='698', align='center')
-                                            table(width='698', border='0', cellspacing='0', cellpadding='0')
-                                                tr
-                                                    td(width='44')
-                                                    td(width='610', align='left')
-                                                        //
-                                                          BEGIN BODY COPY
-                                                        div(style='margin: 0px 3px 0px 3px; font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; color: #333333; font-size: 14px; line-height: 1.8em;')
-                                                            p Hi there,
-                                                            p(style='white-space:pre;')
-                                                                | The letter to #{destination} you sent on #{passedToPrintingProviderAt} was dispatched on #{dispatchedByPrintingProviderAt}.
-                                                            p(style='white-space:pre;')
-                                                                | Regards,
-                                                                | The Mils Team
-                                                    td(width='44')
-                                                tr
-                                                    td(width='44')
-                                                    td(width='44')
-                                        td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
-                                    tr
-                                        td(width='1', height='41', bgcolor='#dadada', style='background-color: #dadada;')
-                                        td(width='698')
-                                        td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
-                                    tr
-                                        td.bottom(width='700', height='7', valign='top', colspan='3')
-                                            img(src='#{serverPath}/email/bottom.gif', alt='', width='700', height='7', border='0', style='display: block; margin: 0;')
-                    //
-                      BEGIN LEGAL FOOTER
-                    table#mils-footer(width='700', border='0', cellspacing='0', cellpadding='0', align='center', style='margin: 0 auto;')
-                        tr
-                            td(style='padding: 20px 20px 10px 15px;')
-                                div(style='font-family: Open Sans, Lucida Grande,Verdana,Arial,Helvetica,sans-serif; font-size: 10px; line-height: 1.4em; color: #888888;')
-                                    p
-                                        | Copyright © 2014 Mils
-                                        br
-                                div(style='font-family: Open Sans, Lucida Grande,Verdana,Arial,Helvetica,sans-serif; font-size: 10px; line-height: 1.4em; color: #888888;')
-                                br
-                                br
-                                br
-                                br
-                                br
-                        tr
+body(bgcolor='#f2f2f2', style='margin: 0; padding: 0;')
+    table(width='100%', border='0', cellspacing='0', cellpadding='0', align='center', bgcolor='#f2f2f2')
+        tr
+            td(width='100%', style='padding: 20px 20px 40px 20px; background-color: #f2f2f2;', bgcolor='#f2f2f2')
+                table#mils-eyebrow(width='700', border='0', cellspacing='0', cellpadding='0', align='center', style='margin: 0 auto;')
+                    tr
+                        td
+                            div(style='margin: 0px 0px 3px 0px;')
+                                img(src='#{serverPath}/email/Logo.png', alt='Mils', width='30', height='30', border='0')
+                        td(align='right', style='padding: 7px 19px;')
+                            div(style='font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; color: #666666; font-size: 10px; line-height: 1em;')
+                                a.mils-link(href='https://milsapp.com/blog', style='color: #666666; font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; font-size: 10px; white-space: nowrap;') Blog
+                                | |
+                                a.mils-link(href='https://www.twitter.com/Milsapp', style='color: #666666; font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; font-size: 10px; white-space: nowrap;') Twitter
+                                | |
+                                a.mils-link(href='https://www.facebook.com/Milsapp', style='color: #666666; font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; font-size: 10px; white-space: nowrap;') Facebook
+                table#mils-main(width='700', border='0', cellspacing='0', cellpadding='0', align='center', style='margin: 0 auto;')
+                    tr
+                        td(width='700')
+                            table(width='700', border='0', cellspacing='0', cellpadding='0', bgcolor='#ffffff')
+                                tr
+                                    td(width='1', height='60', bgcolor='#dadada', style='background-color: #dadada;')
+                                    td(width='698', align='left')
+                                        table(border='0', cellspacing='0', cellpadding='0')
+                                            tr
+                                                td
+                                                    div(style='margin: 0px 0px 0px 0px;')
+                                                        img(src='#{serverPath}/email/Dispatched.jpg', alt='Dispatched.', width='698', height='437', border='0', style='display: block; margin: 0;')
+                                    td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
+                                tr
+                                    td(width='1', height='0', bgcolor='#dadada', style='background-color: #dadada;')
+                                    td(width='698')
+                                    td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
+                                tr
+                                    td(width='1', height='34', bgcolor='#dadada', style='background-color: #dadada;')
+                                    td.headershadow(width='698')
+                                        div(style='margin: -5px 0px 0px 0px;')
+                                            img(src='#{serverPath}/email/header_shadow.jpg', width='698', height='34', alt='headershadow ')
+                                    td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
+                                tr
+                                    td(width='1', height='96', bgcolor='#dadada', style='background-color: #dadada;')
+                                    td(width='698', align='center')
+                                        table(width='698', border='0', cellspacing='0', cellpadding='0')
+                                            tr
+                                                td(width='44')
+                                                td(width='610', align='left')
+                                                    //
+                                                      BEGIN BODY COPY
+                                                    div(style='margin: 0px 3px 0px 3px; font-family: Open Sans, Lucida Grande, Arial, Helvetica, Open Sans, Lucida Grande, Verdana, sans-serif; color: #333333; font-size: 14px; line-height: 1.8em;')
+                                                        p Hi there,
+                                                        p(style='white-space:pre;')
+                                                            | The letter to #{destination} you sent on #{passedToPrintingProviderAt} was dispatched on #{dispatchedByPrintingProviderAt}.
+                                                        p(style='white-space:pre;')
+                                                            | Regards,
+                                                            | The Mils Team
+                                                td(width='44')
+                                            tr
+                                                td(width='44')
+                                                td(width='44')
+                                    td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
+                                tr
+                                    td(width='1', height='41', bgcolor='#dadada', style='background-color: #dadada;')
+                                    td(width='698')
+                                    td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
+                                tr
+                                    td.bottom(width='700', height='7', valign='top', colspan='3')
+                                        img(src='#{serverPath}/email/bottom.gif', alt='', width='700', height='7', border='0', style='display: block; margin: 0;')
+                //
+                  BEGIN LEGAL FOOTER
+                table#mils-footer(width='700', border='0', cellspacing='0', cellpadding='0', align='center', style='margin: 0 auto;')
+                    tr
+                        td(style='padding: 20px 20px 10px 15px;')
+                            div(style='font-family: Open Sans, Lucida Grande,Verdana,Arial,Helvetica,sans-serif; font-size: 10px; line-height: 1.4em; color: #888888;')
+                                p
+                                    | Copyright © 2014 Mils
+                                    br
+                            div(style='font-family: Open Sans, Lucida Grande,Verdana,Arial,Helvetica,sans-serif; font-size: 10px; line-height: 1.4em; color: #888888;')
+                            br
+                            br
+                            br
+                            br
+                            br
+                    tr
