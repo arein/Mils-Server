@@ -40,6 +40,10 @@ var MailManager = (function () {
         var numberOfSuccesses = 0;
         var numberOfErrors = 0;
         LetterRepository.getPayedButNotTransferredToPrintingCompanyLetters(function (letters) {
+            if (letters.length === 0) {
+                callback(0, 0);
+            }
+
             var conclude = function () {
                 if (numberOfSuccesses + numberOfErrors === letters.length) {
                     callback(numberOfSuccesses, numberOfErrors);

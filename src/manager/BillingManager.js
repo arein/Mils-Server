@@ -36,6 +36,10 @@ var BillingManager = (function () {
         var numberOfGeneratedAndSentBills = 0;
         var numberOfErrors = 0;
         LetterRepository.getLettersWithBillsToBeSent(function (letters) {
+            if (letters.length === 0) {
+                callback(0, 0);
+            }
+
             var conclude = function () {
                 if (numberOfErrors + numberOfGeneratedAndSentBills === letters.length) {
                     callback(numberOfGeneratedAndSentBills, numberOfErrors);
