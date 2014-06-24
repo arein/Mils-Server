@@ -46,7 +46,7 @@ var MongoManager = (function () {
         }
 
         var server = new mongo.Server('localhost', 27017, { auto_reconnect: true });
-        var db = new mongo.Db('letterdb', server);
+        var db = new mongo.Db('letterdb', server, { safe: true });
 
         db.open(function (err, db) {
             if (!err) {
