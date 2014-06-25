@@ -161,6 +161,13 @@ body, h1, h2, h3 {
     background-position: left bottom, left top;
 }
 
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    #welcome {
+        background-image: url(/images/letter-border-pattern.png), url(/images/letter-border-pattern.png);
+        background-size: 519px 12px;
+    }
+}
+
 #welcome:before,
 #welcome:after {
   display: table;
