@@ -23,15 +23,15 @@ html(lang='en')
     body
         header(style='background: #333;padding:5px;text-align:center;')
             a(href='/') Home
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            | &nbsp;&nbsp;&nbsp;&nbsp;
             a(href='/faq/') FAQ
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            | &nbsp;&nbsp;&nbsp;&nbsp;
             a(href='/pricing/') Pricing
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            | &nbsp;&nbsp;&nbsp;&nbsp;
             a(href='/blog/') Blog
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            | &nbsp;&nbsp;&nbsp;&nbsp;
             a(href='/about-mils') About Mils
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            | &nbsp;&nbsp;&nbsp;&nbsp;
             a(href='/contact') Contact
         block content
 
@@ -93,7 +93,7 @@ html(lang='en')
         script(src='/fancybox/jquery.fancybox.pack.js?v=2.1.5')
         script(src='/fancybox/jquery.fancybox-media.js')
         #fb-root
-        script
+        script.
             (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
@@ -101,6 +101,6 @@ html(lang='en')
             js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=460877000633532";
             fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
-        script
+        script.
             !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
         script(type='text/javascript', src='https://apis.google.com/js/plusone.js')

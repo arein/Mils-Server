@@ -10,7 +10,7 @@ var Server = mongo.Server,
     BSON = mongo.BSONPure;
 
 var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('letterdb', server);
+db = new Db('letterdb', server, {safe: true});
 
 db.open(function(err, db) {
     if(!err) {
