@@ -117,7 +117,7 @@ class NotificationManager {
      * @param letter
      */
     public static notifyCustomerViaPushNotification(letter: Letter, callback: (err?: Error) => void) {
-        if (typeof letter.devices !== "undefined") {
+        if (typeof letter.devices !== "undefined" && letter.devices.length > 0) {
             for (var i = 0; i < letter.devices.length; i++) {
                 var device = letter.devices[i];
                 if (device.type == ClientType.ClientType.Windows81) {
@@ -157,8 +157,11 @@ class NotificationManager {
                     note.payload = {'remoteLetterId': letter._id};
 
                     apnConnection.pushNotification(note, myDevice);
+                    callback();
                 }
             }
+        } else {
+            callback();
         }
     }
 }

@@ -120,7 +120,7 @@ var NotificationManager = (function () {
     * @param letter
     */
     NotificationManager.notifyCustomerViaPushNotification = function (letter, callback) {
-        if (typeof letter.devices !== "undefined") {
+        if (typeof letter.devices !== "undefined" && letter.devices.length > 0) {
             for (var i = 0; i < letter.devices.length; i++) {
                 var device = letter.devices[i];
                 if (device.type == 0 /* Windows81 */) {
@@ -160,8 +160,11 @@ var NotificationManager = (function () {
                     note.payload = { 'remoteLetterId': letter._id };
 
                     apnConnection.pushNotification(note, myDevice);
+                    callback();
                 }
             }
+        } else {
+            callback();
         }
     };
     return NotificationManager;
