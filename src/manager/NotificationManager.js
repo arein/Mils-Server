@@ -85,7 +85,8 @@ var NotificationManager = (function () {
             pretty: true,
             destination: letter.recipient.countryIso,
             passedToPrintingProviderAt: prettyPassedToPrintingProviderAt,
-            dispatchedByPrintingProviderAt: prettyDispatchedByPrintingProviderAt
+            dispatchedByPrintingProviderAt: prettyDispatchedByPrintingProviderAt,
+            serverPath: Config.getBaseUri()
         };
 
         jade.renderFile(Config.getBasePath() + '/views/dispatched_email.jade', options, function (err, html) {
