@@ -9,6 +9,15 @@ head
         a:hover,a.mils-link:hover { text-decoration:underline }
         a.span { color: inherit !important; text-decoration: inherit !important }
         body {width:100% !important}
+        @media only screen and (max-device-width:768px) {
+            #mils-footer { -webkit-text-size-adjust:116%; }
+            #mils-footer a, a { color:inherit; }
+            * { text-rendering:optimizelegibility; }
+        }
+        /* Retina Graphics */
+        @media only screen and (min-device-width: 481px) and (min-device-pixel-ratio : 2), only screen and (min-device-width: 481px) and (-webkit-min-device-pixel-ratio : 2) {
+            /* Global */
+        }
     //if gte mso 9
       style.(type='text/css')
         table,td,div,p {font-family:Lucida Sans,Lucida Sans Unicode,Open Sans, Lucida Grande,Arial,Helvetica,Verdana,sans-serif !important;line-height:normal !important}
@@ -42,7 +51,7 @@ table(width='100%', border='0', cellspacing='0', cellpadding='0', align='center'
                     tr
                       td
                         div(style='margin: 0px 0px 0px 0px;')
-                          img(src='#{serverPath}/email/Invoice.jpg', alt='Your Invoice.', width='698', height='437', border='0', style='display: block; margin: 0;')
+                          img(src='#{serverPath}/email/Invoice_2x.jpg', alt='Your Invoice.', width='698', height='437', border='0', style='display: block; margin: 0;')
                 td(width='1', bgcolor='#dadada', style='background-color: #dadada;')
               tr
                 td(width='1', height='0', bgcolor='#dadada', style='background-color: #dadada;')
