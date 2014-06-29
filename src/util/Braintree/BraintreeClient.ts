@@ -36,7 +36,7 @@ class BraintreeHelper {
 
         var saleRequest = {
             amount: amount,
-            merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
+            merchantAccountId: this.getMerchantAccountIdForCurrency(currency),
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,
@@ -72,8 +72,8 @@ class BraintreeHelper {
         return parseFloat((price * 0.04641 + 0.325).toFixed(2));
     }
 
-    public static getMerchantAccountIdForCurrency(currency: Currency): string {
-        if (!Config.isProd()) return "qw5w86564jkpbnkn"; // Sandbox merchant id
+    public getMerchantAccountIdForCurrency(currency: Currency): string {
+        if (this.isSandbox()) return "qw5w86564jkpbnkn"; // Sandbox merchant id
         switch (currency) {
             case Currency.AUD:
                 return "milsAUD";

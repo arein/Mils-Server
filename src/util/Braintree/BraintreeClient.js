@@ -1,13 +1,11 @@
 var Currency = require('./Model/Currency');
-var Config = require('./../../config');
 
 var BraintreeHelper = (function () {
     function BraintreeHelper(sandboxed) {
         this.braintree = require("braintree");
         this.sandboxed = sandboxed;
 
-        //if (this.sandboxed) {
-        if (false) {
+        if (this.sandboxed) {
             this.gateway = this.braintree.connect({
                 environment: this.braintree.Environment.Sandbox,
                 merchantId: "7sj5c56hggvmgrfw",
@@ -30,7 +28,7 @@ var BraintreeHelper = (function () {
     BraintreeHelper.prototype.pay = function (amount, currency, creditCard, callback) {
         var saleRequest = {
             amount: amount,
-            merchantAccountId: BraintreeHelper.getMerchantAccountIdForCurrency(currency),
+            merchantAccountId: this.getMerchantAccountIdForCurrency(currency),
             creditCard: {
                 number: creditCard.number,
                 cvv: creditCard.cvv,
@@ -65,8 +63,8 @@ var BraintreeHelper = (function () {
         return parseFloat((price * 0.04641 + 0.325).toFixed(2));
     };
 
-    BraintreeHelper.getMerchantAccountIdForCurrency = function (currency) {
-        if (!Config.isProd())
+    BraintreeHelper.prototype.getMerchantAccountIdForCurrency = function (currency) {
+        if (this.isSandbox())
             return "qw5w86564jkpbnkn";
         switch (currency) {
             case 2 /* AUD */:
