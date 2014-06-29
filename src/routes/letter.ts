@@ -118,8 +118,8 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
     var pdfWriter = new PdfWriter();
     pdfWriter.writePdf(req.body, letter, function (fileSizeInMegabytes: number) {
 
-        if (fileSizeInMegabytes > 2) {
-            res.send(400, {'error': 'The File may not be larger than 2mb.'});
+        if (fileSizeInMegabytes > 10) {
+            res.send(400, {'error': 'The File may not be larger than 10mb.'});
             return;
         }
 
