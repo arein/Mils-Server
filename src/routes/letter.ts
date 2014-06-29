@@ -65,7 +65,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                     var braintreeClient = new BraintreeClient(!Config.isProd());
                     braintreeClient.pay(letter.financialInformation.priceInSettlementCurrency, letter.financialInformation.settlementCurrency, creditCard, function (error: Error, result: any) {
                         if (error) {
-                            res.json(500, error);
+                            res.json(500, {error: error.message});
                             return;
                         }
                         letter.payed = true;
@@ -148,7 +148,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
                 MongoManager.getDb(function (db : mongo.Db) {
                     db.collection('letter', function (err, collection) {
                         if (err) {
-                            res.send(500, "An error occurred on the server side");
+                            res.send(500, {'error':  "An error occurred on the server side"});
                             return;
                         }
                         collection.insert(letter, {safe: true}, function (err, result) {
@@ -162,7 +162,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
                                     var fs = require('fs');
                                     fs.readFile(Config.getBasePath() + '/public/pdf/' + letter.pdf, function (err, data) {
                                         if (err) {
-                                            res.send(500, "An error occurred on the server side:" + err);
+                                            res.send(500, {'error':  "An error occurred on the server side:" + err});
                                         } else {
                                             responseObject.pdf = data.toString("base64");
                                             res.send(responseObject);

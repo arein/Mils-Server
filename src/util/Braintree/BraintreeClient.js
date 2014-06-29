@@ -6,7 +6,8 @@ var BraintreeHelper = (function () {
         this.braintree = require("braintree");
         this.sandboxed = sandboxed;
 
-        if (this.sandboxed) {
+        //if (this.sandboxed) {
+        if (false) {
             this.gateway = this.braintree.connect({
                 environment: this.braintree.Environment.Sandbox,
                 merchantId: "7sj5c56hggvmgrfw",
