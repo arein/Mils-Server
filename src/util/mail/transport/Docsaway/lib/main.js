@@ -446,7 +446,12 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
 };
 
 Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
-	
+
+    if (pages > 40) {
+        callback(new Error("The Maximum Number of Pages is 40, your document is " + pages), undefined);
+        return;
+    }
+
 	//http://nodejs.org/api.html#_child_processes
 	var sys = require('sys');
 	var exec = require('child_process').exec;
