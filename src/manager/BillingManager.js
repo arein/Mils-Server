@@ -13,6 +13,8 @@ var BillingManager = (function () {
         BillHelper.sendBill(letter, 'invoice-' + letter.pdf, function (err) {
             if (err) {
                 letter.billSent = false;
+                callback(err);
+                return;
             } else {
                 letter.billSent = true;
                 letter.billSentAt = new Date();

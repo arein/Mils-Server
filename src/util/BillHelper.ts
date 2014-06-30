@@ -6,11 +6,14 @@ import PdfInvoice = require('./pdf/invoice/PdfInvoice')
 class BillHelper {
     public static sendBill(letter : Letter, fileName : string, callback: (err : Error) => void) {
         var fs = require("fs");
-        var pdfInvoice = new PdfInvoice();
         var prefix = Config.getBasePath() + '/public/pdf/';
         var path = prefix + fileName;
 
-        pdfInvoice.createInvoice(letter, function (data) {
+        PdfInvoice.createInvoice(letter, function (error: Error, data: string) {
+            if (error) {
+                callback(error);
+                return;
+            }
             fs.writeFile(path, data, function(err) {
                 if (err) {
                     callback(err);

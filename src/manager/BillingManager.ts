@@ -14,6 +14,8 @@ class BillingManager {
         BillHelper.sendBill(letter, 'invoice-' + letter.pdf, function (err:Error) {
             if (err) {
                 letter.billSent = false;
+                callback(err);
+                return;
             } else {
                 letter.billSent = true;
                 letter.billSentAt = new Date();

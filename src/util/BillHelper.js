@@ -6,11 +6,14 @@ var BillHelper = (function () {
     }
     BillHelper.sendBill = function (letter, fileName, callback) {
         var fs = require("fs");
-        var pdfInvoice = new PdfInvoice();
         var prefix = Config.getBasePath() + '/public/pdf/';
         var path = prefix + fileName;
 
-        pdfInvoice.createInvoice(letter, function (data) {
+        PdfInvoice.createInvoice(letter, function (error, data) {
+            if (error) {
+                callback(error);
+                return;
+            }
             fs.writeFile(path, data, function (err) {
                 if (err) {
                     callback(err);

@@ -136,7 +136,7 @@ exports.uploadLetter = function (req, res) {
                 letter.financialInformation.creditCardCost = guessedCreditCardCost;
                 letter.financialInformation.price = finalPrice;
                 letter.financialInformation.priceInSettlementCurrency = parseFloat(result.toFixed(2));
-                letter.financialInformation.settlementCurrency = preferredCurrency;
+                letter.financialInformation.settlementCurrency = CurrencyConverter.convertStringToCurrencyType(preferredCurrency);
 
                 MongoManager.getDb(function (db) {
                     db.collection('letter', function (err, collection) {

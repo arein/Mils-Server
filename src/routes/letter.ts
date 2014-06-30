@@ -104,8 +104,8 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
 exports.uploadLetter = function(req : express.Request, res : express.Response) {
     var shouldDownload = req.query.download == 'true'; // Determine whether the pdf should be downloaded
     UploadValidator.validate(req); // Validation
-    var letter = LetterFactory.createLetterFromRequest(req); // Letter Creation
-    var preferredCurrency = req.query.preferred_currency;
+    var letter: Letter = LetterFactory.createLetterFromRequest(req); // Letter Creation
+    var preferredCurrency: string = req.query.preferred_currency;
 
     if (typeof preferredCurrency === 'undefined' || ["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency) < 0) {
         preferredCurrency = "EUR"; // Windows 8 Backward Compability
@@ -139,7 +139,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
                 letter.financialInformation.creditCardCost = guessedCreditCardCost;
                 letter.financialInformation.price = finalPrice;
                 letter.financialInformation.priceInSettlementCurrency = parseFloat(result.toFixed(2));
-                letter.financialInformation.settlementCurrency = preferredCurrency;
+                letter.financialInformation.settlementCurrency = CurrencyConverter.convertStringToCurrencyType(preferredCurrency);
 
                 MongoManager.getDb(function (db : mongo.Db) {
                     db.collection('letter', function (err, collection) {
