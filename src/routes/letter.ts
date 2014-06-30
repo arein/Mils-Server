@@ -191,7 +191,7 @@ exports.calculatePrice = function(req: express.Request, res: express.Response) {
         destination = req.query.destination,
         preferredCurrency = req.query.preferred_currency;
 
-    if (!["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency)) {
+    if (["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency) < 0) {
         res.send(502, {'error': "Your preferred currency is not supported"});
         return;
     }

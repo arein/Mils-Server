@@ -187,7 +187,7 @@ exports.calculatePrice = function (req, res) {
     var check = require('validator').check;
     var pages = req.query.pages, destination = req.query.destination, preferredCurrency = req.query.preferred_currency;
 
-    if (!["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency)) {
+    if (["AUD", "EUR", "GBP", "USD"].indexOf(preferredCurrency) < 0) {
         res.send(502, { 'error': "Your preferred currency is not supported" });
         return;
     }
