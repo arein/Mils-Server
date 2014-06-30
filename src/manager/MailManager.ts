@@ -79,6 +79,8 @@ class MailManager {
             mailClient.sendMail(prefix + letter.pdf, recipient, isGreyscale, function (err:Error, digest?:SendMailDigest) {
                 if (err) {
                     letter.printInformation.passedToPrintingProvider = false;
+                    callback(err);
+                    return;
                 } else {
                     letter.financialInformation.printingCost = digest.price;
                     letter.financialInformation.margin = letter.financialInformation.price - letter.financialInformation.creditCardCost - letter.financialInformation.vat;

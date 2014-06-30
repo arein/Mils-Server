@@ -58,7 +58,7 @@ class LetterRepository {
                 if (err) throw err;
                 collection.find({
                     "payed": true,
-                    "printInformation.passedToPrintingProvider": false,
+                    "printInformation.passedToPrintingProvider": true,
                     '$or': [{"billSent": false},
                             {"billSent": {'$exists': false}}]
 
