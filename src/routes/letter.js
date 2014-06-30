@@ -12,11 +12,11 @@ var TaxationHelper = require('./../util/TaxationHelper');
 var PdfWriter = require('./../util/pdf/PdfWriter');
 var Config = require('./../config');
 var MongoManager = require('./../manager/MongoManager');
-var MailManager = require('./../manager/MailManager');
+
 var PurchaseValidator = require('./../validator/PurchaseValidator');
 var UploadValidator = require('./../validator/UploadValidator');
 var LetterFactory = require('./../model/LetterFactory');
-var BillingManager = require('./../manager/BillingManager');
+
 var Client = require('./../model/Client');
 var ClientType = require('./../model/ClientType');
 var CurrencyConverter = require('./../util/CurrencyConverter');
@@ -69,27 +69,22 @@ exports.purchaseLetter = function (req, res) {
                         letter.transactionInformation.sandboxTransaction = braintreeClient.isSandbox();
                         letter.transactionInformation.transactionDate = new Date();
                         letter.transactionInformation.transactionId = result.transaction.id;
+                        letter.updatedAt = new Date();
                         collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
-                            var conclude = function (status, letter, res) {
-                                if (!status.pdfProcessed || !status.billProcessed)
-                                    return;
-                                letter.updatedAt = new Date();
-                                collection.update({ '_id': letter._id }, letter, { safe: true }, function (err, result) {
-                                    res.send(letter);
-                                });
-                            };
-
+                            res.send(letter);
+                            /*
                             // Try to Dispatch the letter
-                            MailManager.transferLetterToPrintProvider(letter, function (error) {
-                                status.pdfProcessed = true;
-                                conclude(status, letter, res);
+                            MailManager.transferLetterToPrintProvider(letter, function (error:Error) {
+                            status.pdfProcessed = true;
+                            conclude(status, letter, res);
                             });
-
+                            
                             // Try to send the bill
-                            BillingManager.generateAndSendBillForLetter(letter, function (err) {
-                                status.billProcessed = true;
-                                conclude(status, letter, res);
+                            BillingManager.generateAndSendBillForLetter(letter, function (err:Error) {
+                            status.billProcessed = true;
+                            conclude(status, letter, res);
                             });
+                            */
                         });
                     });
                 });

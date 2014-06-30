@@ -72,15 +72,10 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                         letter.transactionInformation.sandboxTransaction = braintreeClient.isSandbox();
                         letter.transactionInformation.transactionDate = new Date();
                         letter.transactionInformation.transactionId = result.transaction.id;
+                        letter.updatedAt = new Date();
                         collection.update({'_id': letter._id}, letter, {safe: true}, function (err:Error, result:number) {
-                            var conclude = function (status, letter:Letter, res:express.Response) {
-                                if (!status.pdfProcessed || !status.billProcessed) return; // Todo: Refactor
-                                letter.updatedAt = new Date();
-                                collection.update({'_id': letter._id}, letter, {safe: true}, function (err:Error, result:number) {
-                                    res.send(letter);
-                                });
-                            };
-
+                            res.send(letter);
+                            /*
                             // Try to Dispatch the letter
                             MailManager.transferLetterToPrintProvider(letter, function (error:Error) {
                                 status.pdfProcessed = true;
@@ -92,6 +87,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                                 status.billProcessed = true;
                                 conclude(status, letter, res);
                             });
+                            */
                         });
                     });
                 });

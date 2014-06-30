@@ -61,7 +61,8 @@ var LetterRepository = (function () {
                 if (err)
                     throw err;
                 collection.find({
-                    payed: true,
+                    "payed": true,
+                    "printInformation.passedToPrintingProvider": false,
                     '$or': [
                         { "billSent": false },
                         { "billSent": { '$exists': false } }]
