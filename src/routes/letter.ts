@@ -177,7 +177,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
 };
 
 /**
- * Calculates the price of the letter for a given number of pages.
+ * Calculates the priceInAud of the letter for a given number of pages.
  * @param req
  * @param res
  */

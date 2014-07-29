@@ -55,12 +55,12 @@ function queryPrice() {
 	var intRegex = /^\d+$/;
 	if(intRegex.test(pages)) {
 		showLoading();
-		$.get( "/letters/calculate-price?pages=" + pages + "&destination=" + country + "&preferred_currency=EUR", function(data) {
+		$.get( "/letters/calculate-priceInAud?pages=" + pages + "&destination=" + country + "&preferred_currency=EUR", function(data) {
 		  $('#costs').text('EUR ' + parseFloat(data.priceInEur).toFixed(2));
 		  hideLoading();
 		})
 		.fail(function() {
-			$('#costs').text('Ups...and error occurred loading the price.');
+			$('#costs').text('Ups...and error occurred loading the priceInAud.');
 			hideLoading();
 		});
 	}

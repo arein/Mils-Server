@@ -82,8 +82,9 @@ class MailManager {
                     callback(err);
                     return;
                 } else {
-                    letter.financialInformation.printingCost = digest.price;
-                    letter.financialInformation.margin = letter.financialInformation.price - letter.financialInformation.creditCardCost - letter.financialInformation.vat;
+                    letter.financialInformation.printingCostInAud = digest.priceInAud;
+                    letter.financialInformation.printingCostInEur = digest.priceInEur;
+                    letter.financialInformation.margin = letter.financialInformation.price - letter.financialInformation.creditCardCost - letter.financialInformation.vat - letter.financialInformation.printingCostInEur;
                     letter.printInformation.passedToPrintingProvider = true;
                     letter.printInformation.passedToPrintingProviderAt = new Date();
                     letter.printInformation.printJobReference = digest.reference;

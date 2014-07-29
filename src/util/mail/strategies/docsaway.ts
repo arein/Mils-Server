@@ -5,6 +5,8 @@ import ProviderType = require('./../model/ProviderType');
 import IMailStrategy = require('./IMailStrategy');
 import Recipient = require('./../model/Recipient');
 import Config = require('./../../../config');
+import CurrencyConverter = require('./../../../util/CurrencyConverter')
+import Currency = require('./../../../util/Braintree/Model/Currency')
 class Docsaway implements IMailStrategy {
     sendMail(filepath:string, recipient:Recipient, printBlackWhite: boolean, callback:(error:Error, digest?:SendMailDigest) => void) {
         var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
@@ -31,12 +33,22 @@ class Docsaway implements IMailStrategy {
                 if (error) {
                     return callback(error, undefined);
                 }
-                var digest = new SendMailDigest(ProviderType.ProviderType.Docsaway, result.transaction.reference, parseFloat(result.transaction.price));
-                callback(undefined, digest);
+
+                CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("AUD"), CurrencyConverter.convertStringToCurrencyType("EUR"), parseFloat(result.transaction.priceInAud), function (priceInEur: number) {
+                    var digest = new SendMailDigest(ProviderType.ProviderType.Docsaway, result.transaction.reference, parseFloat(result.transaction.priceInAud), priceInEur);
+                    callback(undefined, digest);
+                });
             });
         });
     }
 
+    /**
+     * Calculates the Price in EUR
+     *
+     * @param pages
+     * @param destinationCountryIso
+     * @param callback
+     */
     calculatePrice(pages:number, destinationCountryIso:string, callback:(error:Error, digest?:CalculatePriceDigest) => void) {
         var installationKey = 'MHoa7E5AidYKHkXp41pC5WKOCRoARvhxPu86UBUkifDhtJk7IQaeZR5AoTkC84AZ';
         var email = 'adr@ceseros.de';
@@ -51,8 +63,7 @@ class Docsaway implements IMailStrategy {
                 callback(error);
                 return;
             }
-            var priceInEur = result.price * 0.65; // Conversion from AUD to EUR
-            var digest = new CalculatePriceDigest(priceInEur, result.city, result.country, result.courier);
+            var digest = new CalculatePriceDigest(parseFloat(result.price), result.city, result.country, result.courier);
             callback(undefined, digest);
         });
     }

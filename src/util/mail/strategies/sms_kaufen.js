@@ -1,7 +1,5 @@
-var SendMailDigest = require('./../model/SendMailDigest');
 var CalculatePriceDigest = require('./../model/CalculatePriceDigest');
 
-var ProviderType = require('./../model/ProviderType');
 var SmsKaufen = (function () {
     function SmsKaufen() {
     }
@@ -22,9 +20,9 @@ var SmsKaufen = (function () {
             if (res != undefined && err == undefined) {
                 res.resume(); // for node-0.10.x
                 res.on('data', function (chunk) {
-                    // todo: Update price
-                    var digest = new SendMailDigest(0 /* SmsKaufen */, chunk, 0);
-                    callback(undefined, digest);
+                    // todo: Update priceInAud
+                    //var digest = new SendMailDigest(ProviderType.ProviderType.SmsKaufen, chunk, 0);
+                    //callback(undefined, digest);
                 });
             } else {
                 callback(err);

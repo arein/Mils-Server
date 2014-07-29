@@ -217,7 +217,7 @@ var PRICING_ERROR_MESSAGES = {
   },
   '006': {
 	  key: 'errStringLength',
-	  value: 'Unable to calculate price.'
+	  value: 'Unable to calculate priceInAud.'
   },
   '007': {
 	  key: 'errStringLength',
@@ -517,7 +517,7 @@ Client.prototype.calculatePrice = function(countryCodeIso, pages, callback) {
 			var stationInfo = stationInfoForStation(that.docsaway.station.station);
             var courier = coutierNameForCourierId(that.docsaway.station.courier);
 			var result = {
-				price: response.result.price,
+				price: response.result.price, // Returns the priceInAud in AUD
 				city: stationInfo.city,
 				country: stationInfo.country,
                 courier: courier

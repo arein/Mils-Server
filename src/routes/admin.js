@@ -70,8 +70,8 @@ function getMonthlyReportData(callback) {
                     month : { $month : "$createdAt" }
                 },
                 count: { $sum: 1 },
-                priceTotal: { $sum: "$financialInformation.price" },
-                priceAvg: { $avg: "$financialInformation.price" },
+                priceTotal: { $sum: "$financialInformation.priceInAud" },
+                priceAvg: { $avg: "$financialInformation.priceInAud" },
                 pagesTotal: { $sum: "$pageCount" },
                 pagesAvg: { $avg: "$pageCount" },
                 netTotal: { $sum: "$financialInformation.net" },
@@ -80,8 +80,8 @@ function getMonthlyReportData(callback) {
                 vatAvg: { $avg: "$financialInformation.vat" },
                 marginAppliedTotal: { $sum: "$financialInformation.margin" },
                 marginAppliedAvg: { $avg: "$financialInformation.margin" },
-                printingPriceTotal: { $sum: "$financialInformation.printingCost" },
-                printingPriceAvg: { $avg: "$financialInformation.printingCost" },
+                printingPriceTotal: { $sum: "$financialInformation.printingCostInAud" },
+                printingPriceAvg: { $avg: "$financialInformation.printingCostInAud" },
                 vatIncomeTotal: { $sum: "$financialInformation.vatIncome" },
                 vatIncomeAvg: { $avg: "$financialInformation.vatIncome" }
             }}],
