@@ -34,8 +34,8 @@ class Docsaway implements IMailStrategy {
                     return callback(error, undefined);
                 }
 
-                CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("AUD"), CurrencyConverter.convertStringToCurrencyType("EUR"), parseFloat(result.transaction.priceInAud), function (priceInEur: number) {
-                    var digest = new SendMailDigest(ProviderType.ProviderType.Docsaway, result.transaction.reference, parseFloat(result.transaction.priceInAud), priceInEur);
+                CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("AUD"), CurrencyConverter.convertStringToCurrencyType("EUR"), parseFloat(result.transaction.price), function (priceInEur: number) {
+                    var digest = new SendMailDigest(ProviderType.ProviderType.Docsaway, result.transaction.reference, parseFloat(result.transaction.price), priceInEur);
                     callback(undefined, digest);
                 });
             });

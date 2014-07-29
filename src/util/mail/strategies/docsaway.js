@@ -35,8 +35,8 @@ var Docsaway = (function () {
                     return callback(error, undefined);
                 }
 
-                CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("AUD"), CurrencyConverter.convertStringToCurrencyType("EUR"), parseFloat(result.transaction.priceInAud), function (priceInEur) {
-                    var digest = new SendMailDigest(1 /* Docsaway */, result.transaction.reference, parseFloat(result.transaction.priceInAud), priceInEur);
+                CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("AUD"), CurrencyConverter.convertStringToCurrencyType("EUR"), parseFloat(result.transaction.price), function (priceInEur) {
+                    var digest = new SendMailDigest(1 /* Docsaway */, result.transaction.reference, parseFloat(result.transaction.price), priceInEur);
                     callback(undefined, digest);
                 });
             });
