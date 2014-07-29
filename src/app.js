@@ -105,7 +105,7 @@ app.get('/faq/:title', index.faqSub);
 app.get('/blog', index.blog);
 app.get('/imprint', index.imprint);
 app.get('/contact', index.contact);
-app.get('/letters/calculate-priceInAud', letter.calculatePrice);
+app.get('/letters/calculate-price', letter.calculatePrice);
 app.get('/admin', auth, admin.index);
 app.post('/letters/:id', letter.purchaseLetter);
 app.get('/letters/pn/:id', letter.pushNotification);
