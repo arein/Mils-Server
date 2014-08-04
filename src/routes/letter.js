@@ -27,7 +27,13 @@ var CurrencyConverter = require('./../util/CurrencyConverter');
 * @param res
 */
 exports.purchaseLetter = function (req, res) {
-    PurchaseValidator.validate(req); // Validate Input
+    try  {
+        PurchaseValidator.validate(req); // Validate Input
+    } catch (e) {
+        res.json(502, { error: e.message });
+        return;
+    }
+
     var id = req.params.id;
     var status = {
         pdfProcessed: false,
@@ -62,7 +68,7 @@ exports.purchaseLetter = function (req, res) {
                     var braintreeClient = new BraintreeClient(!Config.isProd());
                     braintreeClient.pay(letter.financialInformation.priceInSettlementCurrency, letter.financialInformation.settlementCurrency, creditCard, function (error, result) {
                         if (error) {
-                            res.json(500, { error: error.message });
+                            res.json(502, { error: error.message });
                             return;
                         }
                         letter.payed = true;
@@ -100,7 +106,14 @@ exports.purchaseLetter = function (req, res) {
 */
 exports.uploadLetter = function (req, res) {
     var shouldDownload = req.query.download == 'true';
-    UploadValidator.validate(req); // Validation
+
+    try  {
+        UploadValidator.validate(req); // Validation
+    } catch (e) {
+        res.json(502, { error: e.message });
+        return;
+    }
+
     var letter = LetterFactory.createLetterFromRequest(req);
     var preferredCurrency = req.query.preferred_currency;
 

@@ -380,17 +380,79 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
     recipient.state = (typeof recipient.state === 'undefined') ? false : recipient.state;
 
 	var validator = require('validator');
-	if (validator.isNull(recipient.name)) throw new Error("The name may not be empty");
+	if (validator.isNull(recipient.name)) {
+        callback(new Error("The name may not be empty"), undefined);
+        return;
+    }
+
+    if (recipient.name.length > 50) {
+        callback(new Error("The Recipient Name may not be longer than 50 Characters"), undefined);
+        return;
+    }
+
 	if (validator.isLength(recipient.company.toString(), 0, 0)) recipient.company = false;
-	if (recipient.company !== false && validator.isNull(recipient.company)) throw new Error("The Company may either be false or empty");
-	if (validator.isNull(recipient.address1)) throw new Error("The address line 1 may not be empty");
+
+	if (recipient.company !== false && validator.isNull(recipient.company)) {
+        callback(new Error("The Company may either be false or empty"), undefined);
+        return;
+    }
+
+    if (recipient.company !== false && recipient.company.length > 50) {
+        callback(new Error("The Recipient Company Name may not be longer than 50 Characters"), undefined);
+        return;
+    }
+
+	if (validator.isNull(recipient.address1)) {
+        callback(new Error("The address line 1 may not be empty"), undefined);
+        return;
+    }
+
+    if (recipient.address1.length > 50) {
+        callback(new Error("The Recipient Address Line 1 may not be longer than 50 Characters"), undefined);
+        return;
+    }
+
 	if (validator.isLength(recipient.address2.toString(), 0, 0)) recipient.address2 = false;
-	if (recipient.address2 !== false && validator.isNull(recipient.address2)) throw new Error("The Address line 2 may either be false or empty");
-	if (validator.isNull(recipient.city)) throw new Error("The City may not be empty");
+
+	if (recipient.address2 !== false && validator.isNull(recipient.address2)) {
+        callback(new Error("The Address line 2 may either be false or empty"), undefined);
+        return;
+    }
+
+    if (recipient.address2 !== false && recipient.address2.length > 50) {
+        callback(new Error("The Recipient Address Line 2 may not be longer than 50 Characters"), null);
+        return;
+    }
+	if (validator.isNull(recipient.city)) {
+        callback(new Error("The City may not be empty"), undefined);
+        return;
+    }
+    if (recipient.city.length > 50) {
+        callback(new Error("The Recipient City may not be longer than 50 Characters"), undefined);
+        return;
+    }
 	if (validator.isLength(recipient.state.toString(), 0, 0)) recipient.state = false;
-	if (recipient.state !== false && validator.isNull(recipient.state)) throw new Error("The State may either be false or empty");
-	if (validator.isNull(recipient.zip)) throw new Error("The Zip may not be empty");
-	if (validator.isNull(recipient.country)) throw new Error("The Country may not be empty");
+
+	if (recipient.state !== false && validator.isNull(recipient.state)) {
+        callback(new Error("The State may either be false or empty"), undefined);
+        return;
+    }
+    if (recipient.state !== false && recipient.state.length > 50) {
+        callback(new Error("The Recipient State may not be longer than 50 Characters"), undefined);
+        return;
+    }
+	if (validator.isNull(recipient.zip)) {
+        callback(new Error("The Zip may not be empty"), undefined);
+        return;
+    }
+    if (recipient.zip.length > 10) {
+        callback(new Error("The Recipient Zip may not be longer than 10 Characters"), undefined);
+        return;
+    }
+	if (validator.isNull(recipient.country)) {
+        callback(new Error("The Country may not be empty"), undefined);
+        return;
+    };
 	
 	//http://nodejs.org/api.html#_child_processes
 	var sys = require('sys');

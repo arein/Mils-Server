@@ -30,7 +30,13 @@ import Currency = require('./../util/Braintree/Model/Currency')
  * @param res
  */
 exports.purchaseLetter = function(req : express.Request, res : express.Response) {
-    PurchaseValidator.validate(req); // Validate Input
+    try {
+        PurchaseValidator.validate(req); // Validate Input
+    } catch (e) {
+        res.json(502, {error: e.message});
+        return;
+    }
+
     var id = req.params.id;
     var status = {
         pdfProcessed: false,
@@ -65,7 +71,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                     var braintreeClient = new BraintreeClient(!Config.isProd());
                     braintreeClient.pay(letter.financialInformation.priceInSettlementCurrency, letter.financialInformation.settlementCurrency, creditCard, function (error: Error, result: any) {
                         if (error) {
-                            res.json(500, {error: error.message});
+                            res.json(502, {error: error.message});
                             return;
                         }
                         letter.payed = true;
@@ -103,7 +109,14 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
  */
 exports.uploadLetter = function(req : express.Request, res : express.Response) {
     var shouldDownload = req.query.download == 'true'; // Determine whether the pdf should be downloaded
-    UploadValidator.validate(req); // Validation
+
+    try {
+        UploadValidator.validate(req); // Validation
+    } catch (e) {
+        res.json(502, {error: e.message});
+        return;
+    }
+
     var letter: Letter = LetterFactory.createLetterFromRequest(req); // Letter Creation
     var preferredCurrency: string = req.query.preferred_currency;
 
