@@ -36,25 +36,25 @@ class MailManager {
      * Transfers untransferred Letters to the providers.
      * @param callback
      */
-    public static transferUntransferredLettersToProviders(callback: (numberOfSuccesses: number, numberOfErrors: number) => void) {
+    public static transferUntransferredLettersToProviders(callback: (numberOfSuccesses: number, errors: Array<Error>) => void) {
         var numberOfSuccesses = 0;
-        var numberOfErrors = 0;
         LetterRepository.getPayedButNotTransferredToPrintingCompanyLetters(function (letters: Array<Letter>) {
 
+            var errors = [];
             if (letters.length === 0) {
-                callback(0,0);
+                callback(0, errors);
             }
 
             var conclude = function() {
-                if (numberOfSuccesses + numberOfErrors === letters.length) {
-                    callback(numberOfSuccesses, numberOfErrors);
+                if (numberOfSuccesses + errors.length === letters.length) {
+                    callback(numberOfSuccesses, errors);
                 }
             };
             for (var i = 0; i < letters.length; i++) {
                 var letter: Letter = letters[i];
                 MailManager.transferLetterToPrintProvider(letter, function (error: Error) {
                     if (error) {
-                        numberOfErrors++;
+                        errors.push(error);
                     } else {
                         numberOfSuccesses++;
                     }

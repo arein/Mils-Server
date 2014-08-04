@@ -38,22 +38,22 @@ var MailManager = (function () {
     */
     MailManager.transferUntransferredLettersToProviders = function (callback) {
         var numberOfSuccesses = 0;
-        var numberOfErrors = 0;
         LetterRepository.getPayedButNotTransferredToPrintingCompanyLetters(function (letters) {
+            var errors = [];
             if (letters.length === 0) {
-                callback(0, 0);
+                callback(0, errors);
             }
 
             var conclude = function () {
-                if (numberOfSuccesses + numberOfErrors === letters.length) {
-                    callback(numberOfSuccesses, numberOfErrors);
+                if (numberOfSuccesses + errors.length === letters.length) {
+                    callback(numberOfSuccesses, errors);
                 }
             };
             for (var i = 0; i < letters.length; i++) {
                 var letter = letters[i];
                 MailManager.transferLetterToPrintProvider(letter, function (error) {
                     if (error) {
-                        numberOfErrors++;
+                        errors.push(error);
                     } else {
                         numberOfSuccesses++;
                     }
