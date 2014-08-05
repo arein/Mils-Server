@@ -62,7 +62,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
                     letter.issuer.postalCode = sanitize(req.body.address.postalCode).escape();
                     letter.issuer.city = sanitize(req.body.address.city).escape();
                     letter.issuer.country = sanitize(req.body.address.country).escape();
-                    letter.issuer.email = sanitize(req.body.emailAddress).escape();
+                    letter.issuer.email = sanitize(req.body.emailAddress).trim();
 
                     TaxationHelper.processTaxation(letter); // Set Tax appropriately
 

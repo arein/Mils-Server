@@ -11,13 +11,13 @@ class LetterFactory {
         letter.updatedAt = new Date();
         letter.printInformation.passedToPrintingProvider = false;
         letter.billSent = false;
-        letter.recipient.name = sanitize(req.body.recipientName).escape();
-        letter.recipient.company = (typeof req.body.recipientCompany === 'undefined') ? undefined : sanitize(req.body.recipientCompany).escape();
-        letter.recipient.address1 = sanitize(req.body.recipientAddress1).escape();
-        letter.recipient.address2 = (typeof req.body.recipientAddress2 === 'undefined') ? undefined : sanitize(req.body.recipientAddress2).escape();
-        letter.recipient.city = sanitize(req.body.recipientCity).escape();
-        letter.recipient.postalCode = sanitize(req.body.recipientPostalCode).escape();
-        letter.recipient.countryIso = (typeof req.body.recipientCountryIso === 'undefined') ? undefined : sanitize(req.body.recipientCountryIso).escape();
+        letter.recipient.name = req.body.recipientName;
+        letter.recipient.company = req.body.recipientCompany;
+        letter.recipient.address1 = req.body.recipientAddress1;
+        letter.recipient.address2 = req.body.recipientAddress2;
+        letter.recipient.city = req.body.recipientCity;
+        letter.recipient.postalCode = req.body.recipientPostalCode;
+        letter.recipient.countryIso = req.body.recipientCountryIso;
 
         return letter;
     }
