@@ -111,6 +111,7 @@ app.post('/letters/:id', letter.purchaseLetter);
 app.get('/letters/pn/:id', letter.pushNotification);
 app.post('/letters', letter.uploadLetter);
 app.get('/downloads/osx', index.osxDownload);
+app.post('/geocode', letter.geocode);
 
 app.get('/blog/rss', function (req, res) {
     var posts = poet.helpers.getPosts(0, poet.helpers.getPostCount());

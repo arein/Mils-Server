@@ -21,6 +21,8 @@ var Client = require('./../model/Client');
 var ClientType = require('./../model/ClientType');
 var CurrencyConverter = require('./../util/CurrencyConverter');
 
+var Geocoder = require('./../util/geocoding/Geocoder');
+
 /**
 * Endpoint to purchase a letter.
 * @param req
@@ -262,6 +264,26 @@ exports.pushNotification = function (req, res) {
                 });
             });
         });
+    });
+};
+
+exports.geocode = function (req, res) {
+    try  {
+        var check = require('validator').check;
+        check(req.body.address).notNull();
+    } catch (e) {
+        res.send(500, { 'error': e.message });
+        return;
+    }
+
+    var address = req.body.address;
+    Geocoder.geocode(address, function (error, location) {
+        if (typeof error != "undefined") {
+            res.send(500, { 'error': error.message });
+            return;
+        }
+
+        res.send(location);
     });
 };
 //# sourceMappingURL=letter.js.map

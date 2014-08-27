@@ -23,6 +23,8 @@ import Client = require('./../model/Client')
 import ClientType = require('./../model/ClientType')
 import CurrencyConverter = require('./../util/CurrencyConverter')
 import Currency = require('./../util/Braintree/Model/Currency')
+import Geocoder = require('./../util/geocoding/Geocoder')
+import Location = require('./../util/geocoding/Location')
 
 /**
  * Endpoint to purchase a letter.
@@ -267,5 +269,25 @@ exports.pushNotification = function(req :express.Request, res :express.Response)
                 });
             });
         });
+    });
+};
+
+exports.geocode = function(req :express.Request, res :express.Response) {
+    try {
+        var check = require('validator').check; // Validation
+        check(req.body.address).notNull();
+    } catch (e) {
+        res.send(500, {'error': e.message});
+        return;
+    }
+
+    var address = req.body.address;
+    Geocoder.geocode(address, function(error: Error, location?: Location) {
+        if (typeof error != "undefined") {
+            res.send(500, {'error': error.message});
+            return;
+        }
+
+        res.send(location);
     });
 };

@@ -29,6 +29,7 @@
     "express-mailer": "0.2.3",
     "poet": "1.0.2",
     "csv": "0.3.0",
-    "pdf2json": "0.6.7"
+    "pdf2json": "0.6.7",
+    "node-geocoder": "2.7.0"
   }
 }
