@@ -4,7 +4,7 @@ block content
     div#welcome
         .container(style="padding:60px 0 30px;text-align: center;")
             .row
-                .col-lg-12(style="margin-bottom:49px;")
+                .col-lg-12(style="")
                     img(src='/images/logo.png', data-src2x="/images/logo_2x.png", width="155", height="155", alt='Logo')
                     h1(style="color: #3974ba;margin: 40px 0;")
                         | Send Snail Mail&nbsp;
@@ -13,24 +13,28 @@ block content
                         | From Your Computer
             .row
                 .col-lg-4
-                    img(src='/images/mac-os.png', data-src2x="/images/mac-os_2x.png", width="245", height="202", alt='Mac OS X')
+                    img(src='/images/mac-frame-2x.png', width='344', style='margin-bottom: -117px;')
+                    video(autoplay='autoplay', controls='controls', width="320", height="200", poster='/images/Mac-Poster-2x.png',style="position: relative;margin-top: -182px;margin-left: 1px;")
+                        source(src='/images/Mac-2x.mp4', type='video/mp4')
                     p
                         if osInfo.isMacOsX
-                            a.btn.btn-default(href='macappstore://itunes.apple.com/app/id834618640?mt=12', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X
+                            a.btn.btn-default(id='macbutton',href='macappstore://itunes.apple.com/app/id834618640?mt=12', role='button', style='margin: 95px 0 19px 0;') Download Mils for Mac OS X
                         else
-                            a.btn.btn-default(href='https://itunes.apple.com/us/app/mils/id834618640?ls=1&mt=12', role='button', style='margin: 15px 0 49px 0;') Download Mils for Mac OS X
-                .col-lg-4
+                            a.btn.btn-default(id='macbutton',href='https://itunes.apple.com/us/app/mils/id834618640?ls=1&mt=12', role='button', style='margin: 95px 0 19px 0;') Download Mils for Mac OS X
+                .col-lg-4(style="margin-top:49px;")
                     a(href="https://www.youtube.com/watch?v=z-Ag0xRoDms?autoplay=1", class='fancybox-media')
                         img(src='/images/Play-Button.png', alt='Play Video', style='width:300px;margin-top:5px;')
                     p
                         a.btn.btn-default(href="https://www.youtube.com/watch?v=z-Ag0xRoDms?autoplay=1", class='fancybox-media', style='margin: 47px 0 49px 0;') Play Video
                 .col-lg-4
-                    img(src='/images/windows-8.png', data-src2x="/images/windows-8_2x.png", width="274", height="203", alt='Windows 8.1')
+                    img(src='/images/win-frame-2x.png', width='348', style='margin-bottom: -117px;')
+                    video(autoplay='autoplay', controls='controls', width="320", height="200", poster='/images/Win-Poster-2x.png',style="position: relative;margin-top: -155px;margin-left: 2px;")
+                        source(src='/images/Win8-2x.mp4', type='video/mp4')
                     p
                         if osInfo.isWindows8
-                            a.btn.btn-default(href='ms-windows-store:PDP?PFN=2418Ceseros.Mils_hks05crvxp2m6', role='button', style='margin: 15px 0 49px 0;') Download Mils for Windows 8.1
+                            a.btn.btn-default(id='winbutton',href='ms-windows-store:PDP?PFN=2418Ceseros.Mils_hks05crvxp2m6', role='button', style='margin: 75px 0 19px 0;') Download Mils for Windows 8.1
                         else
-                            a.btn.btn-default(href='http://apps.microsoft.com/windows/app/mils/6d018356-b186-4e04-b10f-f138f54375a9',target="__blank", role='button', style='margin: 15px 0 49px 0;') Download Mils for Windows 8.1
+                            a.btn.btn-default(id='winbutton',href='http://apps.microsoft.com/windows/app/mils/6d018356-b186-4e04-b10f-f138f54375a9',target="__blank", role='button', style='margin: 75px 0 19px 0;') Download Mils for Windows 8.1
     .container(style="text-align: center;padding: 60px 0;")
         .row
             .col-lg-4(style="padding: 0 15px 20px 15px")
