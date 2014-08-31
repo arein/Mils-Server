@@ -188,6 +188,31 @@ body, h1, h2, h3 {
   clear: both;
 }
 
+#macframe {
+    margin-bottom: -117px;
+    width: 344px;
+}
+
+#macvideo {
+    width: 320px;
+    height: 200px;
+    position: relative;
+    margin-top: -182px;
+    margin-left: 1px;
+}
+
+#winframe {
+    width: 348px;
+    margin-bottom: -117px;
+}
+
+#winvideo {
+    height: 200px;
+    position: relative;
+    margin-top: -155px;
+    margin-left: 2px;
+}
+
 .covertop {
 	background: url(/images/calculate-background-top.png) repeat-x left top;
 	z-index: 1000;
@@ -284,10 +309,38 @@ fieldset[disabled] .btn-default.active {
 and (min-device-width : 320px) 
 and (max-device-width : 480px) {
 /* Styles */
-#countries {
-	max-width: 280px;
-	font-size: 50px;
-  }
+    #countries {
+        max-width: 100px;
+        font-size: 10px;
+    }
+
+    #macvideo {
+        width: 283px;
+        height: 177px;
+        position: relative;
+        margin-top: -148px;
+        margin-left: 5px;
+    }
+
+    #macframe {
+        margin-bottom: -117px;
+        width: 304px;
+        margin-left: 4px;
+    }
+
+    #winvideo {
+        width: 287px;
+        height: 196px;
+        position: relative;
+        margin-top: -137px;
+        margin-left: 8px;
+    }
+
+    #winframe {
+        width: 312px;
+        margin-bottom: -117px;
+        margin-left: 7px;
+    }
 }
 
 /* SPINNER */

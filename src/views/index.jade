@@ -13,8 +13,8 @@ block content
                         | From Your Computer
             .row
                 .col-lg-4
-                    img(src='/images/mac-frame-2x.png', width='344', style='margin-bottom: -117px;')
-                    video(autoplay='autoplay', width="320", height="200", poster='/images/Mac-Poster-2x.png',style="position: relative;margin-top: -182px;margin-left: 1px;")
+                    img#macframe(src='/images/mac-frame-2x.png', width='344')
+                    video#macvideo(autoplay='autoplay', width="320", height="200", poster='/images/Mac-Poster-2x.png')
                         source(src='/images/Mac-2x.mp4', type='video/mp4')
                     p
                         if osInfo.isMacOsX
@@ -27,8 +27,8 @@ block content
                     p
                         a.btn.btn-default(href="https://www.youtube.com/watch?v=z-Ag0xRoDms?autoplay=1", class='fancybox-media', style='margin: 47px 0 49px 0;') Play Video
                 .col-lg-4
-                    img(src='/images/win-frame-2x.png', width='348', style='margin-bottom: -117px;')
-                    video(autoplay='autoplay', width="320", height="200", poster='/images/Win-Poster-2x.png',style="position: relative;margin-top: -155px;margin-left: 2px;")
+                    img#winframe(src='/images/win-frame-2x.png', width='348')
+                    video#winvideo(autoplay='autoplay', width="320", height="200", poster='/images/Win-Poster-2x.png')
                         source(src='/images/Win8-2x.mp4', type='video/mp4')
                     p
                         if osInfo.isWindows8
@@ -150,8 +150,11 @@ block content
                     p(style='margin-top: 20px;font-weight: bold;color: #fff;')#costs
                         | EUR 3,99
                 div.spinner-wrap
-                    div.sprite-spinner
+                    div.sprite-spinner(style="display:none;height: 100px;")
                         img(src="/images/progressindicator.png")
+        div.spinner-wrap
+            div.sprite-spinner
+                img(src="/images/progressindicator.png")
     if osInfo.isMacOsX || osInfo.isWindows8
         //
          Google Code for Mac OS X or Windows 8 User Conversion Page

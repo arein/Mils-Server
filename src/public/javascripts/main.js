@@ -29,8 +29,9 @@ $(document).ready(function() {
     });
 	$("#pages").change(pagesChanged);
 	$("#countries").change(pagesChanged);
+    $('#countries').selectize();
 	queryPrice();
-    loadGif();
+    //loadGif();
 });
 
 function pagesChanged() {
