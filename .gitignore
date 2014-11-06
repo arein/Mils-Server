@@ -1,10 +1,14 @@
-src/public/pdf/*
+# IDE Files
+.DS_Store
+.settings
+*.iml
+.project
+.idea
+
+# Project Files
 node_modules
-src/.idea
 docsaway-nodejs/tmp/
-src/.settings
-src/*.iml
-src/.project
+src/public/pdf/*
 src/config.ts
 src/config.js
 src/config.js.map
