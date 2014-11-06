@@ -48,6 +48,32 @@ class Config {
 
         return "http://localhost:3000";
     }
+
+    public static getCurrencyConverterAppId() : string {
+        return "c9b5a882d43146918ebe0afdd978fbe8";
+    }
+
+    public static getBraintreeSandboxConfig(environment: any) : any {
+        return {
+            environment: environment,
+            merchantId: "7sj5c56hggvmgrfw",
+            publicKey: "78rfb5jwd4877d48",
+            privateKey: "333775c67b6af31779a8bc9e8c529b31"
+        };
+    }
+
+    public static getBraintreeProductionConfig(environment: any) : any {
+        return {
+            environment: environment,
+            merchantId: "krf85rj993z3mj7n",
+            publicKey: "9nnsbrqv7nbvd4wq",
+            privateKey: "a2e371f67b9839d5e8fd5b6685bb3a31"
+        };
+    }
+
+    public static getGoogleAPIKey() : string {
+        return "AIzaSyDTVeZO2Oqr_80tLrlPWVFfZOL0KOeCXEo";
+    }
 }
 
 export = Config;

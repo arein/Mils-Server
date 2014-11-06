@@ -1,5 +1,6 @@
 /// <reference path='./../../vendor/typescript-node-definitions/node.d.ts'/>
 var Currency = require('./Braintree/Model/Currency');
+var Config = require('./../config');
 var CurrencyConverter = (function () {
     function CurrencyConverter() {
     }
@@ -10,7 +11,7 @@ var CurrencyConverter = (function () {
         }
         var oxr = require('open-exchange-rates'), fx = require('money');
 
-        oxr.set({ app_id: 'c9b5a882d43146918ebe0afdd978fbe8' });
+        oxr.set({ app_id: Config.getCurrencyConverterAppId() });
 
         oxr.latest(function () {
             // Apply exchange rates and base rate to `fx` library object:

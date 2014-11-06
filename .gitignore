@@ -2,3 +2,14 @@ src/public/pdf/*
 node_modules
 .idea
 docsaway-nodejs/tmp/
+.settings
+*.iml
+.project
+config.ts
+config.js
+config.js.map
+
+# Mail Files
+src/util/mail/model/ProviderType.*
+src/util/mail/strategies/*
+src/util/mail/policy.*

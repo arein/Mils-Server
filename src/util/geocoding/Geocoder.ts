@@ -1,6 +1,7 @@
 /// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
 
 import Location = require('./Location')
+import Config = require('./../../config')
 
 class Geocoder {
     static geocode(address: string, callback: (error: Error, location?: Location) => void) {
@@ -9,7 +10,7 @@ class Geocoder {
 
         // optionnal
         var extra = {
-            apiKey: 'AIzaSyDTVeZO2Oqr_80tLrlPWVFfZOL0KOeCXEo', // for map quest
+            apiKey: Config.getGoogleAPIKey(), // for map quest
             formatter: null // 'gpx', 'string', ...
         };
 

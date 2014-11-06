@@ -1,5 +1,6 @@
 /// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
 var Location = require('./Location');
+var Config = require('./../../config');
 
 var Geocoder = (function () {
     function Geocoder() {
@@ -10,7 +11,7 @@ var Geocoder = (function () {
 
         // optionnal
         var extra = {
-            apiKey: 'AIzaSyDTVeZO2Oqr_80tLrlPWVFfZOL0KOeCXEo',
+            apiKey: Config.getGoogleAPIKey(),
             formatter: null
         };
 
