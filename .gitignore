@@ -4,6 +4,8 @@
 *.iml
 .project
 .idea
+letterapp.iml
+npm-debug.log
 
 # Project Files
 node_modules
