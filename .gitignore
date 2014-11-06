@@ -1,13 +1,13 @@
 src/public/pdf/*
 node_modules
-.idea
+src/.idea
 docsaway-nodejs/tmp/
-.settings
-*.iml
-.project
-config.ts
-config.js
-config.js.map
+src/.settings
+src/*.iml
+src/.project
+src/config.ts
+src/config.js
+src/config.js.map
 
 # Mail Files
 src/util/mail/model/ProviderType.*
