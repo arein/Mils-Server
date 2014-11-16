@@ -39,25 +39,9 @@ app.use(express.bodyParser());
 
 //if ('development' == app.get('env')) {
 if (false) {
-    mailer.extend(app, {
-        from: 'test@dev.ceseros.de',
-        host: 'dev.ceseros.de',
-        secureConnection: false,
-        port: 25,
-        transportMethod: 'SMTP'
-    });
+    mailer.extend(app, config.getDevMailCredentials());
 } else {
-    mailer.extend(app, {
-        from: 'hello@milsapp.com',
-        host: 'intern.ceseros.de',
-        secureConnection: false,
-        port: 25,
-        transportMethod: 'SMTP',
-        auth: {
-            user: 'hello@milsapp.com',
-            pass: 'Mk72TBbL'
-        }
-    });
+    mailer.extend(app, config.getProdMailCredentials());
 }
 
 // development only
@@ -71,10 +55,11 @@ app.configure(function () {
 
 // Synchronous Function
 var auth = express.basicAuth(function (user, pass) {
-    if (user === 'arein' && pass === 'Derek12345')
-        return true;
-    if (user === 'fehrhardt' && pass === 'Edmund')
-        return true;
+    var admins = config.getAdmins();
+    for (var i = 0; i < admins.length; i++) {
+        if (admins[i].login == user && admins[i].password == pass)
+            return true;
+    }
 
     return false;
 });
