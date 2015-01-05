@@ -1,5 +1,6 @@
 /// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
 var mongo = require("mongodb");
+var Config = require("./../config");
 
 var MongoManager = (function () {
     function MongoManager() {
@@ -50,19 +51,24 @@ var MongoManager = (function () {
 
         db.open(function (err, db) {
             if (!err) {
-                db.createCollection('letter', { strict: true }, function (err, collection) {
-                    if (!err) {
-                        console.log("The letter collection doesn't exist. Creating it with sample data");
-                    }
-                });
+                console.log("connected to the database");
 
-                db.createCollection('counters', { strict: true }, function (err, collection) {
-                    if (!err) {
-                        console.log("Counters Collection created. Creating it with sample data");
-                        this.populateDB();
-                    }
+                var credentials = Config.getMongoCredentials();
+                db.authenticate(credentials.user, credentials.pwd, function (err, res) {
+                    db.createCollection('letter', { strict: true }, function (err, collection) {
+                        if (!err) {
+                            console.log("The letter collection doesn't exist. Creating it with sample data");
+                        }
+                    });
+
+                    db.createCollection('counters', { strict: true }, function (err, collection) {
+                        if (!err) {
+                            console.log("Counters Collection created. Creating it with sample data");
+                            this.populateDB();
+                        }
+                    });
+                    callback(db);
                 });
-                callback(db);
             } else {
                 throw err;
             }

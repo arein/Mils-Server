@@ -1,5 +1,6 @@
 /// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
 import mongo = require("mongodb")
+import Config = require("./../config")
 
 class MongoManager {
     private static populateDB(callback : (result : any) => void) {
@@ -51,19 +52,24 @@ class MongoManager {
 
         db.open(function(err : Error, db : mongo.Db) {
             if(!err) {
-                db.createCollection('letter', {strict:true}, function(err : Error, collection : mongo.Collection) {
-                    if (!err) {
-                        console.log("The letter collection doesn't exist. Creating it with sample data");
-                    }
-                });
+                console.log("connected to the database");
 
-                db.createCollection('counters', {strict:true}, function(err : Error, collection : mongo.Collection) {
-                    if (!err) {
-                        console.log("Counters Collection created. Creating it with sample data");
-                        this.populateDB();
-                    }
+                var credentials = Config.getMongoCredentials();
+                db.authenticate(credentials.user, credentials.pwd, function(err : Error, res : any) {
+                    db.createCollection('letter', {strict:true}, function(err : Error, collection : mongo.Collection) {
+                        if (!err) {
+                            console.log("The letter collection doesn't exist. Creating it with sample data");
+                        }
+                    });
+
+                    db.createCollection('counters', {strict:true}, function(err : Error, collection : mongo.Collection) {
+                        if (!err) {
+                            console.log("Counters Collection created. Creating it with sample data");
+                            this.populateDB();
+                        }
+                    });
+                    callback(db);
                 });
-                callback(db);
             } else {
                 throw err;
             }

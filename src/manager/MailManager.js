@@ -90,7 +90,10 @@ var MailManager = (function () {
                     letter.printInformation.provider = digest.provider;
                 }
 
+                console.log("Running1");
+
                 MongoManager.getDb(function (db) {
+                    console.log("Running2");
                     db.collection('letter', function (err, collection) {
                         if (err) {
                             callback(err);
