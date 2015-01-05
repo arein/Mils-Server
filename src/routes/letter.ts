@@ -143,8 +143,8 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
 
             var preferredPriceShorted : string = digest.priceInEur.toFixed(2);
             // Update Letter with Price and Digest Information
-            var guessedCreditCardCost = BraintreeClient.guessTransactionCost(digest.priceInEur + 0.15);
-            var finalPrice = (digest.priceInEur + 0.15 + guessedCreditCardCost) * 1.19;
+            var guessedCreditCardCost = BraintreeClient.guessTransactionCost(digest.priceInEur + 0.20);
+            var finalPrice = (digest.priceInEur + 0.20 + guessedCreditCardCost) * 1.27;
             finalPrice = parseFloat(finalPrice.toFixed(2));
 
             CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("EUR"), CurrencyConverter.convertStringToCurrencyType(preferredCurrency), finalPrice, function (result: number) {
@@ -217,7 +217,7 @@ exports.calculatePrice = function(req: express.Request, res: express.Response) {
         if (error) {
             res.send(502, {'error': error.message});
         } else {
-            var finalPrice : number = (digest.priceInEur + 0.15 + BraintreeClient.guessTransactionCost(digest.priceInEur + 0.15)) * 1.19;
+            var finalPrice : number = (digest.priceInEur + 0.20 + BraintreeClient.guessTransactionCost(digest.priceInEur + 0.20)) * 1.27;
             var finalPriceShorted : string = finalPrice.toFixed(2);
 
             CurrencyConverter.convert(CurrencyConverter.convertStringToCurrencyType("EUR"), CurrencyConverter.convertStringToCurrencyType(preferredCurrency), finalPrice, function (result: number) {

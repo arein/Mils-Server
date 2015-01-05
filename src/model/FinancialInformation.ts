@@ -1,5 +1,6 @@
 import Currency = require('./../util/Braintree/Model/Currency')
 class FinancialInformation {
+    vatRate: number;
     vat: number;
     vatIncome: number;
     printingCostInAud: number;

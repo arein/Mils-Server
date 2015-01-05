@@ -1,12 +1,15 @@
 function processTaxation(letter) {
     var isoCountry = letter.issuer.country;
-    var net = (letter.financialInformation.price / 1.19).toFixed(2);
-    var vat = (letter.financialInformation.price - parseFloat(net)).toFixed(2);
+    letter.financialInformation.vatRate = getVatRate(isoCountry);
     if (isInEU(isoCountry)) {
+        var net = (letter.financialInformation.price / (1 + letter.financialInformation.vatRate)).toFixed(2);
+        var vat = (letter.financialInformation.price - parseFloat(net)).toFixed(2);
         letter.financialInformation.net = parseFloat(net);
         letter.financialInformation.vat = parseFloat(vat);
         letter.financialInformation.vatIncome = 0;
     } else {
+        var net = (letter.financialInformation.price / 1.27).toFixed(2);
+        var vat = (letter.financialInformation.price - parseFloat(net)).toFixed(2);
         letter.financialInformation.vatIncome = parseFloat(vat);
         letter.financialInformation.net = letter.financialInformation.price;
         letter.financialInformation.vat = 0;
@@ -47,6 +50,69 @@ function isInEU(isoShortFormattedCountry) {
             return true;
         default:
             return false;
+    }
+}
+
+function getVatRate(isoShortFormattedCountry) {
+    switch (isoShortFormattedCountry) {
+        case 'BE':
+            return 0.21;
+        case 'BG':
+            return 0.20;
+        case 'HR':
+            return 0.25;
+        case 'DK':
+            return 0.25;
+        case 'DE':
+            return 0.19;
+        case 'EE':
+            return 0.20;
+        case 'FI':
+            return 0.24;
+        case 'FR':
+            return 0.20;
+        case 'GR':
+            return 0.23;
+        case 'IE':
+            return 0.23;
+        case 'IT':
+            return 0.22;
+        case 'LT':
+            return 0.21;
+        case 'LV':
+            return 0.21;
+        case 'LU':
+            return 0.15;
+        case 'MT':
+            return 0.18;
+        case 'NL':
+            return 0.21;
+        case 'AT':
+            return 0.20;
+        case 'PL':
+            return 0.23;
+        case 'RO':
+            return 0.24;
+        case 'PT':
+            return 0.23;
+        case 'SE':
+            return 0.25;
+        case 'SK':
+            return 0.20;
+        case 'SI':
+            return 0.22;
+        case 'ES':
+            return 0.21;
+        case 'HU':
+            return 0.27;
+        case 'CZ':
+            return 0.21;
+        case 'GB':
+            return 0.20;
+        case 'CY':
+            return 0.19;
+        default:
+            return 0;
     }
 }
 //# sourceMappingURL=TaxationHelper.js.map
