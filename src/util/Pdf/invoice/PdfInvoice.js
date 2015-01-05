@@ -49,7 +49,7 @@ var PdfInvoice = (function () {
             }
 
             // Bill Content
-            doc.font('OpenSans-Regular').fontSize(12).fillColor("#000000").text(description, 71, 511).text(letter.financialInformation.net + '€', 479, 511).text("VAT (" + letter.financialInformation.vatRate + ")", 71, 530).text(letter.financialInformation.vat + '€', 479, 530);
+            doc.font('OpenSans-Regular').fontSize(12).fillColor("#000000").text(description, 71, 511).text(letter.financialInformation.net + '€', 479, 511).text("VAT (" + letter.financialInformation.vatRate.toString().replace("0.", "") + "%)", 71, 530).text(letter.financialInformation.vat + '€', 479, 530);
 
             if (letter.financialInformation.settlementCurrency === 0 /* EUR */) {
                 // Final Amount
