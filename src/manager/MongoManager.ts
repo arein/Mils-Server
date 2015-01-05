@@ -52,10 +52,13 @@ class MongoManager {
 
         db.open(function(err : Error, db : mongo.Db) {
             if(!err) {
-                console.log("connected to the database");
 
                 var credentials = Config.getMongoCredentials();
                 db.authenticate(credentials.user, credentials.pwd, function(err : Error, res : any) {
+                    if (err) {
+                        console.log("Couldn't authenticate to the db: " + err);
+                        throw err;
+                    }
                     db.createCollection('letter', {strict:true}, function(err : Error, collection : mongo.Collection) {
                         if (!err) {
                             console.log("The letter collection doesn't exist. Creating it with sample data");
