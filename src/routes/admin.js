@@ -1,5 +1,6 @@
 var express = require("express");
 var mongo = require('mongodb');
+var Config = require("./../config");
 /*
  * GET users listing.
  */
@@ -14,16 +15,23 @@ db = new Db('letterdb', server, {safe: true});
 
 db.open(function(err, db) {
     if(!err) {
-        db.createCollection('letter', {strict:true}, function(err, collection) {
-            if (!err) {
-                console.log("The letter collection doesn't exist. Creating it with sample data");
+        var credentials = Config.getMongoCredentials();
+        db.authenticate(credentials.user, credentials.pwd, function (err, res) {
+            if (err) {
+                console.log("Couldn't authenticate to the db: " + err);
+                throw err;
             }
-        });
+            db.createCollection('letter', {strict:true}, function(err, collection) {
+                if (!err) {
+                    console.log("The letter collection doesn't exist. Creating it with sample data");
+                }
+            });
 
-        db.createCollection('counters', {strict:true}, function(err, collection) {
-            if (!err) {
-                console.log("Counters Collection created. Creating it with sample data");
-            }
+            db.createCollection('counters', {strict:true}, function(err, collection) {
+                if (!err) {
+                    console.log("Counters Collection created. Creating it with sample data");
+                }
+            });
         });
     }
 });
