@@ -1,8 +1,7 @@
 /// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
 import mongo = require("mongodb");
 import Issuer = require("./Issuer");
-import Recipient = require("./LetterRecipient");
-import PrintInformation = require("./PrintInformation");
+import FaxRecipient = require("./FaxRecipient");
 import TransactionInformation = require("./TransactionInformation");
 import FinancialInformation = require("./FinancialInformation");
 import Client = require('Client')
@@ -11,11 +10,10 @@ class Fax {
     _id : mongo.ObjectID;
     billSent: boolean;
     billSentAt: Date;
-    printInformation: PrintInformation;
     transactionInformation: TransactionInformation;
     financialInformation: FinancialInformation;
     issuer: Issuer;
-    recipient: Recipient;
+    recipient: FaxRecipient;
     invoiceNumber: number;
     pageCount: number;
     payed: boolean;

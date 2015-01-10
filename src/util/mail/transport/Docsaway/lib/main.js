@@ -386,7 +386,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
     }
 
     if (recipient.name.length > 50) {
-        callback(new Error("The LetterRecipient Name may not be longer than 50 Characters"), undefined);
+        callback(new Error("The FaxRecipient Name may not be longer than 50 Characters"), undefined);
         return;
     }
 
@@ -398,7 +398,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
     }
 
     if (recipient.company !== false && recipient.company.length > 50) {
-        callback(new Error("The LetterRecipient Company Name may not be longer than 50 Characters"), undefined);
+        callback(new Error("The FaxRecipient Company Name may not be longer than 50 Characters"), undefined);
         return;
     }
 
@@ -408,7 +408,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
     }
 
     if (recipient.address1.length > 50) {
-        callback(new Error("The LetterRecipient Address Line 1 may not be longer than 50 Characters"), undefined);
+        callback(new Error("The FaxRecipient Address Line 1 may not be longer than 50 Characters"), undefined);
         return;
     }
 
@@ -420,7 +420,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
     }
 
     if (recipient.address2 !== false && recipient.address2.length > 50) {
-        callback(new Error("The LetterRecipient Address Line 2 may not be longer than 50 Characters"), null);
+        callback(new Error("The FaxRecipient Address Line 2 may not be longer than 50 Characters"), null);
         return;
     }
 	if (validator.isNull(recipient.city)) {
@@ -428,7 +428,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
         return;
     }
     if (recipient.city.length > 50) {
-        callback(new Error("The LetterRecipient City may not be longer than 50 Characters"), undefined);
+        callback(new Error("The FaxRecipient City may not be longer than 50 Characters"), undefined);
         return;
     }
 	if (validator.isLength(recipient.state.toString(), 0, 0)) recipient.state = false;
@@ -438,7 +438,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
         return;
     }
     if (recipient.state !== false && recipient.state.length > 50) {
-        callback(new Error("The LetterRecipient State may not be longer than 50 Characters"), undefined);
+        callback(new Error("The FaxRecipient State may not be longer than 50 Characters"), undefined);
         return;
     }
 	if (validator.isNull(recipient.zip)) {
@@ -446,7 +446,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
         return;
     }
     if (recipient.zip.length > 10) {
-        callback(new Error("The LetterRecipient Zip may not be longer than 10 Characters"), undefined);
+        callback(new Error("The FaxRecipient Zip may not be longer than 10 Characters"), undefined);
         return;
     }
 	if (validator.isNull(recipient.country)) {
