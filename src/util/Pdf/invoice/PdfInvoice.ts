@@ -32,7 +32,7 @@ class PdfInvoice {
                 .fillColor("#3470B8")
                 .text('Mils | Alexander-Derek Rein | Irmgardstr. 15 | 8179 Munich | Germany | VAT-ID DE298651109', 49.235, 184.6);
 
-            // Recipient
+            // LetterRecipient
             var paragraphGap = 0.002;
             doc.fontSize(21)
                 .fillColor("#000000")

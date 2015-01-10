@@ -28,7 +28,7 @@ var PdfInvoice = (function () {
             // Sender
             doc.font('OpenSans-Light').fontSize(10).fillColor("#3470B8").text('Mils | Alexander-Derek Rein | Irmgardstr. 15 | 8179 Munich | Germany | VAT-ID DE298651109', 49.235, 184.6);
 
-            // Recipient
+            // LetterRecipient
             var paragraphGap = 0.002;
             doc.fontSize(21).fillColor("#000000").text(letter.issuer.name, 49.235, 212.539).moveDown(paragraphGap).text(letter.issuer.address1).moveDown(paragraphGap);
             if (typeof letter.issuer.address2 !== 'undefined') {

@@ -19,19 +19,19 @@ var UploadValidator = (function () {
         var zip = req.body.recipientPostalCode;
 
         if (name.length > 50)
-            throw new Error("The Recipient Name may not be longer than 50 characters");
+            throw new Error("The LetterRecipient Name may not be longer than 50 characters");
         if (company != null && typeof company !== 'undefined' && company.length > 50)
-            throw new Error("The Recipient Company may not be longer than 50 characters");
+            throw new Error("The LetterRecipient Company may not be longer than 50 characters");
         if (address1.length > 50)
-            throw new Error("The Recipient Address Line 1 may not be longer than 50 characters");
+            throw new Error("The LetterRecipient Address Line 1 may not be longer than 50 characters");
         if (address2 != null && typeof address2 !== 'undefined' && address2.length > 50)
-            throw new Error("The Recipient Address Line 2 may not be longer than 50 characters");
+            throw new Error("The LetterRecipient Address Line 2 may not be longer than 50 characters");
         if (city.length > 50)
-            throw new Error("The Recipient City may not be longer than 50 characters");
+            throw new Error("The LetterRecipient City may not be longer than 50 characters");
         if (state != null && typeof state !== 'undefined' && state.length > 50)
-            throw new Error("The Recipient State may not be longer than 50 characters");
+            throw new Error("The LetterRecipient State may not be longer than 50 characters");
         if (zip.length > 50)
-            throw new Error("The Recipient Zip may not be longer than 50 characters");
+            throw new Error("The LetterRecipient Zip may not be longer than 50 characters");
 
         // Sanitize
         req.body.recipientName = sanitize(req.body.recipientName).trim();

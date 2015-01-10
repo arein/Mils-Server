@@ -1,4 +1,4 @@
-class Recipient {
+class LetterRecipient {
     address1: string;
     address2: string;
     city: string;
@@ -10,4 +10,4 @@ class Recipient {
     state: string;
 }
 
-export = Recipient;
+export = LetterRecipient;

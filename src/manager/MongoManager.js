@@ -63,6 +63,12 @@ var MongoManager = (function () {
                         }
                     });
 
+                    db.createCollection('fax', { strict: true }, function (err, collection) {
+                        if (!err) {
+                            console.log("The fax collection doesn't exist. Creating it with sample data");
+                        }
+                    });
+
                     db.createCollection('counters', { strict: true }, function (err, collection) {
                         if (!err) {
                             console.log("Counters Collection created. Creating it with sample data");

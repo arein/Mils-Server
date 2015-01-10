@@ -65,6 +65,12 @@ class MongoManager {
                         }
                     });
 
+                    db.createCollection('fax', {strict:true}, function(err : Error, collection : mongo.Collection) {
+                        if (!err) {
+                            console.log("The fax collection doesn't exist. Creating it with sample data");
+                        }
+                    });
+
                     db.createCollection('counters', {strict:true}, function(err : Error, collection : mongo.Collection) {
                         if (!err) {
                             console.log("Counters Collection created. Creating it with sample data");
