@@ -41,7 +41,7 @@ exports.uploadFax = function (req, res) {
         }
 
         MongoManager.getDb(function (db) {
-            db.collection('letter', function (err, collection) {
+            db.collection('fax', function (err, collection) {
                 if (err) {
                     res.send(500, { 'error': "An error occurred on the server side" });
                     return;
