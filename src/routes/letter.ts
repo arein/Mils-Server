@@ -188,7 +188,7 @@ exports.uploadLetter = function(req : express.Request, res : express.Response) {
                 });
             });
         });
-    })
+    });
 };
 
 /**

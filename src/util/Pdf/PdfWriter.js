@@ -2,7 +2,7 @@ var Config = require('./../../config');
 var PdfWriter = (function () {
     function PdfWriter() {
     }
-    PdfWriter.prototype.writePdf = function (body, letter, callback) {
+    PdfWriter.prototype.writePdf = function (body, sendable, callback) {
         var tmp = require('tmp');
         var prefix = Config.getBasePath() + '/public/pdf/';
         tmp.tmpName({ template: prefix + 'letter-XXXXXX.pdf' }, function _tempNameGenerated(err, path) {
@@ -30,9 +30,9 @@ var PdfWriter = (function () {
                     fs.writeFile(path, data, function (err) {
                         if (err)
                             throw err;
-                        letter.pdf = path.replace(prefix, ''); // "Repair Path"
-                        letter.pageCount = body.pages.length;
-                        checkSize(letter, callback);
+                        sendable.pdf = path.replace(prefix, ''); // "Repair Path"
+                        sendable.pageCount = body.pages.length;
+                        checkSize(sendable, callback);
                     });
                 });
             } else {
@@ -42,12 +42,12 @@ var PdfWriter = (function () {
                     if (err)
                         throw err;
 
-                    letter.pdf = path.replace(prefix, ''); // "Repair Path"
+                    sendable.pdf = path.replace(prefix, ''); // "Repair Path"
                     var PFParser = require("pdf2json");
                     var pdfParser = new PFParser();
                     pdfParser.on("pdfParser_dataReady", function (data) {
-                        letter.pageCount = data.PDFJS.pages.length;
-                        checkSize(letter, callback);
+                        sendable.pageCount = data.PDFJS.pages.length;
+                        checkSize(sendable, callback);
                     });
                     pdfParser.on("pdfParser_dataError", function (error) {
                         throw error;
@@ -60,11 +60,11 @@ var PdfWriter = (function () {
     return PdfWriter;
 })();
 
-function checkSize(letter, callback) {
+function checkSize(sendable, callback) {
     var fs = require('fs');
     var prefix = Config.getBasePath() + '/public/pdf/';
 
-    var stats = fs.statSync(prefix + letter.pdf);
+    var stats = fs.statSync(prefix + sendable.pdf);
     var fileSizeInBytes = stats["size"];
 
     //Convert the file size to megabytes (optional)

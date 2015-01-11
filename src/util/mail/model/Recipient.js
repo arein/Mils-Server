@@ -14,4 +14,4 @@ var Recipient = (function () {
 })();
 
 module.exports = Recipient;
-//# sourceMappingURL=FaxRecipient.js.map
+//# sourceMappingURL=Recipient.js.map

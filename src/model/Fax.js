@@ -1,19 +1,21 @@
-var Issuer = require("./Issuer");
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+/// <reference path='./../../vendor/typescript-node-definitions/mongodb.d.ts'/>
+var FaxRecipient = require("./FaxRecipient");
+var AbstractSendable = require('./AbstractSendable');
 
-var TransactionInformation = require("./TransactionInformation");
-var FinancialInformation = require("./FinancialInformation");
-
-var Fax = (function () {
+var Fax = (function (_super) {
+    __extends(Fax, _super);
     function Fax() {
-        this.payed = false;
-        this.billSent = false;
-        this.issuer = new Issuer();
-        this.financialInformation = new FinancialInformation();
-        this.transactionInformation = new TransactionInformation();
-        this.devices = [];
+        _super.call(this);
+        this.recipient = new FaxRecipient();
     }
     return Fax;
-})();
+})(AbstractSendable);
 
 module.exports = Fax;
 //# sourceMappingURL=Fax.js.map

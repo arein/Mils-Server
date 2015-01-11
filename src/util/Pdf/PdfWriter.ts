@@ -1,8 +1,8 @@
 /// <reference path='./../../../vendor/typescript-node-definitions/node.d.ts'/>
-import Letter = require('./../../model/Letter')
-import Config = require('./../../config')
+import AbstractSendable = require('./../../model/AbstractSendable');
+import Config = require('./../../config');
 class PdfWriter {
-    writePdf(body: any, letter: Letter, callback: (fileSizeInMegabytes: number) => void) {
+    writePdf(body: any, sendable: AbstractSendable, callback: (fileSizeInMegabytes: number) => void) {
         var tmp = require('tmp');
         var prefix = Config.getBasePath() + '/public/pdf/';
         tmp.tmpName({ template: prefix + 'letter-XXXXXX.pdf' }, function _tempNameGenerated(err, path) {
@@ -26,9 +26,9 @@ class PdfWriter {
                     var fs = require('fs');
                     fs.writeFile(path, data, function(err) {
                         if (err) throw err;
-                        letter.pdf = path.replace(prefix, ''); // "Repair Path"
-                        letter.pageCount = body.pages.length;
-                        checkSize(letter, callback);
+                        sendable.pdf = path.replace(prefix, ''); // "Repair Path"
+                        sendable.pageCount = body.pages.length;
+                        checkSize(sendable, callback);
                     });
                 });
             } else {
@@ -37,12 +37,12 @@ class PdfWriter {
                 fs.writeFile(path, buf, function (err) {
                     if (err) throw err;
 
-                    letter.pdf = path.replace(prefix, ''); // "Repair Path"
+                    sendable.pdf = path.replace(prefix, ''); // "Repair Path"
                     var PFParser = require("pdf2json");
                     var pdfParser = new PFParser();
                     pdfParser.on("pdfParser_dataReady", function(data) {
-                        letter.pageCount = data.PDFJS.pages.length;
-                        checkSize(letter, callback);
+                        sendable.pageCount = data.PDFJS.pages.length;
+                        checkSize(sendable, callback);
                     });
                     pdfParser.on("pdfParser_dataError", function (error) {
                         throw error;
@@ -54,11 +54,11 @@ class PdfWriter {
     }
 }
 
-function checkSize(letter: Letter, callback: (fileSizeInMegabytes: number) => void) {
+function checkSize(sendable: AbstractSendable, callback: (fileSizeInMegabytes: number) => void) {
     var fs = require('fs');
     var prefix = Config.getBasePath() + '/public/pdf/';
 
-    var stats = fs.statSync(prefix + letter.pdf);
+    var stats = fs.statSync(prefix + sendable.pdf);
     var fileSizeInBytes = stats["size"];
     //Convert the file size to megabytes (optional)
     var fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
