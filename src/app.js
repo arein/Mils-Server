@@ -17,6 +17,14 @@ if ('development' == app.get('env')) {
     app.basePath = "/var/www/letterapp";
 }
 
+var allowCrossDomain = function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:9000');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+};
+
 // all environments
 app.use(express.limit('70mb'));
 app.use(express.json({ limit: '70mb' }));
@@ -33,6 +41,9 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+if (!config.isProd()) {
+    app.use(allowCrossDomain);
+}
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.bodyParser());

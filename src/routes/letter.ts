@@ -35,7 +35,7 @@ exports.purchaseLetter = function(req : express.Request, res : express.Response)
     try {
         PurchaseValidator.validate(req); // Validate Input
     } catch (e) {
-        res.json(502, {error: e.message});
+        res.json(400, {error: e.message});
         return;
     }
 
@@ -277,7 +277,7 @@ exports.geocode = function(req :express.Request, res :express.Response) {
         var check = require('validator').check; // Validation
         check(req.body.address).notNull();
     } catch (e) {
-        res.send(500, {'error': e.message});
+        res.send(400, {'error': e.message});
         return;
     }
 

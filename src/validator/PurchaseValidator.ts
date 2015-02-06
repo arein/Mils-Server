@@ -8,6 +8,7 @@ class PurchaseValidator {
             sanitize = require('validator').sanitize;
 
         check(req.params.id).notNull();
+        if (req.params.id.length !== 24) throw new Error("The ID Provided is not Correct");
         check(req.body).notNull();
         check(req.body.emailAddress).notNull().isEmail();
         check(req.body.address).notNull();

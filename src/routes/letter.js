@@ -32,7 +32,7 @@ exports.purchaseLetter = function (req, res) {
     try  {
         PurchaseValidator.validate(req); // Validate Input
     } catch (e) {
-        res.json(502, { error: e.message });
+        res.json(400, { error: e.message });
         return;
     }
 
@@ -272,7 +272,7 @@ exports.geocode = function (req, res) {
         var check = require('validator').check;
         check(req.body.address).notNull();
     } catch (e) {
-        res.send(500, { 'error': e.message });
+        res.send(400, { 'error': e.message });
         return;
     }
 
