@@ -38,7 +38,7 @@ var UploadValidator = (function () {
         req.body.recipientName = sanitize(req.body.recipientName).escape();
         req.body.recipientName = req.body.recipientName.replace("'", '').replace('"', '');
 
-        req.body.recipientCompany = (typeof req.body.recipientCompany === 'undefined') ? undefined : sanitize(req.body.recipientCompany).trim();
+        req.body.recipientCompany = (typeof req.body.recipientCompany === 'undefined' || req.body.recipientCompany === null) ? undefined : sanitize(req.body.recipientCompany).trim();
         req.body.recipientCompany = (typeof req.body.recipientCompany === 'undefined') ? undefined : sanitize(req.body.recipientCompany).escape();
         req.body.recipientCompany = (typeof req.body.recipientCompany === 'undefined') ? undefined : req.body.recipientCompany.replace("'", '').replace('"', '');
 
@@ -46,7 +46,7 @@ var UploadValidator = (function () {
         req.body.recipientAddress1 = sanitize(req.body.recipientAddress1).escape();
         req.body.recipientAddress1 = req.body.recipientAddress1.replace("'", '').replace('"', '');
 
-        req.body.recipientAddress2 = (typeof req.body.recipientAddress2 === 'undefined') ? undefined : sanitize(req.body.recipientAddress2).trim();
+        req.body.recipientAddress2 = (typeof req.body.recipientAddress2 === 'undefined' || req.body.recipientAddress2 === null) ? undefined : sanitize(req.body.recipientAddress2).trim();
         req.body.recipientAddress2 = (typeof req.body.recipientAddress2 === 'undefined') ? undefined : sanitize(req.body.recipientAddress2).escape();
         req.body.recipientAddress2 = (typeof req.body.recipientAddress2 === 'undefined') ? undefined : req.body.recipientAddress2.replace("'", '').replace('"', '');
 
@@ -57,6 +57,8 @@ var UploadValidator = (function () {
         req.body.recipientCity = sanitize(req.body.recipientCity).trim();
         req.body.recipientCity = sanitize(req.body.recipientCity).escape();
         req.body.recipientCity = req.body.recipientCity.replace("'", '').replace('"', '');
+
+        req.body.recipientState = (typeof req.body.recipientState === 'undefined' || req.body.recipientState === null) ? undefined : req.body.recipientState;
 
         req.body.recipientCountryIso = (typeof req.body.recipientCountryIso === 'undefined') ? undefined : sanitize(req.body.recipientCountryIso).escape();
     };
