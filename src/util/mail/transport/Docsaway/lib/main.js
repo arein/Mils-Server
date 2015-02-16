@@ -390,7 +390,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
         return;
     }
 
-	if (validator.isLength(recipient.company.toString(), 0, 0)) recipient.company = false;
+	if (recipient.company == null || typeof recipient.company === "undefined" || validator.isLength(recipient.company.toString(), 0, 0)) recipient.company = false;
 
 	if (recipient.company !== false && validator.isNull(recipient.company)) {
         callback(new Error("The Company may either be false or empty"), undefined);
@@ -412,7 +412,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
         return;
     }
 
-	if (validator.isLength(recipient.address2.toString(), 0, 0)) recipient.address2 = false;
+	if (recipient.address2 == null || typeof recipient.address2 === "undefined" || validator.isLength(recipient.address2.toString(), 0, 0)) recipient.address2 = false;
 
 	if (recipient.address2 !== false && validator.isNull(recipient.address2)) {
         callback(new Error("The Address line 2 may either be false or empty"), undefined);
@@ -431,7 +431,7 @@ Client.prototype.sendMail = function(recipient, file, printBlackWhite, callback)
         callback(new Error("The FaxRecipient City may not be longer than 50 Characters"), undefined);
         return;
     }
-	if (validator.isLength(recipient.state.toString(), 0, 0)) recipient.state = false;
+	if (recipient.state == null || typeof recipient.state === "undefined" || validator.isLength(recipient.state.toString(), 0, 0)) recipient.state = false;
 
 	if (recipient.state !== false && validator.isNull(recipient.state)) {
         callback(new Error("The State may either be false or empty"), undefined);
